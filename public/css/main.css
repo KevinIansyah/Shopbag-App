@@ -1,0 +1,79 @@
+/* Scrollbar umum */
+.scrollbar-custom::-webkit-scrollbar {
+    width: 12px; /* Lebar scrollbar */
+}
+
+/* Track */
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Warna track */
+}
+
+/* Handle */
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #888; /* Warna handle */
+    border-radius: 10px; /* Radius sudut */
+    border: 3px solid #f1f1f1; /* Warna dan lebar border */
+}
+
+/* Untuk Firefox */
+.scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+/* Custom scrollbar styling untuk Chrome, Edge, dan Safari */
+::-webkit-scrollbar {
+    width: 10px; /* Lebar scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Warna track */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888; /* Warna handle */
+    border-radius: 10px; /* Radius sudut */
+    border: 3px solid #f1f1f1; /* Warna dan lebar border */
+}
+
+/* Custom scrollbar styling untuk Firefox */
+html {
+    scrollbar-width: 10px;
+    scrollbar-color: #888 #f1f1f1; /* Warna handle dan track */
+}
+
+/* Mobile devices (portrait mode) */
+@media only screen and (max-width: 480px) {
+    /* Styles for mobile devices */
+}
+
+/* Mobile devices (landscape mode) */
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    /* Styles for mobile landscape */
+}
+
+/* Tablets (portrait mode) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    /* Styles for tablets */
+}
+
+/* Tablets (landscape mode) */
+@media only screen and (min-width: 1025px) and (max-width: 1280px) {
+    /* Styles for tablets landscape */
+}
+
+/* Small desktops and laptops */
+@media only screen and (min-width: 1281px) and (max-width: 1440px) {
+    /* Styles for small desktops */
+}
+
+/* Large desktops and laptops */
+@media only screen and (min-width: 1441px) {
+    /* Styles for large desktops */
+}
+
+/* Retina displays */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), 
+       only screen and (min-resolution: 192dpi) {
+    /* Styles for retina displays */
+}
