@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
         if (Auth::user()->access == 'user') {
             return redirect('/');
         } else {
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('dashboard.index', absolute: false));
         }
     }
 

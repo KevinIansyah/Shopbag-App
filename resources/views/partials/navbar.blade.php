@@ -1,10 +1,10 @@
-<nav x-data="{ isNavOpen: false, isScrolled: false, isMenOpen: false, isWomanOpen: false, isKidsOpen: false }" x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 0; })"
-  x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 0; })"
+<nav x-data="{ isNavOpen: false, isScrolled: false, isMenOpen: false, isWomanOpen: false, isKidsOpen: false }" x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 0; })" x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 0; })"
   :class="[
-    (isScrolled || isMenOpen || isWomanOpen || isKidsOpen || @if(request()->is('/')) false @else true @endif) 
-      ? 'bg-white transition-all duration-200' 
-      : 'backdrop-blur-sm bg-black/25 transition-all duration-200',
-    isScrolled ? 'shadow-lg' : ''
+      (isScrolled || isMenOpen || isWomanOpen || isKidsOpen || @if(
+      request()->is('/')) false @else true @endif) ?
+      'bg-white transition-all duration-200' :
+      'backdrop-blur-sm bg-black/25 transition-all duration-200',
+      isScrolled ? 'shadow-lg' : ''
   ]"
   class="fixed top-0 z-40 w-full">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -90,7 +90,7 @@
             class="w-px h-6 mx-3"></div>
 
           @auth
-            <a href="{{ route('profile.profile') }}" class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0">
+            <a href="{{ route('profile.index') }}" class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0">
               <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 alt="User photo">
               {{-- <span class="">Open user menu</span> --}}
@@ -140,10 +140,14 @@
           @endauth
         </div>
       </div>
-      <div class="-mr-2 flex md:hidden">
+      {{-- <div class="-mr-2 flex md:hidden">
         <!-- Mobile menu button -->
         <button @click="isNavOpen = !isNavOpen" type="button"
-          class="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1"
+          :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+              @if (request()->is('/')) false @else true @endif ?
+              'text-red-500 hover:text-red-500 focus:ring-red-500 focus:ring-2 focus:ring-offset-1' :
+              'text-white hover:text-white focus:ring-white focus:ring-1 focus:ring-offset-1'"
+          class="relative inline-flex items-center justify-center rounded-md p-2 focus:outline-none"
           aria-controls="mobile-menu" aria-expanded="false">
           <span class="absolute -inset-0.5"></span>
           <span class="sr-only">Open main menu</span>
@@ -158,7 +162,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-      </div>
+      </div> --}}
     </div>
   </div>
 
@@ -391,19 +395,39 @@
   </div>
 
   <!-- Mobile menu, show/hide based on menu state. -->
-  <div x-show="isNavOpen" class="md:hidden" id="mobile-menu">
+  {{-- <div x-show="isNavOpen" class="md:hidden" id="mobile-menu">
     <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-        aria-current="page">Dashboard</a>
       <a href="#"
-        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+            @if (request()->is('/')) false @else true @endif ?
+            'text-gray-900' :
+            'text-white'"
+        class="block rounded-md px-3 py-2 text-base font-medium">Men</a>
       <a href="#"
-        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Product</a>
+        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+            @if (request()->is('/')) false @else true @endif ?
+            'text-gray-900' :
+            'text-white'"
+        class="block rounded-md px-3 py-2 text-base font-medium">Woman</a>
       <a href="#"
-        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Order</a>
+        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+            @if (request()->is('/')) false @else true @endif ?
+            'text-gray-900' :
+            'text-white'"
+        class="block rounded-md px-3 py-2 text-base font-medium">kids</a>
       <a href="#"
-        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Cart</a>
+        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+            @if (request()->is('/')) false @else true @endif ?
+            'text-gray-900' :
+            'text-white'"
+        class="block rounded-md px-3 py-2 text-base font-medium">Sale</a>
+      <a href="#"
+        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+            @if (request()->is('/')) false @else true @endif ?
+            'text-gray-900' :
+            'text-white'"
+        class="block rounded-md px-3 py-2 text-base font-medium">Blog</a>
     </div>
     <div class="border-t border-gray-700 pb-3 pt-4">
       <div class="flex items-center px-5">
@@ -429,14 +453,12 @@
       </div>
       <div class="mt-3 space-y-1 px-2">
         <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Your
+          class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">Your
           Profile</a>
         <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Sign
-          out</a>
+          class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">
+          Logout</a>
       </div>
     </div>
-  </div>
+  </div> --}}
 </nav>

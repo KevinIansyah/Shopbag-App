@@ -1,29 +1,53 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RajaOngkir;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->middleware(['isadmin', 'auth', 'verified'])->name('dashboard');
+Route::name('dashboard.')->prefix('dashboard')->middleware(['isadmin', 'auth', 'verified'])->group(function () {
+    Route::get('/', function () {
+        return view('dashboard.index');
+    })->name('index');
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+    Route::name('user.')->prefix('user')->group(function () {
+        Route::name('admin.')->prefix('admin')->group(function () {
+            Route::get('/', [AdminController::class, 'index'])->name('index');
+            Route::get('/data', [AdminController::class, 'data'])->name('data');
+        });
+
+        Route::name('client.')->prefix('client')->group(function () {
+            Route::get('/', [ClientController::class, 'index'])->name('index');
+            Route::get('/data', [ClientController::class, 'data'])->name('data');
+        });
+    });
+
+    Route::name('product.')->prefix('product')->group(function () {
+        Route::name('category.')->prefix('admin')->group(function () {
+            Route::get('/', [AdminController::class, 'index'])->name('index');
+            Route::get('/data', [AdminController::class, 'data'])->name('data');
+        });
+    });
+});
 
 Route::name('profile.')->prefix('profile')->middleware(['auth'])->group(function () {
-    Route::get('/', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/', [ProfileController::class, 'index'])->name('index');
     Route::put('/', [ProfileController::class, 'update'])->name('update');
     Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
 
     Route::get('/api/cities', [RajaOngkir::class, 'getCities']);
+});
+
+Route::name('product.')->prefix('product')->group(function () {
+    Route::get('/', function () {
+        return view('product.index');
+    })->name('index');
 });
 
 require __DIR__ . '/auth.php';

@@ -1,5 +1,5 @@
 <aside
-  class="fixed top-0 left-0 z-40 w-64 h-screen mt-14 transition-transform -translate-x-full bg-white md:translate-x-0 dark:bg-gray-800"
+  class="fixed top-0 left-0 z-40 w-64 h-screen mt-14 transition-transform -translate-x-full bg-white lg:translate-x-0 dark:bg-gray-800"
   aria-label="Sidenav" id="drawer-navigation">
   <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
     {{-- <form action="#" method="GET" class="md:hidden mb-2">
@@ -20,34 +20,36 @@
     </form> --}}
     <ul class="space-y-2">
       <li>
-        <a href="#"
-          class="{{ request()->routeIs('dashboard') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} flex items-center p-3 text-sm font-medium rounded-lg group">
+        <a href="{{ route('dashboard.index') }}"
+          class="{{ request()->routeIs('dashboard.index') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} flex items-center p-3 text-sm font-medium rounded-lg group">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-gauge"></i>
           </div>
           <span class="ml-3">Dashboard</span>
         </a>
       </li>
-      <li>
+      <li x-data="{ openusers: false }">
         <button type="button"
-          class="flex items-center p-3 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-          aria-controls="dropdown-users" data-collapse-toggle="dropdown-users">
+          class="{{ request()->routeIs('dashboard.user.*') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} w-full flex items-center p-3 text-sm font-medium rounded-lg group"
+          aria-controls="dropdown-users" x-on:click="openusers = !openusers">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-users"></i>
           </div>
           <span class="flex-1 ml-3 text-left whitespace-nowrap">Users</span>
+          <i
+            :class="openusers ? 'fa-sharp fa-regular fa-chevron-right text-xs' : 'fa-sharp fa-regular fa-chevron-down text-xs'"></i>
         </button>
-        <ul id="dropdown-users" class="hidden py-2 space-y-2">
+        <ul id="dropdown-users" x-show="openusers" class="py-2 space-y-2">
           <li>
-            <a href="#"
+            <a href="{{ route('dashboard.user.admin.index') }}"
               class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
               Admin
             </a>
           </li>
           <li>
-            <a href="#"
+            <a href="{{ route('dashboard.user.client.index') }}"
               class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-              User
+              Client
             </a>
           </li>
         </ul>
@@ -61,16 +63,18 @@
           <span class="ml-3">Product</span>
         </a>
       </li>
-      <li>
+      <li x-data="{ openpages: false }">
         <button type="button"
           class="flex items-center p-3 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-          aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
+          aria-controls="dropdown-pages" x-on:click="openpages = !openpages">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-file-circle-plus"></i>
           </div>
           <span class="flex-1 ml-3 text-left whitespace-nowrap">Pages</span>
+          <i
+            :class="openpages ? 'fa-sharp fa-regular fa-chevron-right text-xs' : 'fa-sharp fa-regular fa-chevron-down text-xs'"></i>
         </button>
-        <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+        <ul id="dropdown-pages" x-show="openpages" class="py-2 space-y-2">
           <li>
             <a href="#"
               class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">

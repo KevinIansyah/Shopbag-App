@@ -2,7 +2,7 @@
 
 @section('main')
   <main>
-    <div id="controls-carousel" class="relative w-full h-screen" data-carousel="static">
+    <div id="controls-carousel" class="relative w-full h-[50vh] lg:h-screen" data-carousel="static">
       <!-- Carousel wrapper -->
       <div class="relative h-full overflow-hidden">
         <!-- Item 1 -->

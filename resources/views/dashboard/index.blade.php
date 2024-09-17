@@ -1,10 +1,10 @@
 @extends('dashboard.layouts.main')
 
 @section('main')
-  <main class="md:ml-64 min-h-screen px-4 md:px-8 lg:px-10 pt-14 pb-10">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 py-10">
+  <main class="lg:ml-64 min-h-screen px-4 md:px-8 lg:px-10 pt-14 pb-10">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 py-10">
       <div>
-        <h2 class="text-2xl font-bold">Dashboard</h2>
+        <h2 class="text-2xl font-bold mb-1 md:mb-0">Dashboard</h2>
         <p class="text-sm font-normal">Welcome {{ Auth::user()->name }}!</p>
       </div>
       <nav class="flex text-gray-700" aria-label="Breadcrumb">

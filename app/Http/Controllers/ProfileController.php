@@ -30,7 +30,7 @@ class ProfileController extends Controller
                 } else {
                     $provinces = [];
                 }
-                return dd($response->json());
+                // return dd($response->json());
                 return view('profile.shipping-address', compact('provinces'));
                 break;
 
@@ -72,7 +72,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.profile')->with('success', 'Profile successfully updated!');
+        return Redirect::route('profile.index')->with('success', 'Profile successfully updated!');
     }
 
     /**

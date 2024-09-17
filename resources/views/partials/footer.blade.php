@@ -1,4 +1,4 @@
-<footer class="pb-4 md:pb-6 lg:pb-8 px-4 md:px-6 lg:px-8 bg-white dark:bg-gray-800 mx-auto max-w-7xl">
+<footer class="mb-16 md:mb-0 pb-4 md:pb-6 lg:pb-8 px-4 md:px-6 lg:px-8 bg-white dark:bg-gray-800 mx-auto max-w-7xl">
   <div class="mx-auto max-w-screen-xl">
     <div class="md:flex md:justify-between gap-10">
       <div class="mb-6 md:mb-0 w-full md:w-1/3">

@@ -1,45 +1,26 @@
-/* Scrollbar umum */
-.scrollbar-custom::-webkit-scrollbar {
-    width: 12px; /* Lebar scrollbar */
+html::-webkit-scrollbar {
+    width: 6px;
 }
 
-/* Track */
-.scrollbar-custom::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Warna track */
+html::-webkit-scrollbar-track {
+    background: rgb(216, 216, 216);
+    border-radius: 6px;
 }
 
-/* Handle */
-.scrollbar-custom::-webkit-scrollbar-thumb {
-    background-color: #888; /* Warna handle */
-    border-radius: 10px; /* Radius sudut */
-    border: 3px solid #f1f1f1; /* Warna dan lebar border */
+html::-webkit-scrollbar-thumb {
+    background: rgb(136, 136, 136);
+    border-radius: 6px;
+    transition: all 0.2s;
 }
 
-/* Untuk Firefox */
-.scrollbar-custom {
-    scrollbar-width: thin;
-    scrollbar-color: #888 #f1f1f1;
+html::-webkit-scrollbar-thumb:hover {
+    background: rgb(131, 131, 131);
+    border-radius: 6px;
 }
 
-/* Custom scrollbar styling untuk Chrome, Edge, dan Safari */
-::-webkit-scrollbar {
-    width: 10px; /* Lebar scrollbar */
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Warna track */
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #888; /* Warna handle */
-    border-radius: 10px; /* Radius sudut */
-    border: 3px solid #f1f1f1; /* Warna dan lebar border */
-}
-
-/* Custom scrollbar styling untuk Firefox */
-html {
-    scrollbar-width: 10px;
-    scrollbar-color: #888 #f1f1f1; /* Warna handle dan track */
+html::-webkit-scrollbar-thumb:active {
+    background: rgb(109, 109, 109);
+    border-radius: 6px;
 }
 
 /* Mobile devices (portrait mode) */
@@ -73,7 +54,162 @@ html {
 }
 
 /* Retina displays */
-@media only screen and (-webkit-min-device-pixel-ratio: 2), 
-       only screen and (min-resolution: 192dpi) {
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 192dpi) {
     /* Styles for retina displays */
+}
+
+/* Data Tables */
+
+.dt-container:first-child .grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.dt-search {
+    /* width: 100%; */
+    margin-top: 0.2rem;
+    margin-right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dt-search label {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.dt-search input {
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    color: #111827;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    display: block;
+    padding: 0.625rem;
+}
+
+.dt-search input:focus {
+    outline: none;
+    border-color: #fc8181;
+    box-shadow: 0 0 0 3px rgba(252, 129, 129, 0.5);
+}
+
+.dt-length {
+    margin-top: 0.2rem;
+    margin-left: 0rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dt-length label {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.dt-length select {
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    color: #111827;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    display: block;
+    padding: 0.625rem;
+}
+
+.dt-length select:focus {
+    outline: none;
+    border-color: #fc8181;
+    box-shadow: 0 0 0 3px rgba(252, 129, 129, 0.5);
+}
+
+.dt-info {
+    margin-bottom: 0.2rem;
+    margin-left: 0rem;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.pagination {
+    margin-bottom: 0.2rem;
+    margin-right: 0rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.pagination [aria-current="page"] {
+    color: #ffffff;
+    background-color: #ef4444;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    outline: none;
+    transition: all 200ms ease-in-out;
+}
+
+.pagination [aria-current="page"]:hover {
+    color: #ffffff;
+    background-color: #dc2626;
+}
+
+.pagination [aria-current="page"]:focus {
+    box-shadow: 0 0 0 4px rgba(252, 165, 165, 0.5);
+}
+
+.pagination [aria-current="page"]:focus-visible {
+    outline: none;
+}
+
+.dt-empty {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+@media screen and (min-width: 768px) {
+    .dt-container:first-child .grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dt-search {
+        margin-right: 0.2rem;
+        justify-content: end;
+    }
+
+    .dt-length {
+        margin-left: 0.2rem;
+        justify-content: start;
+    }
+
+    .dt-info {
+        margin-left: 0.2rem;
+        justify-content: start;
+    }
+
+    .pagination {
+        margin-right: 0.2rem;
+        justify-content: end;
+    }
+}
+
+.table-custom tr {
+    /* border-bottom: 1px solid #e5e7eb; */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.table-custom td {
+    padding: 1.2rem 1rem;
+}
+
+.capitalize {
+    text-transform: capitalize;
 }
