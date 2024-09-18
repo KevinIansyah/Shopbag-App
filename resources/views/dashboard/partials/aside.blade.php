@@ -54,14 +54,32 @@
           </li>
         </ul>
       </li>
-      <li>
-        <a href="#"
-          class="flex items-center p-3 text-sm font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+
+      <li x-data="{ openproducts: false }">
+        <button type="button"
+          class="{{ request()->routeIs('dashboard.product.*') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} w-full flex items-center p-3 text-sm font-medium rounded-lg group"
+          aria-controls="dropdown-users" x-on:click="openproducts = !openproducts">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-shirt"></i>
           </div>
-          <span class="ml-3">Product</span>
-        </a>
+          <span class="flex-1 ml-3 text-left whitespace-nowrap">Product</span>
+          <i
+            :class="openproducts ? 'fa-sharp fa-regular fa-chevron-right text-xs' : 'fa-sharp fa-regular fa-chevron-down text-xs'"></i>
+        </button>
+        <ul id="dropdown-users" x-show="openproducts" class="py-2 space-y-2">
+          <li>
+            <a href="{{ route('dashboard.product.category.index') }}"
+              class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              Category
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('dashboard.user.client.index') }}"
+              class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              Product
+            </a>
+          </li>
+        </ul>
       </li>
       <li x-data="{ openpages: false }">
         <button type="button"

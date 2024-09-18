@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RajaOngkir;
@@ -29,10 +30,11 @@ Route::name('dashboard.')->prefix('dashboard')->middleware(['isadmin', 'auth', '
     });
 
     Route::name('product.')->prefix('product')->group(function () {
-        Route::name('category.')->prefix('admin')->group(function () {
-            Route::get('/', [AdminController::class, 'index'])->name('index');
-            Route::get('/data', [AdminController::class, 'data'])->name('data');
+        Route::name('category.')->prefix('category')->group(function () {
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::get('/data', [CategoryController::class, 'data'])->name('data');
         });
+        Route::resource('category', CategoryController::class);
     });
 });
 
