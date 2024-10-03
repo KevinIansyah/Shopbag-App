@@ -173,9 +173,6 @@
         responsive: true,
         processing: true,
         serverSide: true,
-        language: {
-          processing: "Loading..."
-        },
         ajax: {
           url: "/dashboard/user/admin/data",
           type: 'GET',

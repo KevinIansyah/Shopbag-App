@@ -21,6 +21,10 @@
     rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.tailwindcss.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+  <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
@@ -45,10 +49,46 @@
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
   <script src="https://cdn.datatables.net/2.1.6/js/dataTables.tailwindcss.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/super-build/ckeditor.js"></script>
+  <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+  <script>
+    FilePond.registerPlugin(
+      FilePondPluginImagePreview,
+      FilePondPluginFileValidateType,
+      FilePondPluginFileValidateSize,
+    );
+  </script>
+
+  @if (session('success_sweet'))
+    <script>
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: '{{ session('success_sweet') }}',
+        timer: 3000,
+        timerProgressBar: true,
+      });
+    </script>
+  @endif
+
+  @if (session('error_sweet'))
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Gagal!',
+        text: '{{ session('error_sweet') }}',
+        timer: 13000,
+        timerProgressBar: true,
+      });
+    </script>
+  @endif
 
   @stack('scripts')
 
 </body>
 
 </html>
-

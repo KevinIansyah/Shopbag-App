@@ -22,7 +22,7 @@
           </li>
           <li class="inline-flex items-center">
             <i class="fa-sharp fa-solid fa-chevron-right text-xs text-gray-400"></i>
-            <a href="#"
+            <a href="{{ route('dashboard.product.index') }}"
               class="ms-1 inline-flex items-center text-sm font-medium text-red-500 hover:text-red-600 md:ms-2">
               Product
             </a>

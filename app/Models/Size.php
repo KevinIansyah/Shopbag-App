@@ -9,7 +9,7 @@ class Size extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['size'];
+    protected $fillable = ['size', 'type'];
 
     public function stocks()
     {

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('size'); // e.g., XS, S, 39, 40
+            $table->string('name');
+            $table->enum('type', ['clothing_size', 'shoe_size', 'accessories_size']);
             $table->timestamps();
         });
     }

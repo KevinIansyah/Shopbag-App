@@ -249,3 +249,107 @@ html::-webkit-scrollbar-thumb:active {
 .swal2-actions {
     margin-top: 0.5rem !important;
 }
+
+/* Select 2 */
+
+.custom-select {
+    background-color: #f9fafb; /* bg-gray-50 */
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    color: #111827; /* text-gray-900 */
+    font-size: 0.875rem; /* text-sm (14px) */
+    border-radius: 0.5rem; /* rounded-lg (8px) */
+    width: 100%; /* w-full */
+    padding: 0.625rem; /* p-2.5 (10px) */
+    display: block; /* block */
+
+    /* Focus styles */
+    outline: none;
+}
+
+.custom-select:focus {
+    border-color: #f87171; /* focus:border-red-400 */
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.5); /* focus:ring-red-400 */
+}
+
+.select2-container--default .select2-selection--multiple {
+    width: 100%;
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    color: #111827;
+    font-size: 0.875rem;
+    cursor: text;
+    padding-bottom: 0;
+    padding-right: 0;
+    padding: 0.625rem;
+    position: relative;
+    outline: none;
+}
+
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice {
+    background-color: #e4e4e4;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
+    padding: 0;
+    padding-left: 20px;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+    box-sizing: border-box;
+    border: none;
+    font-size: 100%;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
+    margin-left: 5px;
+    padding: 0;
+    max-width: 100%;
+    resize: none;
+    height: 18px;
+    vertical-align: sub;
+    font-family: sans-serif;
+    overflow: hidden;
+    word-break: keep-all;
+}
+
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+    outline: none;
+    border-color: #f87171 !important;
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.5) !important;
+}
+
+.ck-placeholder {
+    font-size: 0.875rem;
+}
+
+.filepond {
+    margin-bottom: 0;
+}
+
+.filepond--credits {
+    display: none;
+}
+
+.filepond--drop-label label {
+    font-size: 0.875rem;
+}
+
+.filepond ol,
+ul,
+menu {
+    list-style: none;
+    margin-left: 2rem !important;
+    padding: 0;
+}
