@@ -9,9 +9,9 @@
         <div class="w-full h-auto bg-white dark:bg-gray-800">
           <div class="lg:rounded-lg lg:p-4">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 pb-6">
-              <div class="flex items-center justify-between">
+              <div class="flex items-center justify-between w-[100%]">
                 <div>
-                  <h2 class="text-lg font-semibold">Shipping Address</h2>
+                  <h2 class="text-xl font-semibold">Shipping Address</h2>
                   <p class="text-sm font-normal">Manage your shipping address here!</p>
                 </div>
                 <button data-drawer-target="profile-sidebar" data-drawer-toggle="profile-sidebar"
@@ -23,7 +23,7 @@
               </div>
             </div>
 
-            <div class="">
+            <div>
               <button id="shippingAddresButton" data-modal-target="shippingAddres" data-modal-toggle="shippingAddres"
                 type="button"
                 class="w-full border border-dashed font-normal border-gray-200 hover:border-gray-500 rounded-lg text-sm px-5 py-3 transition-all duration-200">
@@ -31,7 +31,7 @@
               </button>
 
               <div
-                class="mt-4 p-4 border border-gray-100 rounded flex flex-col md:flex-row items:start md:items-center gap-4">
+                class="mt-4 p-4 border border-gray-200 rounded flex flex-col md:flex-row items:start md:items-center gap-4">
                 <div class="w-full">
                   <p class="text-sm font-bold mb-2">Kevin Iansyah <span
                       class="ml-2 bg-red-100 text-red-600 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-500">Main
@@ -53,7 +53,7 @@
               </div>
 
               <div
-                class="mt-4 p-4 border border-gray-100 rounded flex flex-col md:flex-row items:start md:items-center gap-4">
+                class="mt-4 p-4 border border-gray-200 rounded flex flex-col md:flex-row items:start md:items-center gap-4">
                 <div class="w-full">
                   <p class="text-sm font-bold mb-2">Alya Izzah Zalfa<span
                       class="ml-2 bg-red-100 text-red-600 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-500">Main

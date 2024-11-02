@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FilepondHelpers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -20,7 +21,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return view('dashboard.product.index');
+        $products = Product::with(['images', 'categories', 'stocks.size'])->get();
+        // return dd($products);
+
+        return view('dashboard.product.index', compact('products'));
     }
 
     public function data()
@@ -60,29 +64,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        if (Session::has('image-product-multiple')) {
-            $session_image_product_multiple = Session::get('image-product-multiple');
-            $tmp_file_multiples = TemporaryImage::whereIn('folder', $session_image_product_multiple)->get();
-            foreach ($tmp_file_multiples as $tmp_file_multiple) {
-                if (Storage::exists('post/tmp-image-product-multiple/' . $tmp_file_multiple->folder)) {
-                    Storage::deleteDirectory('post/tmp-image-product-multiple/' . $tmp_file_multiple->folder);
-                }
-                $tmp_file_multiple->delete();
-            }
-            Session::forget('image-product-multiple');
-        }
-
-        if (Session::has('image-product')) {
-            $session_image_product = Session::get('image-product');
-            $tmp_file = TemporaryImage::where('folder', $session_image_product)->first();
-            if ($tmp_file && Storage::exists('post/tmp-image-product/' . $tmp_file->folder)) {
-                Storage::deleteDirectory('post/tmp-image-product/' . $tmp_file->folder);
-            }
-            if ($tmp_file) {
-                $tmp_file->delete();
-            }
-            Session::forget('image-product');
-        }
+        FilepondHelpers::removeSessionMultiple();
 
         $sizes = Size::select('type', DB::raw('GROUP_CONCAT(id) as size_ids'), DB::raw('GROUP_CONCAT(name) as size_names'))
             ->groupBy('type')
@@ -101,71 +83,32 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // return dd($request);
         try {
-            $session_image_product_multiple = Session::get('image-product-multiple');
+            $sessionImageMultiple = Session::get('image-multiple-filepond');
 
-            if (!empty($session_image_product_multiple)) {
-                $tmp_file_multiples = TemporaryImage::whereIn('folder', $session_image_product_multiple)->get();
-            } else {
+            if (empty($sessionImageMultiple)) {
                 throw new \Exception('Temporary files not found.');
             }
 
-            $validate_data = $request->validate([
+            $validateData = $request->validate([
                 'name' => 'required|string',
                 'price' => 'required|integer',
+                'weight' => 'required|integer',
                 'description' => 'required|string',
+                'type_size' => 'required|string',
             ]);
 
-            $slug = Str::slug($validate_data['name']);
-            $originalSlug = $slug;
-            $counter = 1;
-            while (Product::where('slug', $slug)->exists()) {
-                $slug = $originalSlug . '-' . $counter;
-                $counter++;
+            $validateData['slug'] = $this->generateUniqueSlug($validateData['name']);
+            $product = Product::create($validateData);
+
+            $this->storeCategories($product->id, $request->category);
+
+            if ($tmpFileMultiples = TemporaryImage::whereIn('folder', $sessionImageMultiple)->get()) {
+                $this->handleTemporaryImages($tmpFileMultiples, $product->id);
+                Session::forget('image-multiple-filepond');
             }
 
-            $validate_data['slug'] = $slug;
-
-            $product = Product::create($validate_data);
-
-            $categories = $request->category;
-            foreach ($categories as $category) {
-                ProductCategory::create([
-                    'product_id' => $product->id,
-                    'category_id' => $category
-                ]);
-            }
-
-            if ($tmp_file_multiples->isNotEmpty()) {
-                foreach ($tmp_file_multiples as $tmp_file_multiple) {
-                    Storage::move('post/tmp-image-product-multiple/' . $tmp_file_multiple->folder . '/' . $tmp_file_multiple->file, 'image-product-multiple/' . $tmp_file_multiple->folder . '/' . $tmp_file_multiple->file);
-                }
-
-                foreach ($tmp_file_multiples as $tmp_file_multiple) {
-                    ProductImage::create([
-                        'product_id' => $product->id,
-                        'image_url' => $tmp_file_multiple->folder . '/' . $tmp_file_multiple->file,
-                    ]);
-                }
-
-                foreach ($tmp_file_multiples as $tmp_file_multiple) {
-                    Storage::deleteDirectory('post/tmp-image-product-multiple/' . $tmp_file_multiple->folder);
-                    $tmp_file_multiple->delete();
-                }
-
-                Session::forget('image-product-multiple');
-            }
-
-            $stocks = $request->stock;
-
-            foreach ($stocks as $size_id => $stock) {
-                Stock::create([
-                    'product_id' => $product->id,
-                    'size_id' => $size_id,
-                    'quantity' => $stock,
-                ]);
-            }
+            $this->storeStock($product->id, $request->stock);
 
             return redirect()->back()->with('success_sweet', 'Product created successfully');
         } catch (\Exception $e) {
@@ -176,17 +119,124 @@ class ProductController extends Controller
     public function edit($id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = Product::with(['images', 'categories', 'stocks'])->where('id', $id)->first();
+            $sizes = Size::where('type', $product->type_size)->get();
+            $stockQuantities = [];
+            foreach ($product->stocks as $stock) {
+                $stockQuantities[$stock->size_id] = $stock->quantity;
+            }
+            $categories = Category::all();
+            $images = ProductImage::where('product_id', $product->id)->get();
 
-            return view('dashboard.product.edit', compact('product'));
+            return view('dashboard.product.edit', compact('product', 'categories', 'sizes', 'stockQuantities', 'images'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Product not found or an error occurred.');
         }
     }
 
-    public function update($id) {}
+    public function update(Request $request, $id)
+    {
+        try {
+            $product = Product::with(['images', 'categories', 'stocks'])->findOrFail($id);
+
+            $sessionImageMultiple = Session::get('image-multiple-filepond');
+
+            $validateData = $request->validate([
+                'name' => 'required|string',
+                'price' => 'required|integer',
+                'weight' => 'required|integer',
+                'description' => 'required|string',
+                'type_size' => 'required|string',
+            ]);
+
+            $validateData['slug'] = $this->generateUniqueSlug($validateData['name']);
+
+            $product->update($validateData);
+
+            $this->storeCategories($product->id, $request->category);
+
+            if (!empty($sessionImageMultiple) && $tmpFileMultiples = TemporaryImage::whereIn('folder', $sessionImageMultiple)->get()) {
+                $this->handleTemporaryImages($tmpFileMultiples, $product->id);
+                Session::forget('image-multiple-filepond');
+            }
+
+            $this->updateStock($product->id, $request->stock);
+
+            return redirect()->back()->with('success_sweet', 'Product updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error_sweet', $e->getMessage());
+        }
+    }
+
 
     public function destroy($id) {}
 
-    public function uploadImage() {}
+    private function generateUniqueSlug($name)
+    {
+        $slug = Str::slug($name);
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (Product::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter++;
+        }
+
+        return $slug;
+    }
+
+    private function storeCategories($productId, $categories)
+    {
+        ProductCategory::where('product_id', $productId)->delete();
+
+        foreach ($categories as $category) {
+            ProductCategory::updateOrCreate(
+                [
+                    'product_id' => $productId,
+                    'category_id' => $category,
+                ]
+            );
+        }
+    }
+
+    private function handleTemporaryImages($tmpFileMultiples, $productId)
+    {
+        foreach ($tmpFileMultiples as $tmpFileMultiple) {
+            Storage::disk('public')->move(
+                'post/tmp-image-filepond/' . $tmpFileMultiple->folder . '/' . $tmpFileMultiple->file,
+                'image-filepond/' . $tmpFileMultiple->folder . '/' . $tmpFileMultiple->file
+            );
+
+            ProductImage::create([
+                'product_id' => $productId,
+                'image_url' => $tmpFileMultiple->folder . '/' . $tmpFileMultiple->file,
+            ]);
+
+            Storage::disk('public')->deleteDirectory('post/tmp-image-filepond/' . $tmpFileMultiple->folder);
+            $tmpFileMultiple->delete();
+        }
+    }
+
+    private function storeStock($productId, $stocks)
+    {
+        foreach ($stocks as $size_id => $stock) {
+            Stock::create([
+                'product_id' => $productId,
+                'size_id' => $size_id,
+                'quantity' => $stock,
+            ]);
+        }
+    }
+
+    private function updateStock($productId, $stocks)
+    {
+        foreach ($stocks as $size_id => $stock) {
+            Stock::updateOrCreate(
+                [
+                    'product_id' => $productId,
+                    'size_id' => $size_id,
+                ],
+                ['quantity' => $stock]
+            );
+        }
+    }
 }

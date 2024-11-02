@@ -9,9 +9,9 @@
         <div class="w-full h-auto bg-white dark:bg-gray-800">
           <div class="lg:rounded-lg lg:border border-gray-200 lg:px-4 lg:py-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 pb-6">
-              <div class="flex items-center justify-between">
+              <div class="flex items-center justify-between w-[100%]">
                 <div>
-                  <h2 class="text-lg font-normal">Waiting For Payment</h2>
+                  <h2 class="text-xl font-normal">Waiting For Payment</h2>
                   <p class="text-sm font-normal">Manage your payment here!</p>
                 </div>
                 <button data-drawer-target="profile-sidebar" data-drawer-toggle="profile-sidebar"

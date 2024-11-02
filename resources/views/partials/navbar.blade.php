@@ -76,13 +76,13 @@
               class="fa-duotone fa-bell text-lg transition-all duration-200"></i>
           </button>
 
-          <button type="button" class="relative mx-3 flex justify-center items-center rounded-md">
+          <a href="{{ route('cart.index') }}" class="relative mx-3 flex justify-center items-center rounded-md">
             <span class="absolute -inset-1.5"></span>
             <span class="sr-only">View cart</span>
             <i :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                 @if (request()->is('/')) false @else true @endif ? 'text-red-500' : 'text-white'"
               class="fa-duotone fa-bag-shopping text-lg transition-all duration-200"></i>
-          </button>
+          </a>
 
           <div
             :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
@@ -311,7 +311,7 @@
         <a href="#"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Scarves</a>
         <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">bags</a>
+          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Bags</a>
         <a href="#"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Hats
           & Beanies</a>

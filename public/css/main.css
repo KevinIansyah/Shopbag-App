@@ -1,4 +1,4 @@
-html::-webkit-scrollbar {
+/* html::-webkit-scrollbar {
     width: 6px;
 }
 
@@ -21,6 +21,11 @@ html::-webkit-scrollbar-thumb:hover {
 html::-webkit-scrollbar-thumb:active {
     background: rgb(109, 109, 109);
     border-radius: 6px;
+} */
+
+.scroll-hidden {
+    -ms-overflow-style: none; /* Internet Explorer dan Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
 /* Mobile devices (portrait mode) */
@@ -140,7 +145,7 @@ html::-webkit-scrollbar-thumb:active {
     margin-bottom: 0.2rem;
     margin-right: 0rem;
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -201,13 +206,17 @@ html::-webkit-scrollbar-thumb:active {
     }
 }
 
+.table-custom th {
+    padding: 0.7rem 1rem;
+}
+
 .table-custom tr {
-    /* border-bottom: 1px solid #e5e7eb; */
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .table-custom td {
-    padding: 1.2rem 1rem;
+    padding: 0.7rem 1rem;
+    white-space: normal !important;
 }
 
 .capitalize {
@@ -218,7 +227,7 @@ html::-webkit-scrollbar-thumb:active {
     /* position: relative;
     box-sizing: border-box;
     grid-template-columns: minmax(0, 100%); */
-    width: 26em !important;
+    width: 28em !important;
     max-width: 100%;
     /* padding: 0 0 1.25em;
     border: none;
@@ -253,22 +262,20 @@ html::-webkit-scrollbar-thumb:active {
 /* Select 2 */
 
 .custom-select {
-    background-color: #f9fafb; /* bg-gray-50 */
-    border: 1px solid #d1d5db; /* border-gray-300 */
-    color: #111827; /* text-gray-900 */
-    font-size: 0.875rem; /* text-sm (14px) */
-    border-radius: 0.5rem; /* rounded-lg (8px) */
-    width: 100%; /* w-full */
-    padding: 0.625rem; /* p-2.5 (10px) */
-    display: block; /* block */
-
-    /* Focus styles */
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    color: #111827;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    padding: 0.625rem;
+    display: block;
     outline: none;
 }
 
 .custom-select:focus {
-    border-color: #f87171; /* focus:border-red-400 */
-    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.5); /* focus:ring-red-400 */
+    border-color: #f87171;
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.5);
 }
 
 .select2-container--default .select2-selection--multiple {
@@ -304,7 +311,7 @@ html::-webkit-scrollbar-thumb:active {
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: bottom;
-    white-space: nowrap;
+    /* white-space: nowrap; */
 }
 
 .select2-container .select2-search--inline .select2-search__field {
@@ -334,6 +341,26 @@ html::-webkit-scrollbar-thumb:active {
     font-size: 0.875rem;
 }
 
+.ck-editor ol,
+.ck-editor ul,
+.ck-editor menu {
+    margin-left: 2rem !important;
+    padding: 0;
+}
+
+.ck-editor h6 {
+    font-size: 1rem;
+}
+
+.ck-editor p {
+    font-size: 0.9rem;
+}
+
+.ck-editor-front p {
+    color: rgb(107 114 128);
+    font-size: 0.9rem;
+}
+
 .filepond {
     margin-bottom: 0;
 }
@@ -344,12 +371,4 @@ html::-webkit-scrollbar-thumb:active {
 
 .filepond--drop-label label {
     font-size: 0.875rem;
-}
-
-.filepond ol,
-ul,
-menu {
-    list-style: none;
-    margin-left: 2rem !important;
-    padding: 0;
 }

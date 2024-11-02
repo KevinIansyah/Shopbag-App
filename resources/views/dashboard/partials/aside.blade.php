@@ -21,7 +21,7 @@
     <ul class="space-y-2">
       <li>
         <a href="{{ route('dashboard.index') }}"
-          class="{{ request()->routeIs('dashboard.index') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} flex items-center p-3 text-sm font-medium rounded-lg group">
+          class="{{ request()->routeIs('dashboard.index') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} flex items-center py-2 px-3 text-sm font-medium rounded-lg group">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-gauge"></i>
           </div>
@@ -30,7 +30,7 @@
       </li>
       <li x-data="{ openusers: false }">
         <button type="button"
-          class="{{ request()->routeIs('dashboard.user.*') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} w-full flex items-center p-3 text-sm font-medium rounded-lg group"
+          class="{{ request()->routeIs('dashboard.user.*') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} w-full flex items-center py-2 px-3 text-sm font-medium rounded-lg group"
           aria-controls="dropdown-users" x-on:click="openusers = !openusers">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-users"></i>
@@ -42,13 +42,13 @@
         <ul id="dropdown-users" x-show="openusers" class="py-2 space-y-2">
           <li x-cloak>
             <a href="{{ route('dashboard.user.admin.index') }}"
-              class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              class="flex items-center py-2 px-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
               Admin
             </a>
           </li>
           <li x-cloak>
             <a href="{{ route('dashboard.user.client.index') }}"
-              class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              class="flex items-center py-2 px-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
               Client
             </a>
           </li>
@@ -57,7 +57,7 @@
 
       <li x-data="{ openproducts: false }">
         <button type="button"
-          class="{{ request()->routeIs('dashboard.product.*') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} w-full flex items-center p-3 text-sm font-medium rounded-lg group"
+          class="{{ request()->routeIs('dashboard.product.*') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} w-full flex items-center py-2 px-3 text-sm font-medium rounded-lg group"
           aria-controls="dropdown-users" x-on:click="openproducts = !openproducts">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-shirt"></i>
@@ -69,13 +69,13 @@
         <ul id="dropdown-users" x-show="openproducts" class="py-2 space-y-2">
           <li x-cloak>
             <a href="{{ route('dashboard.product.category.index') }}"
-              class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              class="flex items-center py-2 px-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
               Category
             </a>
           </li>
           <li x-cloak>
             <a href="{{ route('dashboard.product.index') }}"
-              class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              class="flex items-center py-2 px-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
               Product
             </a>
           </li>
@@ -83,7 +83,7 @@
       </li>
       <li x-data="{ openpages: false }">
         <button type="button"
-          class="flex items-center p-3 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+          class="flex items-center py-2 px-3 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
           aria-controls="dropdown-pages" x-on:click="openpages = !openpages">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-file-circle-plus"></i>
@@ -95,13 +95,13 @@
         <ul id="dropdown-pages" x-show="openpages" class="py-2 space-y-2">
           <li x-cloak>
             <a href="#"
-              class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              class="flex items-center py-2 px-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
               Settings
             </a>
           </li>
           <li x-cloak>
             <a href="#"
-              class="flex items-center p-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+              class="flex items-center py-2 px-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
               Kanban
             </a>
           </li>
@@ -109,7 +109,7 @@
       </li>
       <li>
         <a href="#"
-          class="flex items-center p-3 text-sm font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+          class="flex items-center py-2 px-3 text-sm font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-message-lines"></i>
           </div>

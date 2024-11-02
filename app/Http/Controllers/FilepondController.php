@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\TemporaryImage;
 use Illuminate\Http\Request;
@@ -11,44 +10,44 @@ use Illuminate\Support\Facades\Storage;
 
 class FilepondController extends Controller
 {
-    public function uploadFile(Request $request)
+    public function uploadImage(Request $request)
     {
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $file_name = $image->getClientOriginalName();
+            $fileName = $image->getClientOriginalName();
             $folder = uniqid('post', true);
-            $image->storeAs('post/tmp-image-product/' . $folder, $file_name);
+            $image->storeAs('post/tmp-image-filepond/' . $folder, $fileName, 'public');
             TemporaryImage::create([
                 'folder' => $folder,
-                'file' => $file_name,
+                'file' => $fileName,
             ]);
-            Session::push('image-product', $folder);
+            Session::push('image-filepond', $folder);
             return $folder;
         }
         return '';
     }
 
-    public function cancelFile()
+    public function cancelImage()
     {
         $folder = request()->getContent();
-        $imageProduct = Session::get('image-product', []);
+        $image = Session::get('image-filepond', []);
 
-        $index = array_search($folder, $imageProduct);
+        $index = array_search($folder, $image);
 
         if ($index !== false) {
-            unset($imageProduct[$index]);
-            Session::put('image-product', $imageProduct);
+            unset($image[$index]);
+            Session::put('image-filepond', $image);
         }
 
-        $tmp_file = TemporaryImage::where('folder', request()->getContent())->first();
-        if ($tmp_file) {
-            Storage::deleteDirectory('post/tmp-image-product/' . $tmp_file->folder);
-            $tmp_file->delete();
+        $tmpFile = TemporaryImage::where('folder', request()->getContent())->first();
+        if ($tmpFile) {
+            Storage::disk('public')->deleteDirectory('post/tmp-image-filepond/' . $tmpFile->folder);
+            $tmpFile->delete();
             return response('');
         }
     }
 
-    public function removeFile(Request $request)
+    public function removeImage(Request $request)
     {
         $data = $request->json()->all();
         $source = $data['source'] ?? null;
@@ -61,59 +60,59 @@ class FilepondController extends Controller
         $parts = explode('/', $path);
         $folder = $parts[count($parts) - 2];
 
-        $tmp_file = ProductImage::where('image_url', 'like', '%' . $folder . '/%')->first();
-        if ($tmp_file) {
-            Storage::deleteDirectory('image-product/' . $folder);
-            $tmp_file->image = null;
-            $tmp_file->save();
+        $tmpFile = ProductImage::where('image_url', 'like', '%' . $folder . '/%')->first();
+        if ($tmpFile) {
+            Storage::disk('public')->deleteDirectory('image-filepond/' . $folder);
+            $tmpFile->image = null;
+            $tmpFile->save();
             return response()->json(['success' => true]);
         }
 
         return response()->json(['error' => 'File not found'], 404);
     }
 
-    public function uploadFileMultiple(Request $request)
+    public function uploadImageMultiple(Request $request)
     {
         if ($request->hasFile('image')) {
             $image = $request->file('image');
 
-            $file_name = $image->getClientOriginalName();
+            $fileName = $image->getClientOriginalName();
             $folder = uniqid('post', true);
-            $image->storeAs('post/tmp-image-product-multiple/' . $folder, $file_name);
+            $image->storeAs('post/tmp-image-filepond/' . $folder, $fileName, 'public');
 
             TemporaryImage::create([
                 'folder' => $folder,
-                'file' => $file_name,
+                'file' => $fileName,
             ]);
 
-            Session::push('image-product-multiple', $folder);
+            Session::push('image-multiple-filepond', $folder);
             return $folder;
         }
         return '';
     }
 
-    public function cancelFileMultiple()
+    public function cancelImageMultiple()
     {
         $folder = request()->getContent();
-        $imageProductDetail = Session::get('image-product-multiple', []);
+        $imageDetail = Session::get('image-multiple-filepond', []);
 
-        $index = array_search($folder, $imageProductDetail);
+        $index = array_search($folder, $imageDetail);
 
         if ($index !== false) {
-            unset($imageProductDetail[$index]);
-            Session::put('image-product-multiple', $imageProductDetail);
+            unset($imageDetail[$index]);
+            Session::put('image-multiple-filepond', $imageDetail);
         }
 
-        $tmp_file = TemporaryImage::where('folder', $folder)->first();
-        if ($tmp_file) {
-            Storage::deleteDirectory('post/tmp-image-product-multiple/' . $tmp_file->folder);
-            $tmp_file->delete();
+        $tmpFile = TemporaryImage::where('folder', $folder)->first();
+        if ($tmpFile) {
+            Storage::disk('public')->deleteDirectory('post/tmp-image-filepond/' . $tmpFile->folder);
+            $tmpFile->delete();
         }
 
         return response()->noContent();
     }
 
-    public function removeFileMultiple(Request $request)
+    public function removeImageMultiple(Request $request)
     {
         $data = $request->json()->all();
         $source = $data['source'] ?? null;
@@ -126,10 +125,10 @@ class FilepondController extends Controller
         $parts = explode('/', $path);
         $folder = $parts[count($parts) - 2];
 
-        $tmp_file = ProductImage::where('image_url', 'like', '%' . $folder . '/%')->first();
-        if ($tmp_file) {
-            Storage::deleteDirectory('image-product-multiple/' . $folder);
-            $tmp_file->delete();
+        $tmpFile = ProductImage::where('image_url', 'like', '%' . $folder . '/%')->first();
+        if ($tmpFile) {
+            Storage::disk('public')->deleteDirectory('image-filepond/' . $folder);
+            $tmpFile->delete();
             return response()->json(['success' => true]);
         }
 

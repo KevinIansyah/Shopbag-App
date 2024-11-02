@@ -22,7 +22,7 @@
           </li>
           <li>
             <div class="flex items-center">
-              <i class="fa-sharp fa-solid fa-chevron-right text-xs text-gray-400"></i>
+              <p class="text-sm text-gray-400">/</p>
               <p class="ms-1 text-sm font-medium text-gray-700 md:ms-2 dark:text-gray-400">Product</p>
             </div>
           </li>
@@ -35,7 +35,6 @@
       <section class="bg-gray-50 dark:bg-gray-900">
         <div class="">
           <div class="bg-white dark:bg-gray-800 relative sm:rounded-lg overflow-hidden p-4">
-            <!-- Tabel Nav -->
             <div
               class="mb-4 w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
               <a href="{{ route('dashboard.product.create') }}"
@@ -47,98 +46,59 @@
                 </svg>
                 Add Product
               </a>
-              {{-- <div class="flex items-center space-x-3 w-full md:w-auto">
-                <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown"
-                  class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                  type="button">
-                  <svg class="-ml-1 mr-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path clip-rule="evenodd" fill-rule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                  </svg>
-                  Actions
-                </button>
-                <div id="actionsDropdown"
-                  class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                  <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="actionsDropdownButton">
-                    <li>
-                      <a href="#"
-                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mass
-                        Edit</a>
-                    </li>
-                  </ul>
-                  <div class="py-1">
-                    <a href="#"
-                      class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete
-                      all</a>
-                  </div>
-                </div>
-                <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown"
-                  class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                  type="button">
-                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 mr-2 text-gray-400"
-                    viewbox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                      d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                      clip-rule="evenodd" />
-                  </svg>
-                  Filter
-                  <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path clip-rule="evenodd" fill-rule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                  </svg>
-                </button>
-                <div id="filterDropdown" class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-                  <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Choose brand</h6>
-                  <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
-                    <li class="flex items-center">
-                      <input id="apple" type="checkbox" value=""
-                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Apple
-                        (56)</label>
-                    </li>
-                    <li class="flex items-center">
-                      <input id="fitbit" type="checkbox" value=""
-                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="fitbit" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Microsoft
-                        (16)</label>
-                    </li>
-                    <li class="flex items-center">
-                      <input id="razor" type="checkbox" value=""
-                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="razor" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Razor
-                        (49)</label>
-                    </li>
-                    <li class="flex items-center">
-                      <input id="nikon" type="checkbox" value=""
-                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="nikon" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Nikon
-                        (12)</label>
-                    </li>
-                    <li class="flex items-center">
-                      <input id="benq" type="checkbox" value=""
-                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="benq" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">BenQ
-                        (74)</label>
-                    </li>
-                  </ul>
-                </div>
-              </div> --}}
             </div>
-            <!-- Tabel Content -->
             <div class="overflow-x-auto">
               <table id="product_table" class="table-custom w-full text-sm text-left text-black">
                 <thead class="text-sm text-white text-bold bg-red-500 rounded">
                   <tr>
-                    <th dir="ltr" scope="col" class="px-4 py-3 text-white rounded-s-lg">No</th>
-                    <th scope="col" class="px-4 py-3 text-white">Name</th>
-                    <th scope="col" class="px-4 py-3 text-white">Price</th>
-                    <th dir="rtl" scope="col" class="px-4 py-3 text-white rounded-s-lg">Action</th>
+                    <th dir="ltr" scope="col" class="px-2 py-2 text-white rounded-s-lg">No</th>
+                    <th scope="col" class="px-2 py-2 text-white">Name</th>
+                    <th scope="col" class="px-2 py-2 text-white">Price</th>
+                    <th scope="col" class="px-2 py-2 text-white">Category</th>
+                    <th scope="col" class="px-2 py-2 text-white">Stock</th>
+                    <th scope="col" class="px-2 py-2 text-white">Weight</th>
+                    <th dir="rtl" scope="col" class="px-2 py-2 text-white rounded-s-lg">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-
+                  @foreach ($products as $index => $item)
+                    <tr>
+                      <td>{{ $index + 1 }}</td>
+                      <td class="capitalize">
+                        {{ $item->name }}</td>
+                      <td>{{ 'Rp ' . number_format($item->price, 0, ',', '.') }}</td>
+                      <td>
+                        <div class="flex flex-row flex-wrap gap-2">
+                          @foreach ($item->categories as $category)
+                            <span
+                              class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ $category->name }}</span>
+                          @endforeach
+                        </div>
+                      </td>
+                      <td>
+                        <div class="flex flex-row flex-wrap gap-2">
+                          @foreach ($item->stocks as $stock)
+                            <span
+                              class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ $stock->size->name }}
+                              : {{ $stock->quantity }}</span>
+                          @endforeach
+                        </div>
+                      </td>
+                      <td>{{ $item->weight }} Gram</td>
+                      <td>
+                        <div class="flex gap-2">
+                          <a href="{{ route('dashboard.product.edit', ['product' => $item->id]) }}"
+                            class="w-8 h-8 text-white bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                            <i class="fa-sharp fa-solid fa-pen"></i>
+                          </a>
+                          <button type="button" onclick="destroyProduct({{ $item->id }})"
+                            class="w-8 h-8 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -154,37 +114,7 @@
     let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
     $('#product_table').DataTable({
-      fixedHeader: true,
-      pageLength: 25,
-      lengthChange: true,
-      autoWidth: false,
-      responsive: true,
-      processing: true,
-      serverSide: true,
-      ajax: {
-        url: "/dashboard/product/data",
-        type: 'GET',
-      },
-      columns: [{
-          data: 'DT_RowIndex',
-          name: 'DT_RowIndex',
-          className: 'text-center',
-        },
-        {
-          data: 'name',
-          name: 'name'
-        },
-        {
-          data: 'price',
-          name: 'price'
-        },
-        {
-          data: 'action',
-          name: 'action',
-          orderable: false,
-          searchable: false
-        },
-      ]
+
     });
 
     function destroyProduct(id) {

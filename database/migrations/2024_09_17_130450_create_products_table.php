@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->text('description')->nullable();
-            $table->decimal('price', 10, 2);
+            $table->integer('price');
+            $table->integer('weight');
             $table->enum('type_size', ['clothing_size', 'shoe_size', 'accessories_size']);
             $table->timestamps();
         });

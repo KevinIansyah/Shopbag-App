@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description', 'price', 'type_size'];
+    protected $fillable = ['name', 'slug', 'description', 'price', 'weight', 'type_size'];
 
     public function images()
     {
@@ -20,11 +20,6 @@ class Product extends Model
     {
         return $this->hasMany(Stock::class);
     }
-
-    // public function categories()
-    // {
-    //     return $this->hasMany(ProductCategory::class);
-    // }
 
     public function categories()
     {

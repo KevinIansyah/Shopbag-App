@@ -21,7 +21,7 @@
             </a>
           </li>
           <li class="inline-flex items-center">
-            <i class="fa-sharp fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            <p class="text-sm text-gray-400">/</p>
             <a href="{{ route('dashboard.product.index') }}"
               class="ms-1 inline-flex items-center text-sm font-medium text-red-500 hover:text-red-600 md:ms-2">
               Product
@@ -29,7 +29,7 @@
           </li>
           <li>
             <div class="flex items-center">
-              <i class="fa-sharp fa-solid fa-chevron-right text-xs text-gray-400"></i>
+              <p class="text-sm text-gray-400">/</p>
               <p class="ms-1 text-sm font-medium text-gray-700 md:ms-2 dark:text-gray-400">Add</p>
             </div>
           </li>
@@ -60,9 +60,9 @@
               </div>
 
               <div>
-                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item
+                <label for="weight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item
                   Weight (gram)</label>
-                <input type="number" name="item-weight" id="item-weight"
+                <input type="number" name="weight" id="weight"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5"
                   placeholder="200" required="">
               </div>
@@ -121,7 +121,7 @@
                 <input type="file" class="filepond image" name="image" required>
               </div>
 
-              <div class="sm:col-span-2">
+              <div class="sm:col-span-2 ck-editor">
                 <label for="description"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                 <textarea id="description" name="description"></textarea>
@@ -169,32 +169,11 @@
       }
     }
 
-    // FilePond.create(
-    //   document.querySelector('.image'), {
-    //     server: {
-    //       process: "/dashboard/product/upload-file",
-    //       revert: "/dashboard/product/cancel-file",
-    //       headers: {
-    //         "X-CSRF-TOKEN": CSRF_TOKEN,
-    //       }
-    //     },
-    //     allowMultiple: false,
-    //     allowReorder: false,
-    //     allowFileSizeValidation: true,
-    //     allowFileTypeValidation: true,
-    //     maxFiles: 1,
-    //     maxFileSize: '2MB',
-    //     labelMaxFileSize: 'Maximum file size is {filesize}',
-    //     acceptedFileTypes: ['image/*'],
-    //     labelFileTypeNotAllowed: 'File of invalid type. Please upload PNG, JPG, or JPEG files only.',
-    //   }
-    // );
-
     FilePond.create(
       document.querySelector('.image'), {
         server: {
-          process: "/dashboard/product/upload-file-multiple",
-          revert: "/dashboard/product/cancel-file-multiple",
+          process: "/dashboard/upload-image-multiple",
+          revert: "/dashboard/cancel-image-multiple",
           headers: {
             "X-CSRF-TOKEN": CSRF_TOKEN,
           }

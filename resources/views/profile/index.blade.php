@@ -9,9 +9,9 @@
         <div class="w-full h-auto bg-white dark:bg-gray-800">
           <div class="lg:rounded-lg lg:p-4">
             <div class="relative pb-6">
-              <div class="flex items-center justify-between">
+              <div class="flex items-center justify-between w-[100%]">
                 <div>
-                  <h2 class="text-lg font-semibold">Profile</h2>
+                  <h2 class="text-xl font-semibold">Profile</h2>
                   <p class="text-sm font-normal">Manage your profile here!</p>
                 </div>
                 <button data-drawer-target="profile-sidebar" data-drawer-toggle="profile-sidebar"

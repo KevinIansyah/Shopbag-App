@@ -24,6 +24,10 @@ class User extends Authenticatable
         'gender',
         'access',
         'password',
+        'image',
+        'google_id',
+        'google_token',
+        'google_refresh_token',
     ];
 
     /**
