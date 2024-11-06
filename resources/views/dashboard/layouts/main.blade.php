@@ -38,7 +38,7 @@
 </head>
 
 <body x-data="{ open: false }">
-  <div class="antialiased bg-gray-50 dark:bg-gray-900">
+  <div class="antialiased bg-gray-50">
     @include('dashboard.partials.navbar')
     @include('dashboard.partials.aside')
     @yield('main')

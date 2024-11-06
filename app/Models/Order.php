@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'total_price', 'status'];
+    protected $fillable = ['user_id', 'total_price', 'status', 'snap_token'];
 
     public function orderItems()
     {
@@ -24,5 +24,10 @@ class Order extends Model
     public function review()
     {
         return $this->hasOne(Review::class);
+    }
+
+    public function address()
+    {
+        return $this->hasOne(Address::class);
     }
 }

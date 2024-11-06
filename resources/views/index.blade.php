@@ -71,7 +71,7 @@
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
 
           @foreach ($products as $item)
-            <a href="{{ route('product.detail', ['slug' => $item->slug]) }}"
+            <a href="{{ route('product.show', ['product' => $item->slug]) }}"
               class="max-w-sm bg-white border-[0.5px] border-gray-200/50 rounded-lg dark:bg-gray-800 dark:border-gray-700">
               @if (!empty($item->images) && isset($item->images[0]->image_url))
                 <img class="rounded-t-lg aspect-square object-cover object-center"

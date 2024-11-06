@@ -30,52 +30,36 @@
                 Add New Address
               </button>
 
-              <div
-                class="mt-4 p-4 border border-gray-200 rounded flex flex-col md:flex-row items:start md:items-center gap-4">
-                <div class="w-full">
-                  <p class="text-sm font-bold mb-2">Kevin Iansyah <span
-                      class="ml-2 bg-red-100 text-red-600 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-500">Main
-                      Address</span></p>
-                  <p class="text-sm font-normal mb-1">085815787906</p>
-                  <p class="text-sm font-normal mb-1">Dlanggu, Dlanggu, Mojokerto, Kab., Jawa Timur, 61371</p>
-                  <p class="text-sm font-normal">RT. 003 RW. 003 Dsn. Jani Ds. Segunung, Kec. Dlanggu, Kab. Mojokerto</p>
+              @foreach ($address as $item)
+                <div
+                  class="mt-4 p-4 border border-gray-200 rounded flex flex-col md:flex-row items:start md:items-center gap-4">
+                  <div class="w-full">
+                    <p class="text-sm font-bold mb-2">{{ $item->recipient_name }}
+                      @if ($item->is_primary == true)
+                        <span
+                          class="ml-2 bg-red-100 text-red-600 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-500">
+                          Primary Address
+                        </span>
+                      @endif
+                    </p>
+                    <p class="text-sm font-normal mb-1">{{ $item->recipient_contact }}</p>
+                    <p class="text-sm font-normal mb-1">{{ $item->city }}, {{ $item->province }}</p>
+                    <p class="text-sm font-normal mb-1">{{ $item->address }}</p>
+                    <p class="text-sm font-normal">Notes: {{ $item->notes }}</p>
+                  </div>
+                  <div class="flex justify-start md:justify-end gap-2 w-auto">
+                    <button type="button"
+                      class="w-8 h-8 text-white bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                      <i class="fa-sharp fa-solid fa-pen"></i>
+                    </button>
+                    <button type="button"
+                      class="w-8 h-8 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                      <i class="fa-sharp fa-solid fa-trash"></i>
+                    </button>
+                  </div>
                 </div>
-                <div class="flex justify-start md:justify-end gap-2 w-auto">
-                  <button type="button"
-                    class="w-full md:w-24 text-red-500 ring-red-500 hover:bg-red-500 hover:text-white ring-1 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 transition-all duration-200">
-                    Edit
-                  </button>
-                  <button type="button"
-                    class="w-full md:w-24 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-500 dark:focus:ring-red-800 transition-all duration-200">
-                    Delete
-                  </button>
-                </div>
-              </div>
-
-              <div
-                class="mt-4 p-4 border border-gray-200 rounded flex flex-col md:flex-row items:start md:items-center gap-4">
-                <div class="w-full">
-                  <p class="text-sm font-bold mb-2">Alya Izzah Zalfa<span
-                      class="ml-2 bg-red-100 text-red-600 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-500">Main
-                      Address</span></p>
-                  <p class="text-sm font-normal mb-1">085815787906</p>
-                  <p class="text-sm font-normal mb-1">Dlanggu, Dlanggu, Mojokerto, Kab., Jawa Timur, 61371</p>
-                  <p class="text-sm font-normal">RT. 003 RW. 003 Dsn. Jani Ds. Segunung, Kec. Dlanggu, Kab. Mojokerto</p>
-                </div>
-                <div class="flex justify-start md:justify-end gap-2 w-auto">
-                  <button type="button"
-                    class="w-full md:w-24 text-red-500 ring-red-500 hover:bg-red-500 hover:text-white ring-1 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 transition-all duration-200">
-                    Edit
-                  </button>
-                  <button type="button"
-                    class="w-full md:w-24 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-500 dark:focus:ring-red-800 transition-all duration-200">
-                    Delete
-                  </button>
-                </div>
-              </div>
-
+              @endforeach
             </div>
-
           </div>
         </div>
       </div>
@@ -86,9 +70,7 @@
   <div id="shippingAddres" tabindex="-1" aria-hidden="true"
     class="hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0">
     <div class="relative w-full max-w-2xl h-full md:h-auto">
-      <!-- Modal content -->
       <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-        <!-- Modal header -->
         <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
           <h3 class="text-base font-semibold text-gray-900 dark:text-white">
             Add Shipping Address
@@ -105,8 +87,9 @@
             <span class="sr-only">Close modal</span>
           </button>
         </div>
-        <!-- Modal body -->
-        <form action="#" class="h-[calc(100vh-96px)] md:h-auto md:max-h-[70vh] overflow-y-auto">
+        <form action="{{ route('address.store') }}" method="POST"
+          class="h-[calc(100vh-96px)] md:h-auto md:max-h-[70vh] overflow-y-auto">
+          @csrf
           <div class="grid gap-4 mb-4 sm:grid-cols-2">
             <div>
               <label for="recipient_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recipient
@@ -124,40 +107,38 @@
             </div>
             <div>
               <label for="province" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Province</label>
-              <select id="province" name="province"
+              <input type="text" name="province" id="province"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                required>
-                <option selected disabled>Select province</option>
-                @if (!empty($provinces))
-                  @foreach ($provinces as $item)
-                    <option value="{{ $item['province_id'] }}">{{ $item['province'] }}</option>
-                  @endforeach
-                @else
-                  <option disabled>No provinces available</option>
-                @endif
-              </select>
+                placeholder="Province name" required>
             </div>
             <div>
               <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
-              <select id="city" name="city"
+              <input type="text" name="city" id="city"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                required disabled>
-                <option selected disabled>Select city</option>
-              </select>
+                placeholder="City name" required>
             </div>
             <div class="sm:col-span-2">
-              <label for="full_address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
+              <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
                 Address</label>
-              <textarea id="full_address" rows="4"
+              <textarea name="address" id="address" rows="4"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="Street Name, Building, House Number"></textarea>
             </div>
             <div class="sm:col-span-2">
-              <label for="notes_courier" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes For
+              <label for="notes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes For
                 Courier</label>
-              <input type="text" name="notes_courier" id="notes_courier"
+              <input type="text" name="notes" id="notes"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                placeholder="Other Details (e.g., Block/Unit No., Landmark)"" required>
+                placeholder="Other Details (e.g., Block/Unit No., Landmark)" required>
+            </div>
+            <div class="sm-col-span-2">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input id="is_primary" name="is_primary" type="checkbox"
+                    class="w-4 h-4 text-red-500 bg-gray-100 border-gray-300 rounded focus:ring-red-300 focus:ring-2" />
+                </div>
+                <label for="is_primary" class="ms-2 text-sm font-medium text-gray-900">Make the primary address</label>
+              </div>
             </div>
           </div>
           <button type="submit"
@@ -168,10 +149,34 @@
       </div>
     </div>
   </div>
+
+  {{-- <div>
+    <label for="province" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Province</label>
+    <select id="province" name="province"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+      required>
+      <option selected disabled>Select province</option>
+      @if (!empty($provinces))
+        @foreach ($provinces as $item)
+          <option value="{{ $item['province_id'] }}">{{ $item['province'] }}</option>
+        @endforeach
+      @else
+        <option disabled>No provinces available</option>
+      @endif
+    </select>
+  </div>
+  <div>
+    <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+    <select id="city" name="city"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+      required disabled>
+      <option selected disabled>Select city</option>
+    </select>
+  </div> --}}
 @endsection
 
 @push('scripts')
-  <script>
+  {{-- <script>
     $(document).ready(function() {
       $('#province').change(function() {
         var provinceId = $(this).val();
@@ -215,5 +220,5 @@
         }
       });
     });
-  </script>
+  </script> --}}
 @endpush

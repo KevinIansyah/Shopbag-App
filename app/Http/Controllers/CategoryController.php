@@ -17,7 +17,7 @@ class CategoryController extends Controller
 
     public function data()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('id', 'DESC')->get();
 
         return DataTables::of($categories)
             ->addIndexColumn()
@@ -29,12 +29,12 @@ class CategoryController extends Controller
                 $action_button = '
                     <div class="flex gap-2">
                         <button type="button" onclick="updateCategory(' . $row->id . ')" @click="open = true"
-                            class="w-10 h-10 text-white bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
-                            <i class="fa-sharp fa-regular fa-pen-to-square"></i>
+                            class="w-8 h-8 text-white bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                            <i class="fa-sharp fa-solid fa-pen"></i>
                         </button>
                         <button type="button" onclick="destroyCategory(' . $row->id . ')"
-                            class="w-10 h-10 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
-                            <i class="fa-sharp fa-regular fa-trash"></i>
+                            class="w-8 h-8 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
                         </button>
                     </div>
                 ';

@@ -7,7 +7,25 @@
       isScrolled ? 'shadow-lg' : ''
   ]"
   class="fixed top-0 z-40 w-full">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  {{-- <div class="px-4 md:px-6 lg:px-8">
+    @if (session('success'))
+      <x-alert-success :messages="session('success')" />
+    @endif
+
+    @if (session('error'))
+      <x-alert-error :messages="session('error')" />
+    @endif
+  </div> --}}
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
+    @if (session('success'))
+      <x-alert-success :messages="session('success')" />
+    @endif
+
+    @if (session('error'))
+      <x-alert-error :messages="session('error')" />
+    @endif
+
     <div class="flex h-16 items-center justify-between">
       <div class="flex items-center">
         <a href="/" class="flex-shrink-0">
@@ -18,7 +36,7 @@
             <div @mouseenter="isMenOpen = true, isWomanOpen = false, isKidsOpen = false">
               <a href="#"
                 :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-                    @if (request()->is('/')) false @else true @endif ? 'text-black/75' : 'text-white'"
+                    @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
                 class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
                 Men
               </a>
@@ -26,7 +44,7 @@
             <div @mouseenter="isWomanOpen = true, isMenOpen = false, isKidsOpen = false">
               <a href="#"
                 :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-                    @if (request()->is('/')) false @else true @endif ? 'text-black/75' : 'text-white'"
+                    @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
                 class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
                 Woman
               </a>
@@ -34,20 +52,20 @@
             <div @mouseenter="isKidsOpen = true, isMenOpen = false, isWomanOpen = false">
               <a href="#"
                 :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-                    @if (request()->is('/')) false @else true @endif ? 'text-black/75' : 'text-white'"
+                    @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
                 class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
                 Kids
               </a>
             </div>
             <a href="#" @mouseenter="isMenOpen = false, isWomanOpen = false, isKidsOpen = false"
               :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-                  @if (request()->is('/')) false @else true @endif ? 'text-black/75' : 'text-white'"
+                  @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
               class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
               Sale
             </a>
             <a href="#" @mouseenter="isMenOpen = false, isWomanOpen = false, isKidsOpen = false"
               :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-                  @if (request()->is('/')) false @else true @endif ? 'text-black/75' : 'text-white'"
+                  @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
               class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
               Blog
             </a>

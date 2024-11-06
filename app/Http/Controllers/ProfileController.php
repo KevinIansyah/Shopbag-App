@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Address;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,26 +13,25 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
     public function index(Request $request)
     {
         $section = $request->query('p', 'profile');
 
         switch ($section) {
             case 'shipping-address':
-                $response = Http::withHeaders([
-                    'key' => '360a5f29619bc971359e639ddc86ae40' // API Key RajaOngkir
-                ])->get('https://api.rajaongkir.com/starter/province');
+                // $response = Http::withHeaders([
+                //     'key' => '360a5f29619bc971359e639ddc86ae40' // API Key RajaOngkir
+                // ])->get('https://api.rajaongkir.com/starter/province');
 
-                if ($response->successful()) {
-                    $provinces = $response->json()['rajaongkir']['results'];
-                } else {
-                    $provinces = [];
-                }
-                // return dd($response->json());
-                return view('profile.shipping-address', compact('provinces'));
+                // if ($response->successful()) {
+                //     $provinces = $response->json()['rajaongkir']['results'];
+                // } else {
+                //     $provinces = [];
+                // }
+
+                $address = Address::where('user_id', Auth::id())->get();
+
+                return view('profile.shipping-address', compact('address'));
                 break;
 
             case 'set-password':
@@ -58,9 +58,6 @@ class ProfileController extends Controller
         }
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
 
@@ -75,9 +72,6 @@ class ProfileController extends Controller
         return Redirect::route('profile.index')->with('success', 'Profile successfully updated!');
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [

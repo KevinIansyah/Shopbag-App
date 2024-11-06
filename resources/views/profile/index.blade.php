@@ -22,14 +22,14 @@
                 </button>
               </div>
 
-              @if (session('success'))
+              {{-- @if (session('success'))
                 <x-alert-success class="mt-2" :messages="session('success')" />
-              @endif
+              @endif --}}
             </div>
 
             <div class="grid grid-cols-12 gap-8">
               <div class="col-span-12 md:col-span-4">
-                <img class="w-full aspect-square object-cover rounded"
+                <img class="w-full aspect-square object-cover rounded-lg"
                   src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="User photo">
                 <ul class="list-disc text-[12px] font-semibold ml-4 py-2">
                   <li>File type (jpg/png/jpeg)</li>

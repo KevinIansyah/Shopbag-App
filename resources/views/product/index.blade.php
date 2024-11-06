@@ -2,7 +2,7 @@
 
 @section('main')
   <main>
-    <div tabindex="-1" class="mx-auto max-w-7xl pt-28 pb-20 px-4 md:px-6 lg:px-8 min-h-[100vh]">
+    <div tabindex="-1" class="mx-auto max-w-7xl pt-28 pb-20 px-4 md:px-6 lg:px-8 min-h-[100vh] relative">
       <div class="lg:flex lg:gap-4">
         <div class="w-full h-auto bg-white">
           <div class="lg:rounded-lg">
@@ -45,17 +45,19 @@
               </div>
 
               <div class="lg:w-2/3">
+
+
                 <div class="flex flex-col gap-4">
                   <div class="">
-                    <h1 class="text-xl font-medium text-gray-900 sm:text-2xl">
+                    <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl">
                       {{ $product->name }}
                     </h1>
                     <div class="mt-4">
-                      <p class="text-2xl font-bold text-gray-900 sm:text-3xle">
+                      <p class="text-2xl font-bold sm:text-3xl text-red-500">
                         {{ 'Rp ' . number_format($product->price, 0, ',', '.') }}
                       </p>
 
-                      <div class="flex items-center gap-2 mt-2 sm:mt-0">
+                      <div class="flex items-center gap-2 mt-2 sm:mt-2">
                         <div class="flex items-center gap-1">
                           <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -155,8 +157,9 @@
             <span class="sr-only">Close modal</span>
           </button>
         </div>
-        <form id="add_category_form" method="POST" action="{{ route('product.cart', ['id' => $product->id]) }}">
+        <form id="add_category_form" method="POST" action="{{ route('cart.store') }}">
           @csrf
+          <input type="hidden" name="product_id" value="{{ $product->id }}">
           <input type="hidden" name="quantity" :value="amount">
           <div class="grid gap-4 mb-4">
             <div>

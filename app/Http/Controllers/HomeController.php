@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -33,9 +31,9 @@ class HomeController extends Controller
         // });
 
         // Ambil semua order items yang terkait dengan product_id
-        $orderItems = OrderItem::with('reviews')
-            ->where('product_id', $product->id)
-            ->get();
+        // $orderItems = OrderItem::with('reviews')
+        //     ->where('product_id', $product->id)
+        //     ->get();
 
         // Ambil semua reviews
         $reviews = $orderItems->flatMap(function ($item) {
@@ -45,32 +43,5 @@ class HomeController extends Controller
         // return dd($stocks);
 
         return view('product.index', compact('product', 'stocks'));
-    }
-
-    public function storeCart($id, Request $request)
-    {
-        try {
-            // return dd($request);
-
-            $request->validate([
-                'stock_id' => 'required|integer',
-                'quantity' => 'required|integer',
-            ]);
-
-            Cart::updateOrCreate(
-                [
-                    'user_id' => Auth::id(),
-                    'product_id' => $id,
-                    'stock_id' => $request->stock_id,
-                ],
-                [
-                    'quantity' => $request->quantity,
-                ]
-            );
-
-            return redirect()->back()->with('success_sweet', 'Success added to cart.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error_sweet', $e->getMessage());
-        }
     }
 }

@@ -1,12 +1,16 @@
 <?php
 
+use App\Http\Controllers\AddressHomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartHomeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutHomeController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductHomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RajaOngkir;
 use App\Http\Controllers\SocialiteController;
@@ -17,15 +21,14 @@ Route::get('/auth/google/callback', [SocialiteController::class, 'callback'])->n
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::name('product.')->prefix('product')->group(function () {
-    Route::get('/{slug}', [HomeController::class, 'detailProduct'])->name('detail');
-    Route::post('/{id}/cart', [HomeController::class, 'storeCart'])->middleware('auth')->name('cart');
-});
+// Route::name('product.')->prefix('product')->group(function () {
+//     Route::get('/{slug}', [HomeController::class, 'detailProduct'])->name('detail');
+// });
 
-Route::name('cart.')->prefix('cart')->group(function () {
-
-});
-Route::resource('cart', CartController::class);
+Route::resource('product', ProductHomeController::class);
+Route::resource('cart', CartHomeController::class);
+Route::resource('checkout', CheckoutHomeController::class);
+Route::resource('address', AddressHomeController::class);
 
 Route::name('dashboard.')->prefix('dashboard')->middleware(['auth', 'verified', 'isadmin'])->group(function () {
     Route::get('/', function () {

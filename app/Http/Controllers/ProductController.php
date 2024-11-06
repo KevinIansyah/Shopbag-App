@@ -21,15 +21,14 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['images', 'categories', 'stocks.size'])->get();
-        // return dd($products);
+        FilepondHelpers::removeSessionMultiple();
 
-        return view('dashboard.product.index', compact('products'));
+        return view('dashboard.product.index');
     }
 
     public function data()
     {
-        $products = Product::with(['images', 'categories'])->get();
+        $products = Product::with(['images', 'categories', 'stocks.size'])->get();
 
         return DataTables::of($products)
             ->addIndexColumn()
@@ -40,23 +39,46 @@ class ProductController extends Controller
             ->addColumn('price', function ($row) {
                 return 'Rp ' . number_format($row->price, 0, ',', '.');
             })
+            ->addColumn('category', function ($row) {
+                $categoriesHtml = '<div class="flex flex-row flex-wrap gap-2">';
+                foreach ($row->categories as $category) {
+                    $categoriesHtml .= '<span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">' . $category->name . '</span>';
+                }
+                $categoriesHtml .= '</div>';
+
+                return $categoriesHtml;
+            })
+            ->addColumn('stock', function ($row) {
+                $stocksHtml = '<div class="flex flex-row flex-wrap gap-2">';
+                foreach ($row->stocks as $stock) {
+                    $stocksHtml .= '<span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">' . $stock->size->name . ' : ' . $stock->quantity . '</span>';
+                }
+                $stocksHtml .= '</div>';
+
+                return $stocksHtml;
+            })
+
+            ->addColumn('weight', function ($row) {
+                $weight = '<p class="capitalize">' . $row->weight . ' Gram</p>';
+                return $weight;
+            })
             ->addColumn('action', function ($row) {
                 $action_button = '
                     <div class="flex gap-2">
-                        <a  href="' . route('dashboard.product.edit', ['product' => $row->id]) . '"
-                            class="w-10 h-10 text-white bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
-                            <i class="fa-sharp fa-regular fa-pen-to-square"></i>
+                        <a href="' . route('dashboard.product.edit', ['product' => $row->id]) . '"
+                            class="w-8 h-8 text-white bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                            <i class="fa-sharp fa-solid fa-pen"></i>
                         </a>
                         <button type="button" onclick="destroyProduct(' . $row->id . ')"
-                            class="w-10 h-10 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
-                            <i class="fa-sharp fa-regular fa-trash"></i>
+                            class="w-8 h-8 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
                         </button>
                     </div>
                 ';
 
                 return $action_button;
             })
-            ->rawColumns(['name', 'action'])
+            ->rawColumns(['name', 'category', 'stock', 'weight', 'action'])
             ->make(true);
     }
 
@@ -119,6 +141,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         try {
+            FilepondHelpers::removeSessionMultiple();
+
             $product = Product::with(['images', 'categories', 'stocks'])->where('id', $id)->first();
             $sizes = Size::where('type', $product->type_size)->get();
             $stockQuantities = [];
@@ -130,7 +154,7 @@ class ProductController extends Controller
 
             return view('dashboard.product.edit', compact('product', 'categories', 'sizes', 'stockQuantities', 'images'));
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Product not found or an error occurred.');
+            return redirect()->back()->with('error_sweet', 'Product not found or an error occurred.');
         }
     }
 
