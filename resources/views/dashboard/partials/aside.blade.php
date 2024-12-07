@@ -28,6 +28,7 @@
           <span class="ml-3">Dashboard</span>
         </a>
       </li>
+
       <li x-data="{ openusers: false }">
         <button type="button"
           class="{{ request()->routeIs('dashboard.user.*') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} w-full flex items-center py-2 px-3 text-sm font-medium rounded-lg group"
@@ -53,6 +54,16 @@
             </a>
           </li>
         </ul>
+      </li>
+
+      <li>
+        <a href="{{ route('dashboard.sale.index') }}"
+          class="{{ request()->routeIs('dashboard.sale.*') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} flex items-center py-2 px-3 text-sm font-medium rounded-lg group">
+          <div class="w-6 h-6 flex justify-center items-center">
+            <i class="fa-light fa-cart-shopping"></i>
+          </div>
+          <span class="ml-3">Sale</span>
+        </a>
       </li>
 
       <li x-data="{ openproducts: false }">
@@ -81,14 +92,25 @@
           </li>
         </ul>
       </li>
-      <li x-data="{ openpages: false }">
+      
+      <li>
+        <a href="{{ route('dashboard.report.index') }}"
+          class="{{ request()->routeIs('dashboard.report.*') ? 'text-white bg-red-500 hover:bg-red-500' : 'text-gray-900 bg-white hover:bg-gray-100' }} flex items-center py-2 px-3 text-sm font-medium rounded-lg group">
+          <div class="w-6 h-6 flex justify-center items-center">
+            <i class="fa-light fa-file-circle-plus"></i>
+          </div>
+          <span class="ml-3">Report</span>
+        </a>
+      </li>
+
+      {{-- <li x-data="{ openpages: false }">
         <button type="button"
           class="flex items-center py-2 px-3 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
           aria-controls="dropdown-pages" x-on:click="openpages = !openpages">
           <div class="w-6 h-6 flex justify-center items-center">
             <i class="fa-light fa-file-circle-plus"></i>
           </div>
-          <span class="flex-1 ml-3 text-left whitespace-nowrap">Pages</span>
+          <span class="flex-1 ml-3 text-left whitespace-nowrap">Report</span>
           <i
             :class="openpages ? 'fa-sharp fa-regular fa-chevron-right text-xs' : 'fa-sharp fa-regular fa-chevron-down text-xs'"></i>
         </button>
@@ -96,17 +118,18 @@
           <li x-cloak>
             <a href="#"
               class="flex items-center py-2 px-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
-              Settings
+              Cart
             </a>
           </li>
           <li x-cloak>
             <a href="#"
               class="flex items-center py-2 px-3 pl-12 w-full text-sm font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
-              Kanban
+              Order
             </a>
           </li>
         </ul>
-      </li>
+      </li> --}}
+
       <li>
         <a href="#"
           class="flex items-center py-2 px-3 text-sm font-medium text-gray-900 rounded-lg group">

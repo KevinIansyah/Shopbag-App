@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('address_id')->constrained()->onDelete('cascade');
             $table->integer('total_price');
-            $table->enum('status', ['pending', 'paid', 'shipped', 'processed', 'delivered', 'canceled']);
+            $table->enum('status', ['pending', 'paid', 'shipped', 'processed', 'delivered', 'completed', 'canceled']);
             $table->string('snap_token')->nullable();
+            $table->string('midtrans_order_id')->nullable();
+            $table->boolean('is_review')->default(false);
             $table->timestamps();
         });
     }

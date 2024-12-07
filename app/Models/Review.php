@@ -11,6 +11,11 @@ class Review extends Model
 
     protected $fillable = ['order_id', 'user_id', 'rating', 'comment'];
 
+    public function images()
+    {
+        return $this->hasMany(ReviewImage::class);
+    }
+
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -19,10 +24,5 @@ class Review extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function orderItem()
-    {
-        return $this->belongsTo(OrderItem::class);
     }
 }

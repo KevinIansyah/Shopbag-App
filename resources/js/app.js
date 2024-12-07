@@ -1,11 +1,9 @@
 import "./bootstrap";
 import "flowbite";
-// import DataTable from "datatables.net-dt";
-// import $ from "jquery";
-// import "datatables.net-dt";
+import Chart from 'chart.js/auto';
 import Alpine from "alpinejs";
 
-// window.$ = window.jQuery = $;
+window.Chart = Chart;
 window.Alpine = Alpine;
 
 Alpine.start();

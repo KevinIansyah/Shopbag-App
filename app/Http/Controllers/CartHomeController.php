@@ -38,9 +38,9 @@ class CartHomeController extends Controller
                 ]
             );
 
-            return redirect()->back()->with('success', 'Success added to cart.');
+            return redirect()->back()->with('success', 'Item successfully added to cart.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed added to cart');
+            return redirect()->back()->with('error', 'Failed to add item to cart.');
         }
     }
 
@@ -51,9 +51,9 @@ class CartHomeController extends Controller
 
             $cart->delete();
 
-            return redirect()->back()->with('success', 'Success deleted successfully.');
+            return redirect()->back()->with('success', 'Item successfully deleted from cart.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to deleted successfully');
+            return redirect()->back()->with('error', 'Failed to delete item from cart.');
         }
     }
 }

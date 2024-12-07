@@ -49,13 +49,11 @@
       <div
         class="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg"
         id="notification-dropdown">
-        <div
-          class="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50">
+        <div class="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50">
           Notifications
         </div>
         <div>
-          <a href="#"
-            class="flex py-3 px-4 border-b hover:bg-gray-100">
+          <a href="#" class="flex py-3 px-4 border-b hover:bg-gray-100">
             <div class="flex-shrink-0">
               <img class="w-11 h-11 rounded-full"
                 src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
@@ -84,8 +82,7 @@
               </div>
             </div>
           </a>
-          <a href="#"
-            class="flex py-3 px-4 border-b hover:bg-gray-100">
+          <a href="#" class="flex py-3 px-4 border-b hover:bg-gray-100">
             <div class="flex-shrink-0">
               <img class="w-11 h-11 rounded-full"
                 src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
@@ -112,8 +109,7 @@
               </div>
             </div>
           </a>
-          <a href="#"
-            class="flex py-3 px-4 border-b hover:bg-gray-100">
+          <a href="#" class="flex py-3 px-4 border-b hover:bg-gray-100">
             <div class="flex-shrink-0">
               <img class="w-11 h-11 rounded-full"
                 src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png"
@@ -140,8 +136,7 @@
               </div>
             </div>
           </a>
-          <a href="#"
-            class="flex py-3 px-4 border-b hover:bg-gray-100">
+          <a href="#" class="flex py-3 px-4 border-b hover:bg-gray-100">
             <div class="flex-shrink-0">
               <img class="w-11 h-11 rounded-full"
                 src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png"
@@ -198,8 +193,8 @@
         <a href="#"
           class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100">
           <div class="inline-flex items-center">
-            <svg aria-hidden="true" class="mr-2 w-4 h-4 text-gray-500" fill="currentColor"
-              viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <svg aria-hidden="true" class="mr-2 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
               <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
               <path fill-rule="evenodd"
                 d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
@@ -218,8 +213,7 @@
           src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png" alt="user photo" />
       </button>
       <!-- Dropdown menu -->
-      <div
-        class="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow"
+      <div class="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow"
         id="dropdown">
         <div class="py-3 px-4">
           <span class="block text-sm font-semibold text-gray-900">Neil Sims</span>
@@ -227,21 +221,26 @@
         </div>
         <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
           <li>
-            <a href="#"
-              class="block py-2 px-4 text-sm hover:bg-gray-100">My
+            <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100">My
               profile</a>
           </li>
           <li>
-            <a href="#"
-              class="block py-2 px-4 text-sm hover:bg-gray-100">Account
+            <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100">Account
               settings</a>
           </li>
         </ul>
         <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
           <li>
-            <a href="#"
+            {{-- <a href="#"
               class="block py-2 px-4 text-sm hover:bg-gray-100">Sign
-              out</a>
+              out</a> --}}
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();"
+                class="block py-2 px-4 text-sm hover:bg-gray-100">
+                Sign out
+              </a>
+            </form>
           </li>
         </ul>
       </div>

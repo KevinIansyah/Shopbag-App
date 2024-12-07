@@ -26,39 +26,49 @@
             <div>
               <button id="shippingAddresButton" data-modal-target="shippingAddres" data-modal-toggle="shippingAddres"
                 type="button"
-                class="w-full border border-dashed font-normal border-gray-200 hover:border-gray-500 rounded-lg text-sm px-5 py-3 transition-all duration-200">
+                class="w-full border border-dashed border-red-500 hover:border-red-600 text-red-500 font-bold rounded-lg text-sm px-5 py-3 transition-all duration-200">
                 Add New Address
               </button>
 
-              @foreach ($address as $item)
-                <div
-                  class="mt-4 p-4 border border-gray-200 rounded flex flex-col md:flex-row items:start md:items-center gap-4">
-                  <div class="w-full">
-                    <p class="text-sm font-bold mb-2">{{ $item->recipient_name }}
-                      @if ($item->is_primary == true)
-                        <span
-                          class="ml-2 bg-red-100 text-red-600 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-500">
-                          Primary Address
-                        </span>
-                      @endif
-                    </p>
-                    <p class="text-sm font-normal mb-1">{{ $item->recipient_contact }}</p>
-                    <p class="text-sm font-normal mb-1">{{ $item->city }}, {{ $item->province }}</p>
-                    <p class="text-sm font-normal mb-1">{{ $item->address }}</p>
-                    <p class="text-sm font-normal">Notes: {{ $item->notes }}</p>
+              <div class="space-y-4 mt-4">
+                @if ($address->isEmpty())
+                  <div class="flex flex-col items-center justify-center">
+                    <img class="w-full md:w-[50%]" src="{{ asset('images/no-data.jpg') }}" alt="No data available">
+                    <h6 class="text-lg font-semibold text-black">Address is still empty!</h6>
+                    <p class="text-sm font-normal text-black">You haven't added a address to your account</p>
                   </div>
-                  <div class="flex justify-start md:justify-end gap-2 w-auto">
-                    <button type="button"
-                      class="w-8 h-8 text-white bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
-                      <i class="fa-sharp fa-solid fa-pen"></i>
-                    </button>
-                    <button type="button"
-                      class="w-8 h-8 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
-                      <i class="fa-sharp fa-solid fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              @endforeach
+                @else
+                  @foreach ($address as $item)
+                    <div
+                      class="p-4 border border-gray-200 rounded flex flex-col md:flex-row items:start md:items-center gap-4">
+                      <div class="w-full">
+                        <p class="text-sm font-bold mb-2">{{ $item->recipient_name }}
+                          @if ($item->is_primary == true)
+                            <span
+                              class="ml-2 bg-red-100 text-red-600 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-500">
+                              Primary Address
+                            </span>
+                          @endif
+                        </p>
+                        <p class="text-sm font-normal mb-1">{{ $item->recipient_contact }}</p>
+                        <p class="text-sm font-normal mb-1">{{ $item->city }}, {{ $item->province }}</p>
+                        <p class="text-sm font-normal mb-1">{{ $item->address }}</p>
+                        <p class="text-sm font-normal">Notes: {{ $item->notes }}</p>
+                      </div>
+                      <div class="flex justify-start md:justify-end gap-2 w-auto">
+                        <button type="button"
+                          class="w-8 h-8 text-white bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                          <i class="fa-sharp fa-solid fa-pen"></i>
+                        </button>
+                        <button type="button"
+                          class="w-8 h-8 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                          <i class="fa-sharp fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                  @endforeach
+                @endif
+              </div>
             </div>
           </div>
         </div>

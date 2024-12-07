@@ -181,14 +181,33 @@
       </div>
     </div>
   </main>
+
+  <div id="progress-modal" tabindex="-1"
+    class="overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 hidden bg-gray-900/50">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="p-4 md:p-5">
+          <div class="mx-auto w-full mb-4" style="width: 130px">
+            <img src="{{ asset('images/info.png') }}" alt="image info">
+          </div>
+          <h6 class="mb-1 text-lg font-bold text-gray-900 dark:text-white">Hmm, Payment is not yet complete!</h6>
+          <p class="text-gray-500 dark:text-gray-400 mb-6">Your order cannot be processed yet. Please complete the payment
+            in the 'Waiting for Payment' menu.
+          <p>
+          <div class="flex items-center mt-6 space-x-4 rtl:space-x-reverse">
+            <a href="{{ route('profile.index', ['p' => 'waiting-for-payment']) }}"
+              class="flex justify-center text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-200 cursor-pointer">
+              Go to Payment
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @push('scripts')
-  <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
-  </script>
-
-  <script>
-    console.log('MIDTRANS_CLIENT_KEY:', '{{ env('MIDTRANS_CLIENT_KEY') }}');
+  <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}">
   </script>
 
   <script>
@@ -196,6 +215,7 @@
 
     $('#pay-button').click(function() {
       const addressId = $(this).data('address-id');
+      console.log(addressId);
 
       $.ajax({
         url: '{{ route('checkout.store') }}',
@@ -205,16 +225,48 @@
           _token: CSRF_TOKEN
         },
         success: function(data) {
+          console.log(data);
           if (data.snapToken) {
             snap.pay(data.snapToken, {
               onSuccess: function(result) {
                 console.log(result);
+                $.ajax({
+                  url: '{{ route('checkout.update', ['checkout' => 'orderId']) }}'.replace('orderId',
+                    data.orderId),
+                  type: 'PUT',
+                  data: {
+                    _token: CSRF_TOKEN
+                  },
+                  success: function(result) {
+                    if (result.success) {
+                      window.location.href =
+                        '{{ route('profile.index', ['p' => 'transaction-list']) }}';
+                    } else {
+                      console.error('Error:', result.message);
+                    }
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('Error updating stock:', xhr.status, error);
+                    console.error('Response:', xhr.responseText);
+                  }
+                });
               },
               onPending: function(result) {
                 console.log(result);
               },
               onError: function(result) {
                 console.log(result);
+              },
+              onClose: function() {
+                const progressModal = document.getElementById("progress-modal");
+                if (progressModal) {
+                  progressModal.classList.remove("hidden");
+                  progressModal.classList.add("flex");
+                  document.body.classList.add("overflow-x-hidden");
+                  progressModal.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                  });
+                }
               }
             });
           } else {

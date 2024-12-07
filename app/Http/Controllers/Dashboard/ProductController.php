@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
 use App\Helpers\FilepondHelpers;
 use App\Models\Category;
 use App\Models\Product;

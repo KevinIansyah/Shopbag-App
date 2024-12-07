@@ -6,8 +6,12 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutHomeController extends Controller
 {
@@ -39,11 +43,13 @@ class CheckoutHomeController extends Controller
     public function store(Request $request)
     {
         try {
+            DB::beginTransaction();
+
             $request->validate([
                 'address_id' => 'required|exists:addresses,id',
             ]);
 
-            $carts = Cart::where('user_id', Auth::id())->get();
+            $carts = Cart::with(['product'])->where('user_id', Auth::id())->get();
 
             $totalPrice = $carts->sum(function ($item) {
                 return $item->product->price * $item->quantity;
@@ -53,7 +59,8 @@ class CheckoutHomeController extends Controller
                 'user_id' => Auth::id(),
                 'total_price' => $totalPrice,
                 'status' => 'pending',
-                'address_id' => $request->address_id
+                'address_id' => $request->address_id,
+                'midtrans_order_id' => uniqid('SHOPBAG_')
             ]);
 
             foreach ($carts as $cart) {
@@ -64,6 +71,10 @@ class CheckoutHomeController extends Controller
                     'quantity' => $cart->quantity,
                     'price' => $cart->product->price,
                 ]);
+
+                $stock = Stock::find($cart->stock_id);
+                $stock->quantity -= $cart->quantity;
+                $stock->save();
             }
 
             \Midtrans\Config::$serverKey = config('midtrans.serverKey');
@@ -73,7 +84,7 @@ class CheckoutHomeController extends Controller
 
             $params = [
                 'transaction_details' => [
-                    'order_id' => $order->id,
+                    'order_id' => $order->midtrans_order_id,
                     'gross_amount' => $totalPrice,
                 ],
                 'customer_details' => [
@@ -89,9 +100,40 @@ class CheckoutHomeController extends Controller
 
             Cart::where('user_id', Auth::id())->delete();
 
-            return response()->json(['snapToken' => $snapToken]);
+            DB::commit();
+
+            return response()->json(['snapToken' => $snapToken, 'orderId' => $order->id]);
         } catch (\Exception $e) {
+            DB::rollBack();
+
             return response()->json(['error' => 'Payment processing failed: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function update($id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+            $order->status = 'paid';
+            $order->save();
+
+            $orderItems = OrderItem::where('order_id', $order->id)->get();
+
+            foreach ($orderItems as $orderItem) {
+                $product = Product::find($orderItem->product_id);
+                if ($product) {
+                    $product->sold += $orderItem->quantity;
+                    $product->save();
+                }
+            }
+
+            // $user = User::findOrFail($order->user_id);
+            // $paymentDetails = Order::with(['orderItems.product', 'orderItems.stock.size'])->findOrFail($id);
+            // Mail::to($user->email)->queue(new ConfirmationPayment($user, $paymentDetails));
+
+            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
         }
     }
 }

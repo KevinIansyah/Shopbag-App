@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('weight');
             $table->enum('type_size', ['clothing_size', 'shoe_size', 'accessories_size']);
+            $table->integer('sold')->default(0);
+            $table->integer('avg_rating')->default(0);
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 
@@ -15,14 +16,23 @@ class ProductHomeController extends Controller
 
         $stocks = Stock::with(['size'])->where('product_id', $product->id)->get();
 
-        $orderItems = OrderItem::with('reviews')
-            ->where('product_id', $product->id)
-            ->get();
+        $reviews = Review::with('user', 'images')->whereHas('order', function ($query) use ($product) {
+            $query->whereHas('orderItems', function ($query) use ($product) {
+                $query->where('product_id', $product->id);
+            });
+        })->get();
 
-        $reviews = $orderItems->flatMap(function ($item) {
-            return $item->reviews;
-        });
+        $totalReviews = $reviews->count() > 0 ? $reviews->count() : 0;
+        $averageRating = $reviews->count() > 0 ? $reviews->avg('rating') : 0;
 
-        return view('product.index', compact('product', 'stocks'));
+        $ratingBreakdown = [
+            5 => $reviews->where('rating', 5)->count(),
+            4 => $reviews->where('rating', 4)->count(),
+            3 => $reviews->where('rating', 3)->count(),
+            2 => $reviews->where('rating', 2)->count(),
+            1 => $reviews->where('rating', 1)->count(),
+        ];
+
+        return view('product.index', compact('product', 'stocks', 'reviews', 'totalReviews', 'averageRating', 'ratingBreakdown'));
     }
 }

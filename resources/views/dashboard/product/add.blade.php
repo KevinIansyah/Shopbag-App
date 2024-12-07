@@ -163,8 +163,8 @@
     FilePond.create(
       document.querySelector('.image'), {
         server: {
-          process: "/dashboard/upload-image-multiple",
-          revert: "/dashboard/cancel-image-multiple",
+          process: "/upload-image-multiple",
+          revert: "/cancel-image-multiple",
           headers: {
             "X-CSRF-TOKEN": CSRF_TOKEN,
           }

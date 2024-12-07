@@ -100,6 +100,13 @@
             <i :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                 @if (request()->is('/')) false @else true @endif ? 'text-red-500' : 'text-white'"
               class="fa-duotone fa-bag-shopping text-lg transition-all duration-200"></i>
+            @if ($cartCount !== 0)
+              <span
+                :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+                    @if (request()->is('/')) false @else true @endif ? 'bg-red-500/50' : 'bg-white/50'"
+                class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-4"
+                style="font-size: 0.6rem">{{ $cartCount }}</span>
+            @endif
           </a>
 
           <div
@@ -189,7 +196,7 @@
     x-transition:enter-start="opacity-0 transform -translate-y-2"
     x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 transform translate-y-0"
-    x-transition:leave-end="opacity-0 transform -translate-y-2" class="fixed inset-0 bg-black/75 z-10 top-16"
+    x-transition:leave-end="opacity-0 transform -translate-y-2" class="fixed inset-0 bg-gray-900/50 z-10 top-16"
     @click="isMenOpen = false, isWomanOpen = false, isKidsOpen = false">
   </div>
 

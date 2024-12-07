@@ -6,13 +6,13 @@
       <div class="lg:flex lg:gap-4">
         <div class="w-full h-auto bg-white">
           <div class="lg:rounded-lg">
-            <div x-data="productPage()" class="flex flex-col lg:flex-row gap-8">
-              <div class="lg:w-1/3">
+            <div x-data="productPage()" class="flex flex-col lg:flex-row gap-12">
+              <div class="lg:w-2/5">
                 <div class="flex flex-col gap-6">
                   <div class="relative flex-shrink-0">
                     <a :href="activeImg" data-fancybox="gallery">
                       <img :src="activeImg" alt="image of {{ $product->name }}"
-                        class="w-full h-full object-cover rounded-xl" />
+                        class="w-full aspect-square object-cover rounded-xl" />
                     </a>
 
                     <button @click="prevImage"
@@ -44,54 +44,42 @@
                 </div>
               </div>
 
-              <div class="lg:w-2/3">
-
-
+              <div class="lg:w-3/5">
                 <div class="flex flex-col gap-4">
                   <div class="">
-                    <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl">
+                    <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
                       {{ $product->name }}
                     </h1>
                     <div class="mt-4">
-                      <p class="text-2xl font-bold sm:text-3xl text-red-500">
+                      <p class="text-3xl font-bold sm:text-4xl text-red-500">
                         {{ 'Rp ' . number_format($product->price, 0, ',', '.') }}
                       </p>
 
-                      <div class="flex items-center gap-2 mt-2 sm:mt-2">
+                      <div class="flex items-center gap-2 mt-2 sm:mt-2" x-data="{ rating: {{ $averageRating }} }">
                         <div class="flex items-center gap-1">
-                          <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                              d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                          </svg>
-                          <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                              d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                          </svg>
-                          <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                              d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                          </svg>
-                          <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                              d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                          </svg>
-                          <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                              d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                          </svg>
+                          <template x-for="i in 5" :key="i">
+                            <svg :class="i <= rating ? 'text-yellow-300' : 'text-gray-300'" class="h-4 w-4"
+                              aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                              fill="currentColor" viewBox="0 0 24 24">
+                              <path
+                                d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                          </template>
                         </div>
                         <p class="text-sm font-medium leading-none text-gray-500">
-                          (5.0)
+                          ({{ number_format($averageRating, 1) }})
                         </p>
-                        <a href="#"
+                        <a href="#reviews"
                           class="text-sm font-medium leading-none text-gray-900 underline hover:no-underline">
-                          345 Reviews
+                          {{ $totalReviews }} Reviews
                         </a>
+                      </div>
+
+                      <div class="flex items-center gap-2 mt-2 sm:mt-2">
+                        <i class="fa-solid fa-cart-circle-check text-xs text-red-500"></i>
+                        <p class="text-sm font-medium leading-none text-gray-900">
+                          ({{ number_format($product->sold >= 1000 ? $product->sold / 1000 : $product->sold, $product->sold >= 1000 ? 1 : 0) . ($product->sold >= 1000 ? 'k' : '') }} sold)
+                        </p>
                       </div>
 
                       <button id="addCartModalButton" data-modal-target="addCartModal" data-modal-toggle="addCartModal"
@@ -103,7 +91,6 @@
                           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                         </svg>
-
                         Add to cart
                       </button>
                     </div>
@@ -118,17 +105,150 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-12 gap-8">
-              {{-- COntent here --}}
-            </div>
+            @if ($reviews->isNotEmpty())
+              <div id="reviews" class="pt-8 antialiased dark:bg-gray-900 md:pt-16">
+                <div class="flex items-center gap-2">
+                  <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Reviews</h2>
 
+                  <div class="mt-2 flex items-center gap-2 sm:mt-0" x-data="{ rating: {{ $averageRating }} }">
+                    <div class="flex items-center gap-0.5">
+                      <template x-for="i in 5" :key="i">
+                        <svg :class="i <= rating ? 'text-yellow-300' : 'text-gray-300'" class="h-4 w-4"
+                          aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                          fill="currentColor" viewBox="0 0 24 24">
+                          <path
+                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                        </svg>
+                      </template>
+                    </div>
+                    <p class="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
+                      ({{ number_format($averageRating, 1) }})
+                    </p>
+                    <a href="#"
+                      class="text-sm font-medium leading-none text-gray-900 underline hover:no-underline dark:text-white">
+                      {{ $totalReviews }} Reviews </a>
+                  </div>
+                </div>
+
+                <div class="my-6 gap-8 sm:flex sm:items-start md:my-8">
+                  <div class="shrink-0 space-y-4">
+                    <p class="text-2xl font-semibold leading-none text-gray-900 dark:text-white">
+                      {{ number_format($averageRating, 1) }}
+                      out
+                      of 5.0</p>
+                  </div>
+
+                  <div class="mt-6 min-w-0 flex-1 space-y-3 sm:mt-0">
+                    @foreach ([5, 4, 3, 2, 1] as $rating)
+                      <div class="flex items-center gap-2">
+                        <p class="w-2 shrink-0 text-start text-sm font-medium leading-none text-gray-900 dark:text-white">
+                          {{ $rating }}</p>
+                        <svg class="h-4 w-4 shrink-0 text-yellow-300" aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                          viewBox="0 0 24 24">
+                          <path
+                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                        </svg>
+                        <div class="h-1.5 w-80 rounded-full bg-gray-200 dark:bg-gray-700">
+                          <div class="h-1.5 rounded-full bg-yellow-300"
+                            style="width: {{ ($ratingBreakdown[$rating] / $reviews->count()) * 100 }}%"></div>
+                        </div>
+                        <a href="#"
+                          class="w-8 shrink-0 text-right text-sm font-medium leading-none text-primary-700 hover:underline dark:text-primary-500 sm:w-auto sm:text-left">
+                          {{ $ratingBreakdown[$rating] }}
+                          <span class="hidden sm:inline">reviews</span>
+                        </a>
+                      </div>
+                    @endforeach
+                  </div>
+                </div>
+
+                <div class="mt-6 divide-y divide-gray-200 dark:divide-gray-700">
+                  @foreach ($reviews as $review)
+                    <div class="gap-3 py-6 sm:flex sm:items-start">
+                      <div class="shrink-0 space-y-2 sm:w-48 md:w-72">
+                        <div class="flex items-center gap-0.5" x-data="{ rating: {{ $review->rating }} }">
+                          <template x-for="i in 5" :key="i">
+                            <svg :class="i <= rating ? 'text-yellow-300' : 'text-gray-300'" class="h-4 w-4"
+                              aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                              fill="currentColor" viewBox="0 0 24 24">
+                              <path
+                                d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                          </template>
+                        </div>
+
+                        <div class="space-y-0.5">
+                          <p class="text-base font-semibold text-gray-900 dark:text-white">{{ $review->user->name }}
+                          </p>
+                          <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                            {{ \Carbon\Carbon::parse($review->created_at)->format('F d Y \a\t H:i') }}</p>
+                        </div>
+
+                        <div class="inline-flex items-center gap-1">
+                          <svg class="h-5 w-5 text-primary-700 dark:text-primary-500" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                              d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z"
+                              clip-rule="evenodd" />
+                          </svg>
+                          <p class="text-sm font-medium text-gray-900 dark:text-white">Verified purchase</p>
+                        </div>
+                      </div>
+
+                      <div class="mt-4 min-w-0 flex-1 space-y-4 sm:mt-0">
+                        <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ $review->comment }}</p>
+
+                        @if ($review->images->isNotEmpty())
+                          <div class="flex gap-2">
+                            @foreach ($review->images as $image)
+                              <a href="{{ asset('storage/image-filepond/' . $image->image_url) }}"
+                                data-fancybox="review" data-caption="Review image by {{ $review->user->name }}">
+                                <img class="h-32 w-20 rounded-lg object-cover"
+                                  src="{{ asset('storage/image-filepond/' . $image->image_url) }}"
+                                  alt="image of {{ $product->name }}" />
+                              </a>
+                            @endforeach
+                          </div>
+                        @endif
+
+                        <div class="flex items-center gap-4">
+                          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Was it helpful to you?</p>
+                          <div class="flex items-center">
+                            <input id="reviews-radio-3" type="radio" value="" name="reviews-radio-2"
+                              class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                            <label for="reviews-radio-3"
+                              class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Yes: 1 </label>
+                          </div>
+                          <div class="flex items-center">
+                            <input id="reviews-radio-4" type="radio" value="" name="reviews-radio-2"
+                              class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                            <label for="reviews-radio-4"
+                              class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No: 0 </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  @endforeach
+                </div>
+
+                @if ($totalReviews > 10)
+                  <div class="mt-6 text-center">
+                    <button type="button"
+                      class="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">View
+                      more reviews</button>
+                  </div>
+                @endif
+              </div>
+            @endif
           </div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Add modal -->
+  <!-- Add cart modal -->
   <div id="addCartModal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full"
     x-data="{
@@ -218,6 +338,11 @@
     Fancybox.bind('[data-fancybox="gallery"]', {
 
     });
+
+    Fancybox.bind('[data-fancybox="review"]', {
+
+    });
+
 
     function productPage() {
       const imageArray = @json($product->images->pluck('image_url')->map(fn($url) => asset('storage/image-filepond/' . $url)));

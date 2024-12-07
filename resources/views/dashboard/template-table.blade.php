@@ -60,14 +60,12 @@
                     <td>{{ 'Rp ' . number_format(100000, 0, ',', '.') }}</td>
                     <td>
                       <div class="flex flex-row flex-wrap gap-2">
-                        <span
-                          class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Man</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Man</span>
                       </div>
                     </td>
                     <td>
-                      <div class="flex flex-row flex-wrap gap-2">
-                        <span
-                          class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">L:
+                      <div class="flex flex-row flex-wrap gap-2"
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">L:
                           10</span>
                       </div>
                     </td>
@@ -82,10 +80,15 @@
                           class="w-8 h-8 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
                           <i class="fa-sharp fa-solid fa-trash"></i>
                         </button>
+                        <div class="flex gap-2">
+                          <button type="button"
+                            class="w-8 h-8 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
+                            <i class="fa-sharp fa-solid fa-eye"></i>
+                          </button>
+                        </div>
                       </div>
                     </td>
                   </tr>
-                  @endforeach
                 </tbody>
               </table>
             </div>

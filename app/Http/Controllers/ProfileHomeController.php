@@ -2,33 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FilepondHelpers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Address;
+use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 
-class ProfileController extends Controller
+class ProfileHomeController extends Controller
 {
     public function index(Request $request)
     {
+        FilepondHelpers::removeSessionMultiple();
+        
         $section = $request->query('p', 'profile');
 
         switch ($section) {
             case 'shipping-address':
-                // $response = Http::withHeaders([
-                //     'key' => '360a5f29619bc971359e639ddc86ae40' // API Key RajaOngkir
-                // ])->get('https://api.rajaongkir.com/starter/province');
-
-                // if ($response->successful()) {
-                //     $provinces = $response->json()['rajaongkir']['results'];
-                // } else {
-                //     $provinces = [];
-                // }
-
                 $address = Address::where('user_id', Auth::id())->get();
 
                 return view('profile.shipping-address', compact('address'));
@@ -43,11 +35,15 @@ class ProfileController extends Controller
                 break;
 
             case 'waiting-for-payment':
-                return view('profile.waiting-for-payment');
+                $orders = Order::with(['orderItems.product.images', 'orderItems.stock.size'])->where('user_id', Auth::id())->where('status', 'pending')->orderBy('created_at', 'desc')->get();
+
+                return view('profile.waiting-for-payment', compact('orders'));
                 break;
 
             case 'transaction-list':
-                return view('profile.transaction-list');
+                $orders = Order::with(['orderItems.product.images', 'orderItems.stock.size', 'address'])->where('user_id', Auth::id())->whereNotIn('status', ['pending', 'canceled'])->orderBy('created_at', 'desc')->get();
+
+                return view('profile.transaction-list', compact('orders'));
                 break;
 
             default:
@@ -90,3 +86,15 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 }
+
+
+// Shipping address
+// $response = Http::withHeaders([
+//     'key' => '360a5f29619bc971359e639ddc86ae40' // API Key RajaOngkir
+// ])->get('https://api.rajaongkir.com/starter/province');
+
+// if ($response->successful()) {
+//     $provinces = $response->json()['rajaongkir']['results'];
+// } else {
+//     $provinces = [];
+// }

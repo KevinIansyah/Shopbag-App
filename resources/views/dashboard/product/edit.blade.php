@@ -150,8 +150,8 @@
               .then(load)
               .catch(error);
           },
-          process: "/dashboard/upload-image-multiple",
-          revert: "/dashboard/cancel-image-multiple",
+          process: "/upload-image-multiple",
+          revert: "/cancel-image-multiple",
           remove: (source, load, error) => {
             fetch('/dashboard/product/remove-image-multiple', {
                 method: 'DELETE',

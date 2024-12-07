@@ -13,22 +13,18 @@ class SocialiteController extends Controller
 {
     public function redirect()
     {
-        // Redirect ke halaman pilih akun Google
         return Socialite::driver('google')->redirect();
     }
 
     public function callback()
     {
-        // Mendapatkan data pengguna dari Google
         $googleUser = Socialite::driver('google')->user();
 
-        // Cari pengguna berdasarkan google_id atau email
         $user = User::where('google_id', $googleUser->id)
             ->orWhere('email', $googleUser->email)
             ->first();
 
         if ($user) {
-            // Jika pengguna sudah ada, update data Google
             $user->update([
                 'google_id' => $googleUser->id,
                 'google_token' => $googleUser->token,
@@ -36,7 +32,6 @@ class SocialiteController extends Controller
                 'image' => $googleUser->avatar,
             ]);
         } else {
-            // Buat pengguna baru jika belum ada
             $user = User::create([
                 'name' => $googleUser->name,
                 'email' => $googleUser->email,
@@ -49,10 +44,8 @@ class SocialiteController extends Controller
             ]);
         }
 
-        // Login pengguna
         Auth::login($user);
 
-        // Redirect ke halaman utama
         return redirect('/');
     }
 }
