@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\ClientController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\SaleController;
 
+use App\Http\Controllers\BlogHomeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartHomeController;
 use App\Http\Controllers\CheckoutHomeController;
@@ -34,7 +35,8 @@ Route::resource('product', ProductHomeController::class);
 Route::resource('cart', CartHomeController::class)->middleware(['auth']);
 Route::resource('checkout', CheckoutHomeController::class)->middleware(['auth']);
 Route::resource('address', AddressHomeController::class)->middleware(['auth']);
-Route::name('order.')->prefix('order')->group(function () {
+Route::resource('blog', BlogHomeController::class);
+Route::name('order.')->prefix('order')->middleware(['auth'])->group(function () {
     Route::post('/accept/{id}', [OrderHomeController::class, 'acceptDelivered'])->name('accept');
     Route::post('/cancel/{id}', [OrderHomeController::class, 'cancelOrder'])->name('cancel');
     Route::post('/review', [OrderHomeController::class, 'reviewOrder'])->name('review');
@@ -42,9 +44,10 @@ Route::name('order.')->prefix('order')->group(function () {
 
 Route::name('profile.')->prefix('profile')->middleware(['auth'])->group(function () {
     Route::get('/', [ProfileHomeController::class, 'index'])->name('index');
+    Route::post('/', [ProfileHomeController::class, 'store'])->name('store');
     Route::put('/', [ProfileHomeController::class, 'update'])->name('update');
     Route::delete('/', [ProfileHomeController::class, 'destroy'])->name('destroy');
-
+    Route::delete('/remove-image', [FilepondController::class, 'removeImageProfile'])->name('remove-image');
     Route::get('/api/cities', [RajaOngkir::class, 'getCities']);
 });
 

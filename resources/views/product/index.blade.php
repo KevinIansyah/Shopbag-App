@@ -82,6 +82,18 @@
 
         <div class="w-full h-auto">
           <div class="lg:rounded-lg lg:pt-4">
+            <div class="pb-6 lg:pb-0">
+              <div class="flex justify-end w-[100%]">
+                <button data-drawer-target="profile-sidebar" data-drawer-toggle="profile-sidebar"
+                  aria-controls="profile-sidebar" type="button"
+                  class="w-10 h-10 inline-flex items-center justify-center bg-red-500 hover:bg-red-600  text-white rounded-lg lg:hidden focus:outline-none focus:ring-2 focus:ring-red-300">
+                  <span class="sr-only">Open sidebar</span>
+                  {{-- <i class="fa-sharp fa-regular fa-bars text-base"></i> --}}
+                  <i class="fa-sharp fa-regular fa-filter text-base"></i>
+                </button>
+              </div>
+            </div>
+
             @if ($products->isEmpty())
               <div class="flex flex-col items-center justify-center">
                 <img class="w-full md:w-[50%]" src="{{ asset('images/no-data.jpg') }}" alt="No data available">

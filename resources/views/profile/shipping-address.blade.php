@@ -24,7 +24,7 @@
             </div>
 
             <div>
-              <button id="shippingAddresButton" data-modal-target="shippingAddres" data-modal-toggle="shippingAddres"
+              <button id="shipping-addresButton" data-modal-target="shipping-addres" data-modal-toggle="shipping-addres"
                 type="button"
                 class="w-full border border-dashed border-red-500 hover:border-red-600 text-red-500 font-bold rounded-lg text-sm px-5 py-3 transition-all duration-200">
                 Add New Address
@@ -77,7 +77,7 @@
   </main>
 
   <!-- Main modal -->
-  <div id="shippingAddres" tabindex="-1" aria-hidden="true"
+  <div id="shipping-addres" tabindex="-1" aria-hidden="true"
     class="hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0">
     <div class="relative w-full max-w-2xl h-full md:h-auto">
       <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
@@ -87,7 +87,7 @@
           </h3>
           <button type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-toggle="shippingAddres">
+            data-modal-toggle="shipping-addres">
             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd"

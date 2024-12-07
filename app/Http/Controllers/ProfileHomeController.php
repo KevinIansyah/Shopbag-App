@@ -6,17 +6,21 @@ use App\Helpers\FilepondHelpers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Address;
 use App\Models\Order;
+use App\Models\TemporaryImage;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileHomeController extends Controller
 {
     public function index(Request $request)
     {
         FilepondHelpers::removeSessionMultiple();
-        
+
         $section = $request->query('p', 'profile');
 
         switch ($section) {
@@ -54,18 +58,52 @@ class ProfileHomeController extends Controller
         }
     }
 
+    public function store(Request $request)
+    {
+        try {
+            $sessionImage = Session::get('image-filepond');
+
+            if (empty($sessionImage)) {
+                throw new \Exception('Temporary files not found.');
+            }
+
+            $tmpFile = TemporaryImage::whereIn('folder', $sessionImage)->first();
+
+            if ($tmpFile) {
+                Storage::disk('public')->move(
+                    'post/tmp-image-filepond/' . $tmpFile->folder . '/' . $tmpFile->file,
+                    'image-filepond/' . $tmpFile->folder . '/' . $tmpFile->file
+                );
+
+                $user = User::where('id', Auth::id())->first();
+                $user->image = $tmpFile->folder . '/' . $tmpFile->file;
+                $user->save();
+
+                Storage::disk('public')->deleteDirectory('post/tmp-image-filepond/' . $tmpFile->folder);
+                $tmpFile->delete();
+            }
+
+            return redirect()->back()->with('success', 'Profile picture updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while updating the profile picture: ' . $e->getMessage());
+        }
+    }
+
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        try {
+            $request->user()->fill($request->validated());
 
-        $request->user()->fill($request->validated());
+            if ($request->user()->isDirty('email')) {
+                $request->user()->email_verified_at = null;
+            }
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            $request->user()->save();
+
+            return Redirect::route('profile.index')->with('success', 'Profile successfully updated!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while updating the profile: ' . $e->getMessage());
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.index')->with('success', 'Profile successfully updated!');
     }
 
     public function destroy(Request $request): RedirectResponse

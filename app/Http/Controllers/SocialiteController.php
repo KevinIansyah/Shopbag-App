@@ -29,7 +29,6 @@ class SocialiteController extends Controller
                 'google_id' => $googleUser->id,
                 'google_token' => $googleUser->token,
                 'google_refresh_token' => $googleUser->refreshToken,
-                'image' => $googleUser->avatar,
             ]);
         } else {
             $user = User::create([
@@ -39,7 +38,6 @@ class SocialiteController extends Controller
                 'google_token' => $googleUser->token,
                 'google_refresh_token' => $googleUser->refreshToken,
                 'access' => 'user',
-                'image' => $googleUser->avatar,
                 'password' => Hash::make(Str::random(16))
             ]);
         }

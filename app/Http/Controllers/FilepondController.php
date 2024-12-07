@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductImage;
 use App\Models\TemporaryImage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -61,6 +62,30 @@ class FilepondController extends Controller
         $folder = $parts[count($parts) - 2];
 
         $tmpFile = ProductImage::where('image_url', 'like', '%' . $folder . '/%')->first();
+        if ($tmpFile) {
+            Storage::disk('public')->deleteDirectory('image-filepond/' . $folder);
+            $tmpFile->image = null;
+            $tmpFile->save();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['error' => 'File not found'], 404);
+    }
+
+    public function removeImageProfile(Request $request)
+    {
+        $data = $request->json()->all();
+        $source = $data['source'] ?? null;
+
+        if (!$source) {
+            return response()->json(['error' => 'No source provided'], 422);
+        }
+
+        $path = parse_url($source, PHP_URL_PATH);
+        $parts = explode('/', $path);
+        $folder = $parts[count($parts) - 2];
+
+        $tmpFile = User::where('image', 'like', '%' . $folder . '/%')->first();
         if ($tmpFile) {
             Storage::disk('public')->deleteDirectory('image-filepond/' . $folder);
             $tmpFile->image = null;

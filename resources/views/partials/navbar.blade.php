@@ -57,13 +57,14 @@
                 Kids
               </a>
             </div>
-            <a href="{{ route('product.index') }}" @mouseenter="isMenOpen = false, isWomanOpen = false, isKidsOpen = false"
+            <a href="{{ route('product.index') }}"
+              @mouseenter="isMenOpen = false, isWomanOpen = false, isKidsOpen = false"
               :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                   @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
               class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
               Sale
             </a>
-            <a href="#" @mouseenter="isMenOpen = false, isWomanOpen = false, isKidsOpen = false"
+            <a href="{{ route('blog.index') }}" @mouseenter="isMenOpen = false, isWomanOpen = false, isKidsOpen = false"
               :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                   @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
               class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
@@ -115,11 +116,16 @@
             class="w-px h-6 mx-3"></div>
 
           @auth
-            <a href="{{ route('profile.index') }}" class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0">
-              <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                alt="User photo">
-              {{-- <span class="">Open user menu</span> --}}
-            </a>
+            @if (Auth::user()->image)
+              <a href="{{ route('profile.index') }}" class="flex mx-3 text-sm rounded-full md:mr-0">
+                <img class="w-8 h-8 rounded-full" src="{{ asset('storage/image-filepond/' . Auth::user()->image) }}"
+                  alt="User photo">
+              </a>
+            @else
+              <a href="{{ route('profile.index') }}" class="flex mx-3 text-sm rounded-full md:mr-0">
+                <img class="w-8 h-8 rounded-full" src="{{ asset('images/default-profile.png') }}" alt="User photo">
+              </a>
+            @endif
             {{-- <button type="button" class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
               <span class="sr-only">Open user menu</span>
               <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
