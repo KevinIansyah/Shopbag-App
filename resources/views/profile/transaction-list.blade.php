@@ -62,7 +62,7 @@
                             </button>
                           @elseif ($order->status != 'canceled' && $order->status != 'completed')
                             <button type="button"
-                              class="text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-200 cursor-not-allowed bg-gray-400 hover:bg-gray-400"
+                              class="text-white focus:ring-4 bg-gray-400 hover:bg-gray-400 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-200 cursor-not-allowed"
                               disabled>
                               Finish Order
                             </button>

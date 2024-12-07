@@ -70,22 +70,22 @@
         {{-- <h1 class="text-xl font-bold mb-6">Best Seller Produk</h1> --}}
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
 
-          @foreach ($products as $item)
-            <a href="{{ route('product.show', ['product' => $item->slug]) }}"
+          @foreach ($products as $product)
+            <a href="{{ route('product.show', ['product' => $product->slug]) }}"
               class="max-w-sm bg-white border-[0.5px] border-gray-200/50 rounded-lg dark:bg-gray-800 dark:border-gray-700">
-              @if (!empty($item->images) && isset($item->images[0]->image_url))
+              @if (!empty($product->images) && isset($product->images[0]->image_url))
                 <img class="rounded-t-lg aspect-square object-cover object-center"
-                  src="{{ asset('storage/image-filepond/' . $item->images[0]->image_url) }}"
-                  alt="photo {{ $item->name }}" />
+                  src="{{ asset('storage/image-filepond/' . $product->images[0]->image_url) }}"
+                  alt="photo {{ $product->name }}" />
               @else
                 <img class="rounded-t-lg aspect-square object-cover object-center"
-                  src="{{ asset('storage/default-image.jpg') }}" alt="default photo for {{ $item->name }}" />
+                  src="{{ asset('storage/default-image.jpg') }}" alt="default photo for {{ $product->name }}" />
               @endif
               <div class="px-2 py-2">
                 <h5 class="text-sm font-bold tracking-tight text-gray-900 line-clamp-2">
-                  {{ $item->name }}</h5>
+                  {{ $product->name }}</h5>
                 <div class="flex items-center mt-2.5 mb-5">
-                  <div class="flex items-center space-x-1 rtl:space-x-reverse" x-data="{ rating: {{ $item->avg_rating }} }">
+                  <div class="flex items-center space-x-1 rtl:space-x-reverse" x-data="{ rating: {{ $product->avg_rating }} }">
                     <template x-for="i in 5" :key="i">
                       <svg :class="i <= rating ? 'text-yellow-300' : 'text-gray-300'" class="w-4 h-4" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -95,11 +95,11 @@
                     </template>
                   </div>
                   <span
-                    class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded ms-3">{{ number_format($item->avg_rating, 1) }}</span>
-                  <span class="text-sm font-medium text-gray-900 ms-3">({{ number_format($item->sold >= 1000 ? $item->sold / 1000 : $item->sold, $item->sold >= 1000 ? 1 : 0) . ($item->sold >= 1000 ? 'k' : '') }})</span>
+                    class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded ms-3">{{ number_format($product->avg_rating, 1) }}</span>
+                  <span class="text-sm font-medium text-gray-900 ms-3">({{ number_format($product->sold >= 1000 ? $product->sold / 1000 : $product->sold, $product->sold >= 1000 ? 1 : 0) . ($product->sold >= 1000 ? 'k' : '') }})</span>
                 </div>
                 <p class="text-sm font-bold text-gray-900">
-                  {{ 'Rp ' . number_format($item->price, 0, ',', '.') }}</p>
+                  {{ 'Rp ' . number_format($product->price, 0, ',', '.') }}</p>
               </div>
             </a>
           @endforeach

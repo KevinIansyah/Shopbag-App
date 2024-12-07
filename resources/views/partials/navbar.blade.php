@@ -57,7 +57,7 @@
                 Kids
               </a>
             </div>
-            <a href="#" @mouseenter="isMenOpen = false, isWomanOpen = false, isKidsOpen = false"
+            <a href="{{ route('product.index') }}" @mouseenter="isMenOpen = false, isWomanOpen = false, isKidsOpen = false"
               :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                   @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
               class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
