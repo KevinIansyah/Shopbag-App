@@ -11,7 +11,7 @@
           <div class="overflow-y-auto h-full lg:h-auto p-4 bg-white lg:rounded-lg">
 
             <form action="{{ route('product.index') }}" method="GET">
-              <div class="grid grid-cols-2 gap-2 ">
+              <div class="grid grid-cols-2 gap-2">
                 <button type="submit"
                   class="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-200">
                   Filter
@@ -26,7 +26,7 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 mt-4"
                 placeholder="Search...">
 
-              <div class="space-y-2 my-4">
+              <div class="space-y-2 my-4 max-h-[20rem] overflow-auto">
                 @foreach ($categories as $item)
                   <div class="flex items-start">
                     <div class="flex items-center h-5">
@@ -118,7 +118,7 @@
                       <h5 class="text-sm font-bold tracking-tight text-gray-900 line-clamp-2">
                         {{ $product->name }}</h5>
                       <div class="flex items-center mt-2.5 mb-5">
-                        <div class="flex items-center space-x-1 rtl:space-x-reverse" x-data="{ rating: {{ $product->avg_rating }} }">
+                        <div class="flex items-center space-x-[1px] md:space-x-1 rtl:space-x-reverse" x-data="{ rating: {{ $product->avg_rating }} }">
                           <template x-for="i in 5" :key="i">
                             <svg :class="i <= rating ? 'text-yellow-300' : 'text-gray-300'" class="w-4 h-4"
                               aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"

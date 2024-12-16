@@ -44,27 +44,27 @@
 
                   <div class="rounded-lg border border-gray-200 bg-white p-4 mb-4">
                     <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-4 md:space-y-0">
-                      <div class="space-y-4 md:flex md:items-center md:gap-4 md:space-y-0">
-                        <div class="w-full md:order-2 md:max-w-md">
-                          <p class="text-base font-semibold mb-2">Shipping Address</p>
-                          <div class="w-full">
-                            @if ($address)
-                              <p class="text-sm font-bold mb-2">{{ $address->recipient_name }}
-                                @if ($address->is_primary == true)
-                                  <span
-                                    class="ml-2 bg-red-100 text-red-600 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-500">
-                                    Primary Address
-                                  </span>
-                                @endif
-                              </p>
-                              <p class="text-sm font-normal mb-1">{{ $address->recipient_contact }}</p>
-                              <p class="text-sm font-normal mb-1">{{ $address->city }}, {{ $address->province }}</p>
-                              <p class="text-sm font-normal mb-1">{{ $address->address }}</p>
-                              <p class="text-sm font-normal">Notes: {{ $address->notes }}</p>
-                            @else
-                            @endif
-
-                          </div>
+                      <div class="w-full md:order-2">
+                        <p class="text-base font-semibold mb-2">Shipping Address</p>
+                        <div class="w-full">
+                          @if ($address)
+                            <p class="text-sm font-bold mb-2">{{ $address->recipient_name }}
+                              @if ($address->is_primary == true)
+                                <span
+                                  class="ml-2 bg-red-100 text-red-600 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-500">
+                                  Primary Address
+                                </span>
+                              @endif
+                            </p>
+                            <p class="text-sm font-normal mb-1">{{ $address->recipient_contact }}</p>
+                            <p class="text-sm font-normal mb-1">{{ $address->city }}, {{ $address->province }}</p>
+                            <p class="text-sm font-normal mb-1">{{ $address->address }}</p>
+                            <p class="text-sm font-normal">Notes: {{ $address->notes }}</p>
+                          @else
+                            <p class="text-sm font-normal">You have not added a shipping address yet. Please add one <a
+                                href="{{ route('profile.index', ['p' => 'shipping-address']) }}"
+                                class="text-red-500 underline">here</a>.</p>
+                          @endif
                         </div>
                       </div>
                     </div>

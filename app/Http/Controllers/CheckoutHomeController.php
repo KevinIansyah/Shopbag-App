@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SendNotificationHelpers;
 use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Stock;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -60,7 +62,8 @@ class CheckoutHomeController extends Controller
                 'total_price' => $totalPrice,
                 'status' => 'pending',
                 'address_id' => $request->address_id,
-                'midtrans_order_id' => uniqid('SHOPBAG_')
+                'midtrans_order_id' => uniqid('SHOPBAG_'),
+                'expired_at' => now()->addMinutes(30),
             ]);
 
             foreach ($carts as $cart) {
@@ -127,9 +130,17 @@ class CheckoutHomeController extends Controller
                 }
             }
 
-            // $user = User::findOrFail($order->user_id);
-            // $paymentDetails = Order::with(['orderItems.product', 'orderItems.stock.size'])->findOrFail($id);
-            // Mail::to($user->email)->queue(new ConfirmationPayment($user, $paymentDetails));
+            $order = Order::with(['orderItems.product', 'orderItems.stock.size', 'address'])->findOrFail($id);
+            $user = User::where('id', $order->user_id)->first();
+            $admins = User::where('access', 'admin')->get();
+
+            if ($user) {
+                SendNotificationHelpers::sendOrderNotification($order, $user);
+            }
+
+            foreach ($admins as $admin) {
+                SendNotificationHelpers::sendOrderNotification($order, $admin);
+            }
 
             return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
         } catch (\Exception $e) {

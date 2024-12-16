@@ -37,6 +37,7 @@
                     $totalWeight = $order->orderItems->sum(function ($item) {
                         return $item->quantity * $item->product->weight;
                     });
+                    $expiredAt = Carbon\Carbon::parse($order->expired_at)->toIso8601String();
                   @endphp
                   <div class="px-4 pt-4 border border-gray-200 rounded">
                     <div>
@@ -50,7 +51,7 @@
                         </div>
 
                         <div class="flex gap-2">
-                          <button type="button"
+                          <button type="button" onclick="payOrder({{ $order->id }})"
                             class="ring-1 focus:outline-none font-medium rounded-lg text-sm text-red-500 ring-red-500 hover:bg-red-500 hover:text-white px-5 py-2.5 transition-all duration-200">
                             Pay
                           </button>
@@ -59,6 +60,15 @@
                             Cancel
                           </button>
                         </div>
+                      </div>
+
+                      <div class="my-4 flex flex-col md:flex-row gap-1 md:gap-2">
+                        <p class="text-sm font-normal text-black">Pay Before : <span
+                            id="countdown-timer-{{ $order->id }}"
+                            class="bg-red-100 text-red-500 text-sm font-semibold px-3 py-1 rounded capitalize">
+                            --:--:--
+                          </span>
+                        </p>
                       </div>
 
                       <div class="mb-1 flex flex-col md:flex-row gap-1 md:gap-2">
@@ -120,6 +130,33 @@
                       </div>
                     @endforeach
                   </div>
+
+                  <script>
+                    let expiredAt{{ $order->id }} = "{{ $expiredAt }}";
+
+                    function startCountdownForOrder(orderId, expiredAt) {
+                      let countdownElement = document.getElementById("countdown-timer-" + orderId);
+                      let countdownDate = new Date(expiredAt).getTime();
+
+                      let interval = setInterval(function() {
+                        let now = new Date().getTime();
+                        let distance = countdownDate - now;
+
+                        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        countdownElement.innerHTML = hours + "h  " + minutes + "m  " + seconds + "s  ";
+
+                        if (distance < 0) {
+                          clearInterval(interval);
+                          countdownElement.innerHTML = "EXPIRED";
+                        }
+                      }, 1000);
+                    }
+
+                    startCountdownForOrder({{ $order->id }}, expiredAt{{ $order->id }});
+                  </script>
                 @endforeach
               @endif
             </div>
@@ -131,6 +168,9 @@
 @endsection
 
 @push('scripts')
+  <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}">
+  </script>
+
   <script>
     let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -194,6 +234,56 @@
           //     });
           //   }
           // });
+        }
+      });
+    }
+
+    function payOrder(id) {
+      console.log('click');
+      $.ajax({
+        url: '{{ route('order.pay', ['id' => 'orderId']) }}'.replace('orderId', id),
+        type: 'GET',
+        success: function(data) {
+          console.log(data);
+          if (data.snapToken) {
+            snap.pay(data.snapToken, {
+              onSuccess: function(result) {
+                console.log(result);
+                $.ajax({
+                  url: '{{ route('checkout.update', ['checkout' => 'orderId']) }}'.replace('orderId',
+                    data.orderId),
+                  type: 'PUT',
+                  data: {
+                    _token: CSRF_TOKEN
+                  },
+                  success: function(result) {
+                    if (result.success) {
+                      window.location.href =
+                        '{{ route('profile.index', ['p' => 'transaction-list']) }}';
+                    } else {
+                      console.error('Error:', result.message);
+                    }
+                  },
+                  error: function(xhr, status, error) {
+                    console.error('Error updating stock:', xhr.status, error);
+                    console.error('Response:', xhr.responseText);
+                  }
+                });
+              },
+              onPending: function(result) {
+                console.log(result);
+              },
+              onError: function(result) {
+                console.log(result);
+              },
+            });
+          } else {
+            console.error('Gagal mendapatkan snap token:', data.message);
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', error);
+          console.error('Response:', xhr.responseText);
         }
       });
     }

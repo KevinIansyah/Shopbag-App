@@ -78,7 +78,8 @@
                       <div class="flex items-center gap-2 mt-2 sm:mt-2">
                         <i class="fa-solid fa-cart-circle-check text-xs text-red-500"></i>
                         <p class="text-sm font-medium leading-none text-gray-900">
-                          ({{ number_format($product->sold >= 1000 ? $product->sold / 1000 : $product->sold, $product->sold >= 1000 ? 1 : 0) . ($product->sold >= 1000 ? 'k' : '') }} Sold)
+                          ({{ number_format($product->sold >= 1000 ? $product->sold / 1000 : $product->sold, $product->sold >= 1000 ? 1 : 0) . ($product->sold >= 1000 ? 'k' : '') }}
+                          Sold)
                         </p>
                       </div>
 
@@ -131,12 +132,12 @@
                 </div>
 
                 <div class="my-6 gap-8 sm:flex sm:items-start md:my-8">
-                  <div class="shrink-0 space-y-4">
+                  {{-- <div class="shrink-0 space-y-4">
                     <p class="text-2xl font-semibold leading-none text-gray-900 dark:text-white">
                       {{ number_format($averageRating, 1) }}
                       out
                       of 5.0</p>
-                  </div>
+                  </div> --}}
 
                   <div class="mt-6 min-w-0 flex-1 space-y-3 sm:mt-0">
                     @foreach ([5, 4, 3, 2, 1] as $rating)
@@ -178,15 +179,29 @@
                           </template>
                         </div>
 
-                        <div class="space-y-0.5">
-                          <p class="text-base font-semibold text-gray-900 dark:text-white">{{ $review->user->name }}
-                          </p>
-                          <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                            {{ \Carbon\Carbon::parse($review->created_at)->format('F d Y \a\t H:i') }}</p>
+                        <div class="flex items-center gap-2">
+                          @if ($review->user->image)
+                            <a href="{{ asset('storage/image-filepond/' . $review->user->image) }}" data-fancybox
+                              data-caption="{{ $review->user->name }} profile picture">
+                              <img class="w-8 h-8 rounded-full"
+                                src="{{ asset('storage/image-filepond/' . $review->user->image) }}" alt="User photo">
+                            </a>
+                          @else
+                            <a href="{{ route('profile.index') }}" class="flex mx-3 text-sm rounded-full md:mr-0">
+                              <img class="w-8 h-8 rounded-full" src="{{ asset('images/default-profile.png') }}"
+                                alt="User photo">
+                            </a>
+                          @endif
+                          <div class="space-y-0.5">
+                            <p class="text-base font-semibold text-gray-900 dark:text-white">{{ $review->user->name }}
+                            </p>
+                            <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                              {{ \Carbon\Carbon::parse($review->created_at)->format('F d Y \a\t H:i') }}</p>
+                          </div>
                         </div>
 
                         <div class="inline-flex items-center gap-1">
-                          <svg class="h-5 w-5 text-primary-700 dark:text-primary-500" aria-hidden="true"
+                          <svg class="h-5 w-5 text-blue-700 dark:text-blue-500" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -217,13 +232,13 @@
                           <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Was it helpful to you?</p>
                           <div class="flex items-center">
                             <input id="reviews-radio-3" type="radio" value="" name="reviews-radio-2"
-                              class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                              class="h-4 w-4 border-red-300 bg-red-100 text-red-600 focus:ring-2 focus:ring-red-500 dark:border-red-600 dark:bg-red-700 dark:ring-offset-red-800 dark:focus:ring-red-600" />
                             <label for="reviews-radio-3"
-                              class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Yes: 1 </label>
+                              class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Yes: 0 </label>
                           </div>
                           <div class="flex items-center">
                             <input id="reviews-radio-4" type="radio" value="" name="reviews-radio-2"
-                              class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                              class="h-4 w-4 border-red-300 bg-red-100 text-red-600 focus:ring-2 focus:ring-red-500 dark:border-red-600 dark:bg-red-700 dark:ring-offset-red-800 dark:focus:ring-red-600" />
                             <label for="reviews-radio-4"
                               class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No: 0 </label>
                           </div>
@@ -335,6 +350,10 @@
 
 @push('scripts')
   <script>
+    Fancybox.bind('[data-fancybox=""]', {
+
+    });
+
     Fancybox.bind('[data-fancybox="gallery"]', {
 
     });

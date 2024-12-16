@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SendNotificationHelpers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -9,6 +10,7 @@ use App\Models\Review;
 use App\Models\ReviewImage;
 use App\Models\Stock;
 use App\Models\TemporaryImage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -27,11 +29,6 @@ class OrderHomeController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to update the order status.');
         }
-
-        //     return response()->json(['success' => true, 'message' => 'Order has been marked as delivered.']);
-        // } catch (\Exception $e) {
-        //     return response()->json(['success' => false, 'message' => 'Failed to update the order status.']);
-        // }
     }
 
     public function cancelOrder($id)
@@ -49,14 +46,28 @@ class OrderHomeController extends Controller
                 $stock->save();
             }
 
+            $order = Order::with(['orderItems.product', 'orderItems.stock.size', 'address'])->findOrFail($id);
+            $user = User::where('id', $order->user_id)->first();
+
+            if ($user) {
+                SendNotificationHelpers::sendOrderNotification($order, $user);
+            }
+
             return redirect()->back()->with('success', 'Order has been canceled.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to update the order status.');
         }
-        //     return response()->json(['success' => true, 'message' => 'Order has been canceled.']);
-        // } catch (\Exception $e) {
-        //     return response()->json(['success' => false, 'message' => 'Failed to update the order status.']);
-        // }
+    }
+
+    public function payOrder($id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+
+            return response()->json(['snapToken' => $order->snap_token, 'orderId' => $order->id]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Payment processing failed: ' . $e->getMessage()], 500);
+        }
     }
 
     public function reviewOrder(Request $request)
@@ -89,7 +100,7 @@ class OrderHomeController extends Controller
 
                     $totalReviewsOld = $reviews->count() > 0 ? $reviews->count() : 0;
                     $avgRatingOld = $reviews->count() > 0 ? $reviews->avg('rating') : 0;
-        
+
                     $avgRating = (($avgRatingOld * $totalReviewsOld) + $validateData['rating']) / ($totalReviewsOld + 1);
 
                     $product->avg_rating = $avgRating;
@@ -112,8 +123,7 @@ class OrderHomeController extends Controller
 
             return redirect()->back()->with('success', 'Review has been added successfully.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-            // return redirect()->back()->with('error', 'Failed to add the review. Please try again.');
+            return redirect()->back()->with('error', 'Failed to add the review. Please try again.');
         }
     }
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('snap_token')->nullable();
             $table->string('midtrans_order_id')->nullable();
             $table->boolean('is_review')->default(false);
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
         });
     }

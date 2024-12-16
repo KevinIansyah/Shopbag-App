@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Helpers\SendNotificationHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Stock;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -125,6 +127,13 @@ class SaleController extends Controller
 
             $order = Order::findOrFail($id);
             $order->update($validateData);
+
+            $order = Order::with(['orderItems.product', 'orderItems.stock.size', 'address'])->findOrFail($id);
+            $user = User::where('id', $order->user_id)->first();
+
+            if ($user) {
+                SendNotificationHelpers::sendOrderNotification($order, $user);
+            }
 
             return response()->json([
                 'success' => true,

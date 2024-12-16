@@ -85,7 +85,7 @@
                 <h5 class="text-sm font-bold tracking-tight text-gray-900 line-clamp-2">
                   {{ $product->name }}</h5>
                 <div class="flex items-center mt-2.5 mb-5">
-                  <div class="flex items-center space-x-1 rtl:space-x-reverse" x-data="{ rating: {{ $product->avg_rating }} }">
+                  <div class="flex items-center space-x-[1px] md:space-x-1 rtl:space-x-reverse" x-data="{ rating: {{ $product->avg_rating }} }">
                     <template x-for="i in 5" :key="i">
                       <svg :class="i <= rating ? 'text-yellow-300' : 'text-gray-300'" class="w-4 h-4" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -96,10 +96,16 @@
                   </div>
                   <span
                     class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded ms-3">{{ number_format($product->avg_rating, 1) }}</span>
-                  <span class="text-sm font-medium text-gray-900 ms-3">({{ number_format($product->sold >= 1000 ? $product->sold / 1000 : $product->sold, $product->sold >= 1000 ? 1 : 0) . ($product->sold >= 1000 ? 'k' : '') }})</span>
                 </div>
-                <p class="text-sm font-bold text-gray-900">
-                  {{ 'Rp ' . number_format($product->price, 0, ',', '.') }}</p>
+                <div class="flex items-center justify-between gap-2">
+                  <p class="text-sm font-bold text-gray-900">
+                    {{ 'Rp ' . number_format($product->price, 0, ',', '.') }}
+                  </p>
+                  <span
+                    class="text-xs font-bold text-gray-900 ml-3">({{ number_format($product->sold >= 1000 ? $product->sold / 1000 : $product->sold, $product->sold >= 1000 ? 1 : 0) . ($product->sold >= 1000 ? 'k' : '') }}
+                    Sold)
+                  </span>
+                </div>
               </div>
             </a>
           @endforeach

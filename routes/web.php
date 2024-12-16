@@ -19,8 +19,49 @@ use App\Http\Controllers\OrderHomeController;
 use App\Http\Controllers\RajaOngkir;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\FilepondController;
-
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
+
+use App\Mail\ConfirmationPayment;
+use App\Mail\OrderMail;
+use App\Models\Order;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/test-email', function () {
+    $user = User::findOrFail(1);
+    $order = Order::with(['orderItems.product', 'orderItems.stock.size', 'address'])->findOrFail(5);
+    $message_mail = [
+        'open_message' => 'Your payment was successful and is awaiting further confirmation. Here are your order details:',
+        'close_message' => 'Thank you for shopping at Shopbag. We will process your order shortly and notify you about its status.',
+        'link' => env('APP_URL') . '/profile?p=transaction-list',
+    ];
+
+    $data = [
+        'message' => $message_mail,
+        'subject' => 'Your Payment Was Successful',
+        'order' => $order,
+        'user' => $user,
+    ];
+
+    Mail::to($user->email)->queue(new OrderMail($data));
+    return 'Email sent!';
+});
+
+Route::get('/order-mail', function () {
+    $user = User::findOrFail(1);
+    $order = Order::with(['orderItems.product', 'orderItems.stock.size', 'address'])->findOrFail(5);
+    $message_mail = [
+        'subject' => 'Your Payment Was Successful',
+        'open_message' => 'Your payment was successful and is awaiting further confirmation. Here are your order details:',
+        'close_message' => 'Thank you for shopping at Shopbag. We will process your order shortly and notify you about its status.',
+        'link' => env('APP_URL') . '/profile?p=transaction-list',
+    ];
+
+    return view('mail.order-mail', compact('user', 'order', 'message_mail'));
+});
+
+Route::get('/notifications/read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
 Route::get('/auth/redirect', [SocialiteController::class, 'redirect'])->name('auth.redirect');;
 Route::get('/auth/google/callback', [SocialiteController::class, 'callback'])->name('auth.google.callback');
@@ -39,6 +80,7 @@ Route::resource('blog', BlogHomeController::class);
 Route::name('order.')->prefix('order')->middleware(['auth'])->group(function () {
     Route::post('/accept/{id}', [OrderHomeController::class, 'acceptDelivered'])->name('accept');
     Route::post('/cancel/{id}', [OrderHomeController::class, 'cancelOrder'])->name('cancel');
+    Route::get('/pay/{id}', [OrderHomeController::class, 'payOrder'])->name('pay');
     Route::post('/review', [OrderHomeController::class, 'reviewOrder'])->name('review');
 });
 

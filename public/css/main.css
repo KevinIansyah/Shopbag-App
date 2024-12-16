@@ -23,6 +23,11 @@ html::-webkit-scrollbar-thumb:active {
     border-radius: 6px;
 } */
 
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scroll-hidden::-webkit-scrollbar {
+    display: none;
+}
+
 .scroll-hidden {
     -ms-overflow-style: none; /* Internet Explorer dan Edge */
     scrollbar-width: none; /* Firefox */

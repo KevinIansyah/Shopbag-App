@@ -1,3 +1,4 @@
+{{-- @dd($notifications) --}}
 <nav x-data="{ isNavOpen: false, isScrolled: false, isMenOpen: false, isWomanOpen: false, isKidsOpen: false }" x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 0; })" x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 0; })"
   :class="[
       (isScrolled || isMenOpen || isWomanOpen || isKidsOpen || @if(
@@ -7,16 +8,6 @@
       isScrolled ? 'shadow-lg' : ''
   ]"
   class="fixed top-0 z-40 w-full">
-  {{-- <div class="px-4 md:px-6 lg:px-8">
-    @if (session('success'))
-      <x-alert-success :messages="session('success')" />
-    @endif
-
-    @if (session('error'))
-      <x-alert-error :messages="session('error')" />
-    @endif
-  </div> --}}
-
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
     @if (session('success'))
       <x-alert-success :messages="session('success')" />
@@ -34,7 +25,7 @@
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline md:space-x-2 lg:space-x-4">
             <div @mouseenter="isMenOpen = true, isWomanOpen = false, isKidsOpen = false">
-              <a href="#"
+              <a href="{{ route('product.index', ['categories' => [1]]) }}"
                 :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                     @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
                 class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
@@ -42,15 +33,15 @@
               </a>
             </div>
             <div @mouseenter="isWomanOpen = true, isMenOpen = false, isKidsOpen = false">
-              <a href="#"
+              <a href="{{ route('product.index', ['categories' => [2]]) }}"
                 :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                     @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
                 class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
-                Woman
+                Ladies
               </a>
             </div>
             <div @mouseenter="isKidsOpen = true, isMenOpen = false, isWomanOpen = false">
-              <a href="#"
+              <a href="{{ route('product.index', ['categories' => [3]]) }}"
                 :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                     @if (request()->is('/')) false @else true @endif ? 'text-black' : 'text-white'"
                 class="rounded-md px-2 py-2 text-sm uppercase font-[700] hover:text-red-500 transition ease-in-out duration-200">
@@ -87,12 +78,20 @@
             </div>
           </form> --}}
 
-          <button type="button" class="relative mx-3 flex justify-center items-center rounded-md">
+          <button type="button" data-dropdown-toggle="notification_dropdown_2"
+            class="relative mx-3 flex justify-center items-center rounded-md">
             <span class="absolute -inset-1.5"></span>
             <span class="sr-only">View notifications</span>
             <i :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                 @if (request()->is('/')) false @else true @endif ? 'text-red-500' : 'text-white'"
               class="fa-duotone fa-bell text-lg transition-all duration-200"></i>
+            @if ($unread_count !== 0)
+              <span
+                :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+                    @if (request()->is('/')) false @else true @endif ? 'bg-red-500/50' : 'bg-white/50'"
+                class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-4"
+                style="font-size: 0.6rem">{{ $unread_count }}</span>
+            @endif
           </button>
 
           <a href="{{ route('cart.index') }}" class="relative mx-3 flex justify-center items-center rounded-md">
@@ -126,39 +125,7 @@
                 <img class="w-8 h-8 rounded-full" src="{{ asset('images/default-profile.png') }}" alt="User photo">
               </a>
             @endif
-            {{-- <button type="button" class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
-              <span class="sr-only">Open user menu</span>
-              <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
-            </button>
-            <!-- Dropdown menu -->
-            <div class="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown">
-              <div class="py-3 px-4">
-                @php
-                  $nameParts = explode(' ', Auth::user()->name);
-                @endphp
-                <span class="block text-sm font-semibold text-gray-900 dark:text-white">{{ $nameParts[0] }}{{ isset($nameParts[1]) ? ' ' . $nameParts[1] : '' }}</span>
-                <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
-              </div>
-              <ul class="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
-                <li>
-                  <a href="{{ route('profile.edit') }}" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My profile</a>
-                </li>
-              </ul>
-              <ul class="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
-                <li>
-                  <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <a a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" type="butoon" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                      Log out
-                    </a>  
-                  </form>
-                </li>
-              </ul>
-            </div> --}}
           @else
-            {{-- <button @click="openModal = 'login'" type="button" :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen || @if (request()->is('/')) false @else true @endif ? 'text-red-500 ring-red-500 hover:bg-red-500 hover:text-white' : 'text-white ring-white hover:bg-white hover:text-gray-600'" type="button" class="ring-1 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 ml-3 transition-all duration-200">
-              Login
-            </button> --}}
             <a href="{{ route('login') }}"
               :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
                   @if (request()->is('/')) false @else true @endif ?
@@ -171,9 +138,40 @@
           @endauth
         </div>
       </div>
-      {{-- <div class="-mr-2 flex md:hidden">
+      <div class="-mr-2 flex md:hidden">
         <!-- Mobile menu button -->
-        <button @click="isNavOpen = !isNavOpen" type="button"
+
+        <button type="button" data-dropdown-toggle="notification_dropdown_1"
+          class="relative mx-3 flex justify-center items-center rounded-md">
+          <span class="absolute -inset-1.5"></span>
+          <span class="sr-only">View notifications</span>
+          <i :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+              @if (request()->is('/')) false @else true @endif ? 'text-red-500' : 'text-white'"
+            class="fa-duotone fa-bell text-lg transition-all duration-200"></i>
+          @if ($unread_count !== 0)
+            <span
+              :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+                  @if (request()->is('/')) false @else true @endif ? 'bg-red-500/50' : 'bg-white/50'"
+              class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-4"
+              style="font-size: 0.6rem">{{ $unread_count }}</span>
+          @endif
+        </button>
+
+        <a href="{{ route('cart.index') }}" class="relative mx-3 flex justify-center items-center rounded-md">
+          <span class="absolute -inset-1.5"></span>
+          <span class="sr-only">View cart</span>
+          <i :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+              @if (request()->is('/')) false @else true @endif ? 'text-red-500' : 'text-white'"
+            class="fa-duotone fa-bag-shopping text-lg transition-all duration-200"></i>
+          @if ($cartCount !== 0)
+            <span
+              :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
+                  @if (request()->is('/')) false @else true @endif ? 'bg-red-500/50' : 'bg-white/50'"
+              class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-4"
+              style="font-size: 0.6rem">{{ $cartCount }}</span>
+          @endif
+        </a>
+        {{-- <button @click="isNavOpen = !isNavOpen" type="button"
           :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
               @if (request()->is('/')) false @else true @endif ?
               'text-red-500 hover:text-red-500 focus:ring-red-500 focus:ring-2 focus:ring-offset-1' :
@@ -192,8 +190,8 @@
             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
-        </button>
-      </div> --}}
+        </button> --}}
+      </div>
     </div>
   </div>
 
@@ -216,87 +214,81 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 bg-white flex">
       <img class="w-44 h-44" src="{{ asset('images/cat_men.jpg') }}" alt="">
       <div class="ml-10">
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 4]]) }}"
           class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Top</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 4, 11]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">T-Shirts</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 4, 12]]) }}"
+          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">T-Shirts
+          (Striped)</a>
+        <a href="{{ route('product.index', ['categories' => [1, 4, 13]]) }}"
+          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">T-Shirts
+          (Oversized)</a>
+        <a href="{{ route('product.index', ['categories' => [1, 4, 15]]) }}"
+          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">T-Shirts
+          (Long Sleeve)</a>
+        <a href="{{ route('product.index', ['categories' => [1, 4, 16]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Polo
           Shirts</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 4, 17]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Long
           Shirts</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 4, 18]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Short
           Shirts</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 4, 21]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Hoodies</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 4, 22]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Sweaters</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 4, 23]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Jackets</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 4, 24]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Knitwears</a>
       </div>
       <div class="ml-20">
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 5]]) }}"
           class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Bottom</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 5, 25]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Jeans</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 5, 26]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Chinos</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 5, 27]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Jogger
           & Cargo</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 5, 28]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Shorts</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 5, 29]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Pants</a>
       </div>
       <div class="ml-20">
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6]]) }}"
           class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Accesoris</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6, 32]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Backpack
           & Travel Bags</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6, 33]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Waist
           & Sling Bags</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6, 34]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Hats
           & Beanies</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6, 35]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Sandals</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6, 36]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Shoes</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6, 38]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Wallets</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6, 39]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Watches</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6, 40]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Belts</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [1, 6, 41]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Sunglasses</a>
-        <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Others</a>
-      </div>
-      <div class="ml-20">
-        <a href="#"
-          class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Apparel</a>
-        <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Bodysuit</a>
-        <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">One
-          Set</a>
-        <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Tops</a>
-        <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Bottoms</a>
       </div>
     </div>
   </div>
 
-  <!-- Woman -->
+  <!-- Ladies -->
   <div @click.away="isWomanOpen = false" @mouseleave="isWomanOpen = false" x-cloak x-show="isWomanOpen"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 transform -translate-y-2"
@@ -307,60 +299,58 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 bg-white flex">
       <img class="w-44 h-44" src="{{ asset('images/cat_ladies.jpg') }}" alt="">
       <div class="ml-10">
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 4]]) }}"
           class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Top</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 4, 14]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">T-Shirts
           (Short Sleeve)</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 4, 15]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">T-Shirts
           (Long Sleeve)</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 4, 19]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Shirts
           & Blouses</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 4, 20]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Dresses
           | Tunic | Jumpsuits</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 4, 22]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Sweaters</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 4, 23]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Jackets</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 4, 24]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Knitwears</a>
       </div>
       <div class="ml-20">
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 5]]) }}"
           class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Bottom</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 5, 30]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Skirts</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 5, 29]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Pants</a>
       </div>
       <div class="ml-20">
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6]]) }}"
           class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Accesoris</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 43]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Scarves</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 31]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Bags</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 34]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Hats
           & Beanies</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 35]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Sandals</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 36]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Shoes</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 38]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Wallets</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 37]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Socks</a>
-        <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Hats</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 41]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Sunglasses</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 42]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Tumbler</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [2, 6, 39]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Watches</a>
       </div>
     </div>
@@ -377,119 +367,92 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 bg-white flex">
       <img class="w-44 h-44" src="{{ asset('images/cat_kids.jpg') }}" alt="">
       <div class="ml-10">
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 7]]) }}"
           class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Boys</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 7, 11]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">T-Shirts</a>
-        <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Shirts</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 7, 22]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Sweaters
           | Hoodies</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 7, 23]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Jackets</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 7, 29]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Pants</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 7, 6]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Accesoris</a>
       </div>
       <div class="ml-20">
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 8]]) }}"
           class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Girls</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 8, 11]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">T-Shirts</a>
-        <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Dress
-          & Blouses</a>
-        <a href="#"
-          class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Shirts
-          & Pajamas</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 8, 22]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Sweaters</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 8, 23]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Jackets</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 8, 29]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Pants</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 8, 30]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Skirts</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 8, 6]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">Accesoris</a>
       </div>
       <div class="ml-20">
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 9]]) }}"
           class="block text-sm font-semibold text-black hover:text-red-500 transition ease-in-out duration-200 mb-8">Baby</a>
-        <a href="#"
+        <a href="{{ route('product.index', ['categories' => [3, 9, 10]]) }}"
           class="block text-sm font-normal text-black hover:text-red-500 transition ease-in-out duration-200 mb-3">New
           Born | Toddler</a>
       </div>
     </div>
   </div>
 
-  <!-- Mobile menu, show/hide based on menu state. -->
-  {{-- <div x-show="isNavOpen" class="md:hidden" id="mobile-menu">
-    <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <a href="#"
-        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-            @if (request()->is('/')) false @else true @endif ?
-            'text-gray-900' :
-            'text-white'"
-        class="block rounded-md px-3 py-2 text-base font-medium">Men</a>
-      <a href="#"
-        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-            @if (request()->is('/')) false @else true @endif ?
-            'text-gray-900' :
-            'text-white'"
-        class="block rounded-md px-3 py-2 text-base font-medium">Woman</a>
-      <a href="#"
-        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-            @if (request()->is('/')) false @else true @endif ?
-            'text-gray-900' :
-            'text-white'"
-        class="block rounded-md px-3 py-2 text-base font-medium">kids</a>
-      <a href="#"
-        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-            @if (request()->is('/')) false @else true @endif ?
-            'text-gray-900' :
-            'text-white'"
-        class="block rounded-md px-3 py-2 text-base font-medium">Sale</a>
-      <a href="#"
-        :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-            @if (request()->is('/')) false @else true @endif ?
-            'text-gray-900' :
-            'text-white'"
-        class="block rounded-md px-3 py-2 text-base font-medium">Blog</a>
-    </div>
-    <div class="border-t border-gray-700 pb-3 pt-4">
-      <div class="flex items-center px-5">
-        <div class="flex-shrink-0">
-          <img class="h-10 w-10 rounded-full"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="">
+  <div id="notification_dropdown_1"
+    class="hidden z-10 mx-auto w-full max-h-[75vh] space-y-2 overflow-auto scroll-hidden rounded-lg bg-white p-4 antialiased shadow-lg">
+    @if ($notifications->count())
+
+      @foreach ($notifications as $notification)
+        <a href="{{ route('notifications.read', $notification->id) }}"
+          class="grid grid-cols-12 p-2 {{ $notification->read_at ? 'bg-white' : 'bg-gray-100' }}">
+          <div class="col-span-12">
+            <p class="text-sm font-semibold text-gray-900">
+              {{ $notification->data['subject'] }}</p>
+            <p class="text-xs font-semibold text-gray-500 mb-2">{{ $notification->created_at->diffForHumans() }}</p>
+            <p class="mt-0.5 text-sm font-normal text-gray-500">{{ $notification->data['message'] }}
+            </p>
+          </div>
+        </a>
+      @endforeach
+    @else
+      <div class="grid grid-cols-12 p-4 bg-white">
+        <div class="col-span-12">
+          <p class="mt-0.5 text-sm text-center font-normal text-gray-500">No notifications yet</p>
         </div>
-        <div class="ml-3">
-          <div class="text-base font-medium leading-none text-white">Tom Cook</div>
-          <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
+      </div>
+    @endif
+  </div>
+
+  <div id="notification_dropdown_2"
+    class="hidden z-10 max-w-md max-h-[75vh] space-y-2 overflow-auto scroll-hidden rounded-lg bg-white p-2 antialiased shadow-lg absolute left-0">
+    @if ($notifications->count())
+      @foreach ($notifications as $notification)
+        <a href="{{ route('notifications.read', $notification->id) }}"
+          class="grid grid-cols-12 p-2 {{ $notification->read_at ? 'bg-white' : 'bg-gray-100' }}">
+          <div class="col-span-12">
+            <p class="text-sm font-semibold text-gray-900">
+              {{ $notification->data['subject'] }}</p>
+            <p class="text-xs font-semibold text-gray-500 mb-2">{{ $notification->created_at->diffForHumans() }}</p>
+            <p class="mt-0.5 text-sm font-normal text-gray-500">{{ $notification->data['message'] }}
+            </p>
+          </div>
+        </a>
+      @endforeach
+    @else
+      <div class="grid grid-cols-12 p-4 bg-white">
+        <div class="col-span-12">
+          <p class="mt-0.5 text-sm text-center font-normal text-gray-500">No notifications yet</p>
         </div>
-        <button type="button"
-          class="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-          <span class="absolute -inset-1.5"></span>
-          <span class="sr-only">View notifications</span>
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-          </svg>
-        </button>
       </div>
-      <div class="mt-3 space-y-1 px-2">
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">Your
-          Profile</a>
-        <a href="#"
-          class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">
-          Logout</a>
-      </div>
-    </div>
-  </div> --}}
+    @endif
+  </div>
 </nav>
