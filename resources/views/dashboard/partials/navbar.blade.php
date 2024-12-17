@@ -53,145 +53,55 @@
           Notifications
         </div>
         <div>
-          <a href="#" class="flex py-3 px-4 border-b hover:bg-gray-100">
-            <div class="flex-shrink-0">
-              <img class="w-11 h-11 rounded-full"
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
-                alt="Bonnie Green avatar" />
-              <div
-                class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 rounded-full border border-white bg-primary-700">
-                <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z">
-                  </path>
-                  <path
-                    d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z">
-                  </path>
-                </svg>
+          {{-- @if ($notifications->count())
+            @foreach ($notifications as $notification)
+              <a href="{{ route('notifications.read', $notification->id) }}"
+                class="grid grid-cols-12 p-2 {{ $notification->read_at ? 'bg-white' : 'bg-gray-100' }}">
+                <div class="col-span-12">
+                  <p class="text-sm font-semibold text-gray-900">
+                    {{ $notification->data['subject'] }}</p>
+                  <p class="text-xs font-semibold text-gray-500 mb-2">{{ $notification->created_at->diffForHumans() }}
+                  </p>
+                  <p class="mt-0.5 text-sm font-normal text-gray-500">{{ $notification->data['message'] }}
+                  </p>
+                </div>
+              </a>
+            @endforeach
+          @else
+            <div class="grid grid-cols-12 p-4 bg-white">
+              <div class="col-span-12">
+                <p class="mt-0.5 text-sm text-center font-normal text-gray-500">No notifications yet</p>
               </div>
             </div>
-            <div class="pl-3 w-full">
-              <div class="text-gray-500 font-normal text-sm mb-1.5">
-                New message from
-                <span class="font-semibold text-gray-900">Bonnie Green</span>
-                : "Hey, what's up? All set for the presentation?"
+          @endif --}}
+
+          @foreach ($notifications as $notification)
+            @if ($notifications->count())
+              @foreach ($notifications as $notification)
+                <a href="{{ route('notifications.read', $notification->id) }}"
+                  class="flex py-3 px-4 border-b {{ $notification->read_at ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
+                  <div class="pl-3 w-full">
+                    <div class="text-gray-500 font-normal text-sm mb-1.5">
+                      <span class="font-semibold text-gray-900">{{ $notification->data['subject'] }}</span>
+                      <br>
+                      {{ $notification->data['message'] }}
+                    </div>
+                    <div class="text-xs font-medium text-primary-600">
+                      {{ $notification->created_at->diffForHumans() }}
+                    </div>
+                  </div>
+                </a>
+              @endforeach
+            @else
+              <div class="grid grid-cols-12 p-4 bg-white">
+                <div class="col-span-12">
+                  <p class="mt-0.5 text-sm text-center font-normal text-gray-500">No notifications yet</p>
+                </div>
               </div>
-              <div class="text-xs font-medium text-primary-600">
-                a few moments ago
-              </div>
-            </div>
-          </a>
-          <a href="#" class="flex py-3 px-4 border-b hover:bg-gray-100">
-            <div class="flex-shrink-0">
-              <img class="w-11 h-11 rounded-full"
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
-                alt="Jese Leos avatar" />
-              <div
-                class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-gray-900 rounded-full border border-white">
-                <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
-                  </path>
-                </svg>
-              </div>
-            </div>
-            <div class="pl-3 w-full">
-              <div class="text-gray-500 font-normal text-sm mb-1.5">
-                <span class="font-semibold text-gray-900">Jese leos</span>
-                and
-                <span class="font-medium text-gray-900">5 others</span>
-                started following you.
-              </div>
-              <div class="text-xs font-medium text-primary-600">
-                10 minutes ago
-              </div>
-            </div>
-          </a>
-          <a href="#" class="flex py-3 px-4 border-b hover:bg-gray-100">
-            <div class="flex-shrink-0">
-              <img class="w-11 h-11 rounded-full"
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png"
-                alt="Joseph McFall avatar" />
-              <div
-                class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-red-600 rounded-full border border-white">
-                <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                    clip-rule="evenodd"></path>
-                </svg>
-              </div>
-            </div>
-            <div class="pl-3 w-full">
-              <div class="text-gray-500 font-normal text-sm mb-1.5">
-                <span class="font-semibold text-gray-900">Joseph Mcfall</span>
-                and
-                <span class="font-medium text-gray-900">141 others</span>
-                love your story. See it and view more stories.
-              </div>
-              <div class="text-xs font-medium text-primary-600">
-                44 minutes ago
-              </div>
-            </div>
-          </a>
-          <a href="#" class="flex py-3 px-4 border-b hover:bg-gray-100">
-            <div class="flex-shrink-0">
-              <img class="w-11 h-11 rounded-full"
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png"
-                alt="Roberta Casas image" />
-              <div
-                class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-green-400 rounded-full border border-white">
-                <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                    d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-                    clip-rule="evenodd"></path>
-                </svg>
-              </div>
-            </div>
-            <div class="pl-3 w-full">
-              <div class="text-gray-500 font-normal text-sm mb-1.5">
-                <span class="font-semibold text-gray-900">Leslie Livingston</span>
-                mentioned you in a comment:
-                <span class="font-medium text-primary-600">@bonnie.green</span>
-                what do you say?
-              </div>
-              <div class="text-xs font-medium text-primary-600">
-                1 hour ago
-              </div>
-            </div>
-          </a>
-          <a href="#" class="flex py-3 px-4 hover:bg-gray-100">
-            <div class="flex-shrink-0">
-              <img class="w-11 h-11 rounded-full"
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/robert-brown.png"
-                alt="Robert image" />
-              <div
-                class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-purple-500 rounded-full border border-white">
-                <svg aria-hidden="true" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z">
-                  </path>
-                </svg>
-              </div>
-            </div>
-            <div class="pl-3 w-full">
-              <div class="text-gray-500 font-normal text-sm mb-1.5">
-                <span class="font-semibold text-gray-900">Robert Brown</span>
-                posted a new video: Glassmorphism - learn how to implement
-                the new design trend.
-              </div>
-              <div class="text-xs font-medium text-primary-600">
-                3 hours ago
-              </div>
-            </div>
-          </a>
+            @endif
+          @endforeach
         </div>
-        <a href="#"
-          class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100">
+        {{-- <a href="#" class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100">
           <div class="inline-flex items-center">
             <svg aria-hidden="true" class="mr-2 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg">
@@ -202,22 +112,30 @@
             </svg>
             View all
           </div>
-        </a>
+        </a> --}}
       </div>
 
       <!-- User profile -->
-      <button type="button" class="flex ml-5 text-sm bg-gray-800 rounded-full md:mr-0" id="user-menu-button"
-        aria-expanded="false" data-dropdown-toggle="dropdown">
-        <span class="sr-only">Open user menu</span>
-        <img class="w-8 h-8 rounded-full"
-          src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png" alt="user photo" />
-      </button>
+      @if (Auth::user()->image)
+        <button type="button" class="flex ml-5 text-sm bg-gray-800 rounded-full md:mr-0" id="user-menu-button"
+          aria-expanded="false" data-dropdown-toggle="dropdown">
+          <span class="sr-only">Open user menu</span>
+          <img class="w-8 h-8 rounded-full" src="{{ asset('storage/image-filepond/' . Auth::user()->image) }}"
+            alt="user photo" />
+        </button>
+      @else
+        <button type="button" class="flex ml-5 text-sm bg-gray-800 rounded-full md:mr-0" id="user-menu-button"
+          aria-expanded="false" data-dropdown-toggle="dropdown">
+          <span class="sr-only">Open user menu</span>
+          <img class="w-8 h-8 rounded-full" src="{{ asset('images/default-profile.png') }}" alt="user photo" />
+        </button>
+      @endif
       <!-- Dropdown menu -->
       <div class="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow"
         id="dropdown">
         <div class="py-3 px-4">
-          <span class="block text-sm font-semibold text-gray-900">Neil Sims</span>
-          <span class="block text-sm text-gray-900 truncate">name@flowbite.com</span>
+          <span class="block text-sm font-semibold text-gray-900">{{ Auth::user()->name }}</span>
+          <span class="block text-sm text-gray-900 truncate">{{ Auth::user()->email }}</span>
         </div>
         <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
           <li>

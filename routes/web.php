@@ -22,45 +22,6 @@ use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
-use App\Mail\ConfirmationPayment;
-use App\Mail\OrderMail;
-use App\Models\Order;
-use App\Models\User;
-use Illuminate\Support\Facades\Mail;
-
-Route::get('/test-email', function () {
-    $user = User::findOrFail(1);
-    $order = Order::with(['orderItems.product', 'orderItems.stock.size', 'address'])->findOrFail(5);
-    $message_mail = [
-        'open_message' => 'Your payment was successful and is awaiting further confirmation. Here are your order details:',
-        'close_message' => 'Thank you for shopping at Shopbag. We will process your order shortly and notify you about its status.',
-        'link' => env('APP_URL') . '/profile?p=transaction-list',
-    ];
-
-    $data = [
-        'message' => $message_mail,
-        'subject' => 'Your Payment Was Successful',
-        'order' => $order,
-        'user' => $user,
-    ];
-
-    Mail::to($user->email)->queue(new OrderMail($data));
-    return 'Email sent!';
-});
-
-Route::get('/order-mail', function () {
-    $user = User::findOrFail(1);
-    $order = Order::with(['orderItems.product', 'orderItems.stock.size', 'address'])->findOrFail(5);
-    $message_mail = [
-        'subject' => 'Your Payment Was Successful',
-        'open_message' => 'Your payment was successful and is awaiting further confirmation. Here are your order details:',
-        'close_message' => 'Thank you for shopping at Shopbag. We will process your order shortly and notify you about its status.',
-        'link' => env('APP_URL') . '/profile?p=transaction-list',
-    ];
-
-    return view('mail.order-mail', compact('user', 'order', 'message_mail'));
-});
-
 Route::get('/notifications/read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
 Route::get('/auth/redirect', [SocialiteController::class, 'redirect'])->name('auth.redirect');;
@@ -127,7 +88,9 @@ Route::name('dashboard.')->prefix('dashboard')->middleware(['auth', 'verified', 
     });
     Route::resource('sale', SaleController::class);
 
-    Route::name('report')->prefix('report')->group(function () {});
+    Route::name('report')->prefix('report')->group(function () {
+        Route::get('/data', [ReportController::class, 'data'])->name('data');
+    });
     Route::resource('report', ReportController::class);
 });
 

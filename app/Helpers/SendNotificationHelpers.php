@@ -60,7 +60,7 @@ class SendNotificationHelpers
             'message' => [
               'open_message' => 'A new order has just been received. Here are the details of the customer\'s order:',
               'close_message' => 'Please process the order promptly or contact the customer for further information.',
-              'link' => config('app.url') . '/dashboard/sale/' . $order->id,
+              'link' => config('app.url') . '/dashboard/sale',
             ],
             'subject' => 'A New Order Has Been Received',
             'order' => $order,
@@ -71,7 +71,7 @@ class SendNotificationHelpers
             'subject' => 'A New Order Has Been Received',
             'message' => 'A new order (ID: ' . $orderIdFormat . ') has been received. Click to view the order details and start processing.',
             'order_id' => $orderIdFormat,
-            'link' => config('app.url') . '/dashboard/sale/' . $order->id,
+            'link' => config('app.url') . '/dashboard/sale',
           ];
         }
 

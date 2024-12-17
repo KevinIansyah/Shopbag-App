@@ -216,7 +216,7 @@
             <div class="sm:col-span-2">
               <label for="notes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add real photos
                 of the product to help other customers (Optional)</label>
-              <input type="file" class="filepond image" name="image" required>
+              <input type="file" class="filepond image" name="image">
             </div>
           </div>
           <button type="submit"

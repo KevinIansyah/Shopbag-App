@@ -75,10 +75,6 @@ class OrderHomeController extends Controller
         try {
             $sessionImageMultiple = Session::get('image-multiple-filepond');
 
-            if (empty($sessionImageMultiple)) {
-                throw new \Exception('Temporary files not found.');
-            }
-
             $validateData = $request->validate([
                 'order_id' => 'required|integer',
                 'rating' => 'required|integer',
@@ -116,9 +112,11 @@ class OrderHomeController extends Controller
             Order::where('id', $validateData['order_id'])
                 ->update(['is_review' => true]);
 
-            if ($tmpFileMultiples = TemporaryImage::whereIn('folder', $sessionImageMultiple)->get()) {
-                $this->handleTemporaryImages($tmpFileMultiples, $review->id);
-                Session::forget('image-multiple-filepond');
+            if (!empty($sessionImageMultiple)) {
+                if ($tmpFileMultiples = TemporaryImage::whereIn('folder', $sessionImageMultiple)->get()) {
+                    $this->handleTemporaryImages($tmpFileMultiples, $review->id);
+                    Session::forget('image-multiple-filepond');
+                }
             }
 
             return redirect()->back()->with('success', 'Review has been added successfully.');

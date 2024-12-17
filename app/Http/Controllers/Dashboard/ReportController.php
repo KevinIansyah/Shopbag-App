@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class ReportController extends Controller
 {
     public function index(Request $request)
     {
         $year = $request->input('year', Carbon::now()->year);
-
-        // Buat collection untuk bulan dari Januari sampai Desember di tahun tersebut
         $months = collect();
 
         for ($i = 1; $i <= 12; $i++) {
@@ -21,13 +21,12 @@ class ReportController extends Controller
             $months->push([
                 'year' => $date->year,
                 'month' => $date->month,
-                'label' => $date->format('M Y'), // Format singkatan bulan dan tahun
+                'label' => $date->format('M Y'),
                 'active_total' => 0,
                 'cancelled_total' => 0,
             ]);
         }
 
-        // Query untuk pesanan aktif
         $activeOrdersData = DB::table('orders')
             ->select(
                 DB::raw('YEAR(created_at) as year'),
@@ -35,12 +34,11 @@ class ReportController extends Controller
                 DB::raw('COUNT(*) as active_total')
             )
             ->where('status', '!=', 'canceled')
-            ->whereYear('created_at', $year) // Filter berdasarkan tahun
+            ->whereYear('created_at', $year)
             ->groupBy('year', 'month')
             ->orderBy('month', 'asc')
             ->get();
 
-        // Query untuk pesanan yang dibatalkan
         $cancelledOrdersData = DB::table('orders')
             ->select(
                 DB::raw('YEAR(created_at) as year'),
@@ -48,12 +46,11 @@ class ReportController extends Controller
                 DB::raw('COUNT(*) as cancelled_total')
             )
             ->where('status', 'canceled')
-            ->whereYear('created_at', $year) // Filter berdasarkan tahun
+            ->whereYear('created_at', $year)
             ->groupBy('year', 'month')
             ->orderBy('month', 'asc')
             ->get();
 
-        // Gabungkan hasil query dengan data bulan
         $ordersData = $months->map(function ($month) use ($activeOrdersData, $cancelledOrdersData) {
             $foundActive = $activeOrdersData->first(function ($item) use ($month) {
                 return $item->year == $month['year'] && $item->month == $month['month'];
@@ -72,7 +69,6 @@ class ReportController extends Controller
             ];
         });
 
-        // Data pesanan
         $todaysOrders = DB::table('orders')
             ->where('status', '!=', 'canceled')
             ->whereDate('created_at', Carbon::today())
@@ -91,7 +87,6 @@ class ReportController extends Controller
 
         $totalOrders = DB::table('orders')->where('status', '!=', 'canceled')->count();
 
-        // Data pesanan dibatalkan
         $todaysCancelled = DB::table('orders')
             ->where('status', 'canceled')
             ->whereDate('created_at', Carbon::today())
@@ -112,9 +107,8 @@ class ReportController extends Controller
             ->where('status', 'canceled')
             ->count();
 
-        // Data tambahan
-        $clients = DB::table('users')->where('access', 'user')->count(); // Ganti `clients` dengan nama tabel yang sesuai
-        $products = DB::table('products')->count(); // Ganti `products` dengan nama tabel yang sesuai
+        $clients = DB::table('users')->where('access', 'user')->count();
+        $products = DB::table('products')->count();
 
         return view('dashboard.report.index', compact(
             'ordersData',
@@ -130,5 +124,25 @@ class ReportController extends Controller
             'clients',
             'products'
         ));
+    }
+
+    public function data()
+    {
+        $products = Product::orderBy('sold', 'desc')->get();
+
+        return DataTables::of($products)
+            ->addIndexColumn()
+            ->addColumn('name', function ($row) {
+                $name = $row->name ? '<p class="capitalize">' . $row->name . '</p>' : '-';
+                return $name;
+            })
+            ->addColumn('sold', function ($row) {
+                return $row->sold;
+            })
+            ->addColumn('rating', function ($row) {
+                return $row->avg_rating;
+            })
+            ->rawColumns(['name'])
+            ->make(true);
     }
 }

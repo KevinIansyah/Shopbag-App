@@ -24,8 +24,8 @@
             </div>
 
             <div>
-              <button id="shipping-addresButton" data-modal-target="shipping-addres" data-modal-toggle="shipping-addres"
-                type="button"
+              <button id="add_address_modal_button" data-modal-target="add_address_modal"
+                data-modal-toggle="add_address_modal" type="button"
                 class="w-full border border-dashed border-red-500 hover:border-red-600 text-red-500 font-bold rounded-lg text-sm px-5 py-3 transition-all duration-200">
                 Add New Address
               </button>
@@ -56,7 +56,7 @@
                         <p class="text-sm font-normal">Notes: {{ $item->notes }}</p>
                       </div>
                       <div class="flex justify-start md:justify-end gap-2 w-auto">
-                        <button type="button"
+                        <button type="button" onclick="updateAddress({{ $item->id }})" @click="open = true"
                           class="w-8 h-8 text-white bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
                           <i class="fa-sharp fa-solid fa-pen"></i>
                         </button>
@@ -76,8 +76,8 @@
     </div>
   </main>
 
-  <!-- Main modal -->
-  <div id="shipping-addres" tabindex="-1" aria-hidden="true"
+  <!-- Add modal -->
+  <div id="add_address_modal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0">
     <div class="relative w-full max-w-2xl h-full md:h-auto">
       <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
@@ -87,7 +87,7 @@
           </h3>
           <button type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-toggle="shipping-addres">
+            data-modal-toggle="add_address_modal">
             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd"
@@ -102,58 +102,144 @@
           @csrf
           <div class="grid gap-4 mb-4 sm:grid-cols-2">
             <div>
-              <label for="recipient_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recipient
+              <label for="recipient_name_add"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recipient
                 Name</label>
-              <input type="text" name="recipient_name" id="recipient_name"
+              <input type="text" name="recipient_name" id="recipient_name_add"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="Recipent name" required>
             </div>
             <div>
-              <label for="recipient_contact"
+              <label for="recipient_contact_add"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recipient Contact</label>
-              <input type="text" name="recipient_contact" id="recipient_contact"
+              <input type="text" name="recipient_contact" id="recipient_contact_add"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="08xxxxxxxxxx" required>
             </div>
             <div>
-              <label for="province" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Province</label>
-              <input type="text" name="province" id="province"
+              <label for="province_add"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Province</label>
+              <input type="text" name="province" id="province_add"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="Province name" required>
             </div>
             <div>
-              <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
-              <input type="text" name="city" id="city"
+              <label for="city_add" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+              <input type="text" name="city" id="city_add"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="City name" required>
             </div>
             <div class="sm:col-span-2">
-              <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
+              <label for="address_add" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
                 Address</label>
-              <textarea name="address" id="address" rows="4"
+              <textarea name="address" id="address_add" rows="4"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="Street Name, Building, House Number"></textarea>
             </div>
             <div class="sm:col-span-2">
-              <label for="notes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes For
+              <label for="notes_add" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes For
                 Courier</label>
-              <input type="text" name="notes" id="notes"
+              <input type="text" name="notes" id="notes_add"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="Other Details (e.g., Block/Unit No., Landmark)" required>
             </div>
             <div class="sm-col-span-2">
               <div class="flex items-start">
                 <div class="flex items-center h-5">
-                  <input id="is_primary" name="is_primary" type="checkbox"
+                  <input id="is_primary_add" name="is_primary" type="checkbox"
                     class="w-4 h-4 text-red-500 bg-gray-100 border-gray-300 rounded focus:ring-red-300 focus:ring-2" />
                 </div>
-                <label for="is_primary" class="ms-2 text-sm font-medium text-gray-900">Make the primary address</label>
+                <label for="is_primary_add" class="ms-2 text-sm font-medium text-gray-900">Make the primary
+                  address</label>
               </div>
             </div>
           </div>
           <button type="submit"
             class="w-full md:w-24 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-500 dark:focus:ring-red-800 transition-all duration-200">
             Save
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit modal -->
+  <div id="edit_address_modal" tabindex="-1" x-cloak x-show="open"
+    class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-modal md:h-full">
+    <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative p-4 w-full max-w-2xl md:h-auto">
+      <div class="relative p-4 bg-white rounded-lg shadow sm:p-5">
+        <div id="messages_edit" class="relative"></div>
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5">
+          <h3 class="text-lg font-semibold text-gray-900">
+            Edit category
+          </h3>
+          <button type="button" @click="open = false"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto w-8 h-8 inline-flex items-center justify-center">
+            <i class="fa-regular fa-xmark text-base"></i>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <form id="edit_address_form" method="POST" action="">
+          @csrf
+          @method('PUT')
+          <div class="grid gap-4 mb-4 sm:grid-cols-2">
+            <div>
+              <label for="recipient_name_edit"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recipient
+                Name</label>
+              <input type="text" name="recipient_name" id="recipient_name_edit"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="Recipent name" required>
+            </div>
+            <div>
+              <label for="recipient_contact_edit"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recipient Contact</label>
+              <input type="text" name="recipient_contact" id="recipient_contact_edit"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="08xxxxxxxxxx" required>
+            </div>
+            <div>
+              <label for="province_edit"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Province</label>
+              <input type="text" name="province" id="province_edit"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="Province name" required>
+            </div>
+            <div>
+              <label for="city_edit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+              <input type="text" name="city" id="city_edit"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="City name" required>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="address_edit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
+                Address</label>
+              <textarea name="address" id="address_edit" rows="4"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="Street Name, Building, House Number"></textarea>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="notes_edit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notes For
+                Courier</label>
+              <input type="text" name="notes" id="notes_edit"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="Other Details (e.g., Block/Unit No., Landmark)" required>
+            </div>
+            <div class="sm-col-span-2">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input id="is_primary_edit" name="is_primary" type="checkbox"
+                    class="w-4 h-4 text-red-500 bg-gray-100 border-gray-300 rounded focus:ring-red-300 focus:ring-2" />
+                </div>
+                <label for="is_primary_edit" class="ms-2 text-sm font-medium text-gray-900">Make the primary
+                  address</label>
+              </div>
+            </div>
+          </div>
+          <button type="submit"
+            class="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-200">
+            <span id="button_text_edit_address">Save</span>
           </button>
         </form>
       </div>
@@ -186,6 +272,45 @@
 @endsection
 
 @push('scripts')
+  <script>
+    function updateAddress(id) {
+      $.ajax({
+        url: "/address/" + id + "/edit",
+        type: 'GET',
+        success: function(response) {
+          if (response.success) {
+            console.log(response.data);
+            $('#edit_address_modal form').attr('action', "/address/" + id);
+            $('#recipient_name_edit').val(response.data.recipient_name);
+            $('#recipient_contact_edit').val(response.data.recipient_contact);
+            $('#province_edit').val(response.data.province);
+            $('#city_edit').val(response.data.city);
+            $('#address_edit').val(response.data.address);
+            $('#notes_edit').val(response.data.notes);
+
+            if (response.data.is_primary == 1) {
+              $('#is_primary_edit').prop('checked', true);
+            } else {
+              $('#is_primary_edit').prop('checked', false);
+            }
+          }
+        },
+        error: function(response) {
+          $('#messages_edit').html(`
+          <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+            class="absolute top-0 left-0 w-full flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+            role="alert">
+            <i class="fa-solid fa-circle-info mr-2"></i>
+            <span class="sr-only">Info</span>
+            <div>
+              <span class="font-medium">Failed!</span> ${response.message}
+            </div>
+          </div>
+        `);
+        }
+      });
+    }
+  </script>
   {{-- <script>
     $(document).ready(function() {
       $('#province').change(function() {

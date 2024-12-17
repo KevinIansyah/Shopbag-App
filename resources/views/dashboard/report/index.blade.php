@@ -88,7 +88,27 @@
       <canvas id="sales-chart"></canvas>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+    <div class="grid grid-cols-1 mb-4">
+      <div class="bg-white relative sm:rounded-lg overflow-hidden p-4">
+        <div class="overflow-x-auto">
+          <table id="product-table" class="table-custom w-full text-sm text-left text-black">
+            <thead class="text-sm text-white text-bold bg-red-500 rounded">
+              <tr>
+                <th dir="ltr" scope="col" class="px-2 py-2 text-white rounded-s-lg">No</th>
+                <th scope="col" class="px-2 py-2 text-white">Name</th>
+                <th scope="col" class="px-2 py-2 text-white">Sold</th>
+                <th scope="col" class="px-2 py-2 text-white">Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    {{-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
       <div class="border-2 border-dashed border-gray-300 rounded-lg h-32 md:h-64"></div>
       <div class="border-2 border-dashed rounded-lg border-gray-300 h-32 md:h-64"></div>
       <div class="border-2 border-dashed rounded-lg border-gray-300 h-32 md:h-64"></div>
@@ -98,7 +118,7 @@
     <div class="grid grid-cols-2 gap-4">
       <div class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"></div>
       <div class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"></div>
-    </div>
+    </div> --}}
   </main>
 @endsection
 
@@ -108,18 +128,17 @@
     let ordersData = @json($ordersData);
 
     let orderLabels = ordersData.map(function(item) {
-      return item.label; // Ambil label untuk sumbu X (misal: "January 2024", "February 2024", ...)
+      return item.label;
     });
 
     let activeOrderTotals = ordersData.map(function(item) {
-      return item.active_total; // Ambil total pesanan aktif untuk setiap bulan
+      return item.active_total;
     });
 
     let cancelledOrderTotals = ordersData.map(function(item) {
-      return item.cancelled_total; // Ambil total pesanan dibatalkan untuk setiap bulan
+      return item.cancelled_total;
     });
 
-    // Inisialisasi Chart.js
     if ($("#sales-chart").length) {
       let SalesChartCanvas = $("#sales-chart").get(0).getContext("2d");
       let SalesChart = new Chart(SalesChartCanvas, {
@@ -140,7 +159,7 @@
             {
               label: 'Cancelled Orders',
               data: cancelledOrderTotals,
-              backgroundColor: 'rgba(239, 68, 68, 0.4)', // Warna untuk bar cancelled
+              backgroundColor: 'rgba(239, 68, 68, 0.4)',
               borderRadius: {
                 topLeft: 5,
                 topRight: 5,
@@ -171,7 +190,7 @@
               },
               ticks: {
                 callback: function(value) {
-                  return value + ' items'; // Menambahkan satuan untuk total
+                  return value + ' items';
                 },
                 font: {
                   color: "#6C7383"
@@ -203,5 +222,39 @@
         },
       });
     }
+
+    let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+    $('#product-table').DataTable({
+      fixedHeader: true,
+      pageLength: 25,
+      lengthChange: true,
+      autoWidth: false,
+      responsive: true,
+      processing: true,
+      serverSide: true,
+      ajax: {
+        url: "/dashboard/report/data",
+        type: 'GET',
+      },
+      columns: [{
+          data: 'DT_RowIndex',
+          name: 'DT_RowIndex',
+          className: 'text-center',
+        },
+        {
+          data: 'name',
+          name: 'name'
+        },
+        {
+          data: 'sold',
+          name: 'sold'
+        },
+        {
+          data: 'rating',
+          name: 'rating'
+        },
+      ]
+    });
   </script>
 @endpush

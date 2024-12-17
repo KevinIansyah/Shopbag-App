@@ -74,10 +74,6 @@ class SaleController extends Controller
                             class="w-8 h-8 text-white bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
                             <i class="fa-sharp fa-solid fa-pen"></i>
                         </button>
-                        <button type="button"
-                            class="w-8 h-8 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-sm text-center transition-all duration-200 flex items-center justify-center">
-                            <i class="fa-sharp fa-solid fa-eye"></i>
-                        </button>
                     </div>
                 ';
 

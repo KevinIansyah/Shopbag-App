@@ -12,33 +12,11 @@ class ProductHomeController extends Controller
 {
     public function index(Request $request)
     {
-        // $categories = Category::all();
-
-        // $selectedCategories = $request->input('categories', []);
-        // $search = $request->input('search', '');
-
-        // $products = Product::with(['images'])
-        //     ->when(!empty($selectedCategories), function ($query) use ($selectedCategories) {
-        //         return $query->whereHas('categories', function ($query) use ($selectedCategories) {
-        //             $query->whereIn('category_id', $selectedCategories);
-        //         });
-        //     })
-        //     ->when(!empty($search), function ($query) use ($search) {
-        //         return $query->where('name', 'like', '%' . $search . '%');
-        //     })
-        //     ->get();
-
-        // if (!empty($selectedCategories)) {
-        //     $products = $products->filter(function ($product) use ($selectedCategories) {
-        //         $categoryIds = $product->categories->pluck('id')->toArray();
-        //         return count(array_intersect($selectedCategories, $categoryIds)) === count($selectedCategories);
-        //     });
-        // }
-
         $categories = Category::all();
 
         $selectedCategories = $request->input('categories', []);
         $search = $request->input('search', '');
+        $mostSold = $request->input('most_sold', '');
 
         $productsQuery = Product::with(['images', 'categories'])
             ->when(!empty($selectedCategories), function ($query) use ($selectedCategories) {
@@ -50,9 +28,11 @@ class ProductHomeController extends Controller
             })
             ->when(!empty($search), function ($query) use ($search) {
                 return $query->where('name', 'like', '%' . $search . '%')->orWhere('description', 'like', '%' . $search . '%');
+            })
+            ->when(!empty($mostSold), function ($query) {
+                return $query->orderBy('sold', 'desc');
             });
 
-        // Untuk mendukung pagination
         $products = $productsQuery->paginate(10);
 
         return view('product.index', compact('categories', 'products'));

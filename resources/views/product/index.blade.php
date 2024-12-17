@@ -27,6 +27,17 @@
                 placeholder="Search...">
 
               <div class="space-y-2 my-4 max-h-[20rem] overflow-auto">
+                <div class="space-y-2 my-4 max-h-[20rem] overflow-auto">
+                  <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                      <input type="checkbox" name="most_sold" id="most-sold" value="most sold"
+                        {{ request()->input('most_sold') === 'most sold' ? 'checked' : '' }}
+                        class="w-4 h-4 text-red-500 bg-gray-100 border-gray-300 rounded focus:ring-red-300 dark:focus:ring-red-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                    </div>
+                    <label for="most-sold" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Most
+                      Sold</label>
+                  </div>
+                </div>
                 @foreach ($categories as $item)
                   <div class="flex items-start">
                     <div class="flex items-center h-5">
@@ -118,7 +129,8 @@
                       <h5 class="text-sm font-bold tracking-tight text-gray-900 line-clamp-2">
                         {{ $product->name }}</h5>
                       <div class="flex items-center mt-2.5 mb-5">
-                        <div class="flex items-center space-x-[1px] md:space-x-1 rtl:space-x-reverse" x-data="{ rating: {{ $product->avg_rating }} }">
+                        <div class="flex items-center space-x-[1px] md:space-x-1 rtl:space-x-reverse"
+                          x-data="{ rating: {{ $product->avg_rating }} }">
                           <template x-for="i in 5" :key="i">
                             <svg :class="i <= rating ? 'text-yellow-300' : 'text-gray-300'" class="w-4 h-4"
                               aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"

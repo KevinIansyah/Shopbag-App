@@ -36,7 +36,7 @@
   </style>
 </head>
 
-<body x-data="{ openModal: @js(session('loginModal') ? 'login' : null) }">
+<body x-data="{ open: false }">
   @include('partials.navbar')
   @yield('main')
   @include('partials.footer')
