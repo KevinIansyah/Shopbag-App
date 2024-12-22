@@ -117,14 +117,14 @@
 
       <!-- User profile -->
       @if (Auth::user()->image)
-        <button type="button" class="flex ml-5 text-sm bg-gray-800 rounded-full md:mr-0" id="user-menu-button"
+        <button type="button" class="flex ml-5 text-sm rounded-full md:mr-0" id="user-menu-button"
           aria-expanded="false" data-dropdown-toggle="dropdown">
           <span class="sr-only">Open user menu</span>
           <img class="w-8 h-8 rounded-full" src="{{ asset('storage/image-filepond/' . Auth::user()->image) }}"
             alt="user photo" />
         </button>
       @else
-        <button type="button" class="flex ml-5 text-sm bg-gray-800 rounded-full md:mr-0" id="user-menu-button"
+        <button type="button" class="flex ml-5 text-sm rounded-full md:mr-0" id="user-menu-button"
           aria-expanded="false" data-dropdown-toggle="dropdown">
           <span class="sr-only">Open user menu</span>
           <img class="w-8 h-8 rounded-full" src="{{ asset('images/default-profile.png') }}" alt="user photo" />

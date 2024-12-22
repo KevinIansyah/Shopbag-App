@@ -4,7 +4,6 @@
   <main>
     <div tabindex="-1" class="mx-auto max-w-7xl pt-28 pb-20 px-4 md:px-6 lg:px-8 min-h-[100vh]">
       <div class="lg:flex lg:gap-4">
-        {{-- @include('profile.partials.aside') --}}
         <aside id="profile-sidebar"
           class="absolute top-0 left-0 z-50 w-64 h-screen lg:h-auto transition-transform -translate-x-full lg:relative lg:top-auto lg:left-auto lg:translate-x-0 lg:z-0 lg:min-w-64"
           aria-label="Sidenav">
@@ -93,23 +92,38 @@
 
         <div class="w-full h-auto">
           <div class="lg:rounded-lg lg:pt-4">
-            <div class="pb-6 lg:pb-0">
-              <div class="flex justify-end w-[100%]">
+            <div class="pb-6 lg:pb-0 md:hidden">
+              <div class="flex items-center justify-between w-[100%]">
+                <div>
+                  <h2 class="text-xl font-semibold">Product</h2>
+                  <p class="text-sm font-normal">Search your product here!</p>
+                </div>
                 <button data-drawer-target="profile-sidebar" data-drawer-toggle="profile-sidebar"
                   aria-controls="profile-sidebar" type="button"
                   class="w-10 h-10 inline-flex items-center justify-center bg-red-500 hover:bg-red-600  text-white rounded-lg lg:hidden focus:outline-none focus:ring-2 focus:ring-red-300">
                   <span class="sr-only">Open sidebar</span>
-                  {{-- <i class="fa-sharp fa-regular fa-bars text-base"></i> --}}
                   <i class="fa-sharp fa-regular fa-filter text-base"></i>
                 </button>
               </div>
             </div>
 
+            {{-- <div class="pb-6 lg:pb-0">
+              <div class="flex justify-end w-[100%]">
+                <button data-drawer-target="profile-sidebar" data-drawer-toggle="profile-sidebar"
+                  aria-controls="profile-sidebar" type="button"
+                  class="w-10 h-10 inline-flex items-center justify-center bg-red-500 hover:bg-red-600  text-white rounded-lg lg:hidden focus:outline-none focus:ring-2 focus:ring-red-300">
+                  <span class="sr-only">Open sidebar</span>
+                  <i class="fa-sharp fa-regular fa-filter text-base"></i>
+                </button>
+              </div>
+            </div> --}}
+
             @if ($products->isEmpty())
               <div class="flex flex-col items-center justify-center">
                 <img class="w-full md:w-[50%]" src="{{ asset('images/no-data.jpg') }}" alt="No data available">
                 <h6 class="text-lg font-semibold text-black">No Products Found!</h6>
-                <p class="text-sm font-normal text-black">We couldn't find any products matching your search criteria.
+                <p class="text-sm font-normal text-black text-center">We couldn't find any products matching your search
+                  criteria.
                   Please try adjusting your filters or search terms.</p>
               </div>
             @else

@@ -59,6 +59,35 @@ class OrderHomeController extends Controller
         }
     }
 
+    public function expiredOrder($id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+            $order->status = 'canceled';
+            $order->save();
+
+            $orderItems = OrderItem::where('order_id', $id)->get();
+
+            foreach ($orderItems as $item) {
+                $stock = Stock::find($item->stock_id);
+                $stock->quantity += $item->quantity;
+                $stock->save();
+            }
+
+            $order = Order::with(['orderItems.product', 'orderItems.stock.size', 'address'])->findOrFail($id);
+            $user = User::where('id', $order->user_id)->first();
+            $sendNotification = 'system';
+
+            if ($user) {
+                SendNotificationHelpers::sendOrderNotification($order, $user, $sendNotification);
+            }
+
+            return redirect()->back()->with('success', 'Order has been automatically canceled due to expiration.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to automatically cancel the order due to expiration. Please try again later.');
+        }
+    }
+
     public function payOrder($id)
     {
         try {

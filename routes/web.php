@@ -20,7 +20,13 @@ use App\Http\Controllers\RajaOngkir;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\NotificationController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/clear', function () {
+    Artisan::call('optimize');
+    return "Success Optimize";
+});
 
 Route::get('/notifications/read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
@@ -41,6 +47,7 @@ Route::resource('blog', BlogHomeController::class);
 Route::name('order.')->prefix('order')->middleware(['auth'])->group(function () {
     Route::post('/accept/{id}', [OrderHomeController::class, 'acceptDelivered'])->name('accept');
     Route::post('/cancel/{id}', [OrderHomeController::class, 'cancelOrder'])->name('cancel');
+    Route::post('/expired/{id}', [OrderHomeController::class, 'expiredOrder'])->name('expired');
     Route::get('/pay/{id}', [OrderHomeController::class, 'payOrder'])->name('pay');
     Route::post('/review', [OrderHomeController::class, 'reviewOrder'])->name('review');
 });

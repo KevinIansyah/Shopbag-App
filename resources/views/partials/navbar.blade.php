@@ -66,18 +66,6 @@
       </div>
       <div class="hidden md:block">
         <div class="ml-4 flex items-center md:ml-6">
-          {{-- <form class="flex items-center max-w-sm mr-3">   
-            <label for="simple-search" class="sr-only">Search</label>
-            <div class="relative w-full">
-              <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
-              </div>
-              <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search branch name..." required />
-            </div>
-          </form> --}}
-
           <button type="button" data-dropdown-toggle="notification_dropdown_2"
             class="relative mx-3 flex justify-center items-center rounded-md">
             <span class="absolute -inset-1.5"></span>
@@ -88,8 +76,9 @@
             @if ($unread_count !== 0)
               <span
                 :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-                    @if (request()->is('/')) false @else true @endif ? 'bg-red-500/50' : 'bg-white/50'"
-                class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-4"
+                    @if (request()->is('/')) false @else true @endif ? 'bg-red-500 text-white' :
+                    'bg-gray-100 text-gray-900'"
+                class="w-4 h-3 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-2"
                 style="font-size: 0.6rem">{{ $unread_count }}</span>
             @endif
           </button>
@@ -103,8 +92,9 @@
             @if ($cartCount !== 0)
               <span
                 :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-                    @if (request()->is('/')) false @else true @endif ? 'bg-red-500/50' : 'bg-white/50'"
-                class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-4"
+                    @if (request()->is('/')) false @else true @endif ? 'bg-red-500 text-white' :
+                    'bg-gray-100 text-gray-900'"
+                class="w-4 h-3 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-2"
                 style="font-size: 0.6rem">{{ $cartCount }}</span>
             @endif
           </a>
@@ -140,19 +130,19 @@
       </div>
       <div class="-mr-2 flex md:hidden">
         <!-- Mobile menu button -->
-
         <button type="button" data-dropdown-toggle="notification_dropdown_1"
           class="relative mx-3 flex justify-center items-center rounded-md">
           <span class="absolute -inset-1.5"></span>
           <span class="sr-only">View notifications</span>
           <i :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
               @if (request()->is('/')) false @else true @endif ? 'text-red-500' : 'text-white'"
-            class="fa-duotone fa-bell text-lg transition-all duration-200"></i>
+            class="fa-duotone fa-bell text-xl transition-all duration-200"></i>
           @if ($unread_count !== 0)
             <span
               :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-                  @if (request()->is('/')) false @else true @endif ? 'bg-red-500/50' : 'bg-white/50'"
-              class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-4"
+                  @if (request()->is('/')) false @else true @endif ? 'bg-red-500 text-white' :
+                  'bg-gray-100 text-gray-900'"
+              class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-2"
               style="font-size: 0.6rem">{{ $unread_count }}</span>
           @endif
         </button>
@@ -162,35 +152,16 @@
           <span class="sr-only">View cart</span>
           <i :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
               @if (request()->is('/')) false @else true @endif ? 'text-red-500' : 'text-white'"
-            class="fa-duotone fa-bag-shopping text-lg transition-all duration-200"></i>
+            class="fa-duotone fa-bag-shopping text-xl transition-all duration-200"></i>
           @if ($cartCount !== 0)
             <span
               :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-                  @if (request()->is('/')) false @else true @endif ? 'bg-red-500/50' : 'bg-white/50'"
-              class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-4"
+                  @if (request()->is('/')) false @else true @endif ? 'bg-red-500 text-white' :
+                  'bg-gray-100 text-gray-900'"
+              class="w-5 h-4 font-bold rounded-full flex items-center justify-center absolute -top-1 -right-2"
               style="font-size: 0.6rem">{{ $cartCount }}</span>
           @endif
         </a>
-        {{-- <button @click="isNavOpen = !isNavOpen" type="button"
-          :class="isScrolled || isMenOpen || isWomanOpen || isKidsOpen ||
-              @if (request()->is('/')) false @else true @endif ?
-              'text-red-500 hover:text-red-500 focus:ring-red-500 focus:ring-2 focus:ring-offset-1' :
-              'text-white hover:text-white focus:ring-white focus:ring-1 focus:ring-offset-1'"
-          class="relative inline-flex items-center justify-center rounded-md p-2 focus:outline-none"
-          aria-controls="mobile-menu" aria-expanded="false">
-          <span class="absolute -inset-0.5"></span>
-          <span class="sr-only">Open main menu</span>
-          <!-- Menu open: "hidden", Menu closed: "block" -->
-          <svg :class="{ 'hidden': isNavOpen, 'block': !isNavOpen }" class="block h-6 w-6" fill="none"
-            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-          <!-- Menu open: "block", Menu closed: "hidden" -->
-          <svg :class="{ 'block': isNavOpen, 'hidden': !isNavOpen }" class="hidden h-6 w-6" fill="none"
-            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button> --}}
       </div>
     </div>
   </div>
@@ -407,52 +378,54 @@
     </div>
   </div>
 
-  <div id="notification_dropdown_1"
-    class="hidden z-10 mx-auto w-full max-h-[75vh] space-y-2 overflow-auto scroll-hidden rounded-lg bg-white p-4 antialiased shadow-lg">
-    @if ($notifications->count())
-
-      @foreach ($notifications as $notification)
-        <a href="{{ route('notifications.read', $notification->id) }}"
-          class="grid grid-cols-12 p-2 {{ $notification->read_at ? 'bg-white' : 'bg-gray-100' }}">
+  <div id="notification_dropdown_1" class="hidden z-10 mx-auto w-full rounded-lg bg-white p-4 antialiased shadow-lg">
+    <div class="max-h-[75vh] space-y-2 overflow-auto scroll-hidden">
+      @if ($notifications->count())
+        @foreach ($notifications as $notification)
+          <a href="{{ route('notifications.read', $notification->id) }}"
+            class="grid grid-cols-12 p-2 {{ $notification->read_at ? 'bg-white' : 'bg-gray-100' }}">
+            <div class="col-span-12">
+              <p class="text-sm font-semibold text-gray-900">
+                {{ $notification->data['subject'] }}</p>
+              <p class="text-xs font-semibold text-gray-500 mb-2">{{ $notification->created_at->diffForHumans() }}</p>
+              <p class="mt-0.5 text-sm font-normal text-gray-500">{{ $notification->data['message'] }}
+              </p>
+            </div>
+          </a>
+        @endforeach
+      @else
+        <div class="grid grid-cols-12 p-4 bg-white">
           <div class="col-span-12">
-            <p class="text-sm font-semibold text-gray-900">
-              {{ $notification->data['subject'] }}</p>
-            <p class="text-xs font-semibold text-gray-500 mb-2">{{ $notification->created_at->diffForHumans() }}</p>
-            <p class="mt-0.5 text-sm font-normal text-gray-500">{{ $notification->data['message'] }}
-            </p>
+            <p class="mt-0.5 text-sm text-center font-normal text-gray-500">No notifications yet</p>
           </div>
-        </a>
-      @endforeach
-    @else
-      <div class="grid grid-cols-12 p-4 bg-white">
-        <div class="col-span-12">
-          <p class="mt-0.5 text-sm text-center font-normal text-gray-500">No notifications yet</p>
         </div>
-      </div>
-    @endif
+      @endif
+    </div>
   </div>
 
   <div id="notification_dropdown_2"
-    class="hidden z-10 max-w-md max-h-[75vh] space-y-2 overflow-auto scroll-hidden rounded-lg bg-white p-2 antialiased shadow-lg absolute left-0">
-    @if ($notifications->count())
-      @foreach ($notifications as $notification)
-        <a href="{{ route('notifications.read', $notification->id) }}"
-          class="grid grid-cols-12 p-2 {{ $notification->read_at ? 'bg-white' : 'bg-gray-100' }}">
+    class="hidden z-10 max-w-md rounded-lg bg-white p-4 antialiased shadow-lg absolute left-0">
+    <div class="max-h-[75vh] space-y-2 overflow-auto scroll-hidden">
+      @if ($notifications->count())
+        @foreach ($notifications as $notification)
+          <a href="{{ route('notifications.read', $notification->id) }}"
+            class="grid grid-cols-12 p-2 {{ $notification->read_at ? 'bg-white' : 'bg-gray-100' }}">
+            <div class="col-span-12">
+              <p class="text-sm font-semibold text-gray-900">
+                {{ $notification->data['subject'] }}</p>
+              <p class="text-xs font-semibold text-gray-500 mb-2">{{ $notification->created_at->diffForHumans() }}</p>
+              <p class="mt-0.5 text-sm font-normal text-gray-500">{{ $notification->data['message'] }}
+              </p>
+            </div>
+          </a>
+        @endforeach
+      @else
+        <div class="grid grid-cols-12 p-4 bg-white">
           <div class="col-span-12">
-            <p class="text-sm font-semibold text-gray-900">
-              {{ $notification->data['subject'] }}</p>
-            <p class="text-xs font-semibold text-gray-500 mb-2">{{ $notification->created_at->diffForHumans() }}</p>
-            <p class="mt-0.5 text-sm font-normal text-gray-500">{{ $notification->data['message'] }}
-            </p>
+            <p class="mt-0.5 text-sm text-center font-normal text-gray-500">No notifications yet</p>
           </div>
-        </a>
-      @endforeach
-    @else
-      <div class="grid grid-cols-12 p-4 bg-white">
-        <div class="col-span-12">
-          <p class="mt-0.5 text-sm text-center font-normal text-gray-500">No notifications yet</p>
         </div>
-      </div>
-    @endif
+      @endif
+    </div>
   </div>
 </nav>

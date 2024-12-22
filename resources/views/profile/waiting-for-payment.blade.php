@@ -28,7 +28,7 @@
                 <div class="flex flex-col items-center justify-center">
                   <img class="w-full md:w-[50%]" src="{{ asset('images/no-data.jpg') }}" alt="No data available">
                   <h6 class="text-lg font-semibold text-black">No pending payments!</h6>
-                  <p class="text-sm font-normal text-black">You don’t have any orders awaiting payment.</p>
+                  <p class="text-sm font-normal text-black text-center">You don’t have any orders awaiting payment.</p>
                 </div>
               @else
                 @foreach ($orders as $order)
@@ -151,6 +151,21 @@
                         if (distance < 0) {
                           clearInterval(interval);
                           countdownElement.innerHTML = "EXPIRED";
+
+                          let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+                          const form = document.createElement('form');
+                          form.method = 'POST';
+                          form.action = '/order/expired/' + orderId;
+
+                          const csrfInput = document.createElement('input');
+                          csrfInput.type = 'hidden';
+                          csrfInput.name = '_token';
+                          csrfInput.value = CSRF_TOKEN;
+                          form.appendChild(csrfInput);
+
+                          document.body.appendChild(form);
+                          form.submit();
                         }
                       }, 1000);
                     }

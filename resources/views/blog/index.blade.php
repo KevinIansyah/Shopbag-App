@@ -9,7 +9,8 @@
             <div class="flex flex-col items-center justify-center">
               <img class="w-full md:w-[50%]" src="{{ asset('images/no-data.jpg') }}" alt="No data available">
               <h6 class="text-lg font-semibold text-black">No blogs available yet!</h6>
-              <p class="text-sm font-normal text-black">We currently don't have any blogs to show. Stay tuned for our
+              <p class="text-sm font-normal text-black text-center">We currently don't have any blogs to show. Stay tuned
+                for our
                 latest updates!</p>
             </div>
           </div>

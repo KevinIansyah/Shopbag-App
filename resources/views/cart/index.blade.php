@@ -10,7 +10,7 @@
               <div class="flex flex-col items-center justify-center">
                 <img class="w-full md:w-[50%]" src="{{ asset('images/no-data.jpg') }}" alt="No data available">
                 <h6 class="text-lg font-semibold text-black">Cart is still empty!</h6>
-                <p class="text-sm font-normal text-black">You haven't added a product to your cart</p>
+                <p class="text-sm font-normal text-black text-center">You haven't added a product to your cart</p>
               </div>
             @else
               <h2 class="text-xl font-semibold">Shopping Cart</h2>

@@ -28,7 +28,7 @@
                 <div class="flex flex-col items-center justify-center">
                   <img class="w-full md:w-[50%]" src="{{ asset('images/no-data.jpg') }}" alt="No data available">
                   <h6 class="text-lg font-semibold text-black">No transactions found!</h6>
-                  <p class="text-sm font-normal text-black">You don’t have any transactions in your list.</p>
+                  <p class="text-sm font-normal text-black text-center">You don’t have any transactions in your list.</p>
                 </div>
               @else
                 @foreach ($orders as $order)
