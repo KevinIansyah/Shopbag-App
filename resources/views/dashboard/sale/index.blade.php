@@ -103,7 +103,7 @@
     // Kolom yang dipakai harus sama dengan di backend
     $('#sale-table').DataTable({
       fixedHeader: true,
-      pageLength: 3,
+      pageLength: 25,
       lengthChange: true,
       autoWidth: false,
       responsive: true,
