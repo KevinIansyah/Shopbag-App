@@ -5,7 +5,10 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Notification;
 use App\Mail\OrderMail;
 use App\Notifications\OrderNotification;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class SendNotificationHelpers
 {
@@ -38,6 +41,10 @@ class SendNotificationHelpers
 
       case 'paid':
         if ($user->access == 'user') {
+          $pdf = Pdf::loadView('pdf.invoice', compact('order', 'user'));
+          $pdfPath = 'invoices/order-' . $orderIdFormat . '.pdf';
+          Storage::put('public/' . $pdfPath, $pdf->output());
+
           $detailMail = [
             'message' => [
               'open_message' => 'Your payment was successful and is awaiting further confirmation. Here are your order details:',
@@ -47,6 +54,7 @@ class SendNotificationHelpers
             'subject' => 'Your Payment Was Successful',
             'order' => $order,
             'user' => $user,
+            'pdf' => storage_path('app/public/' . $pdfPath)
           ];
 
           $detailNotification = [
@@ -153,8 +161,10 @@ class SendNotificationHelpers
           ];
         }
 
-        Mail::to($user->email)->send(new OrderMail($detailMail));
-        Notification::send($user, new OrderNotification($detailNotification));
+        $mailId = Mail::to($user->email)->send(new OrderMail($detailMail));
+        Log::info('Queue Job ID for Mail:', ['job_id' => $mailId]);
+        $notificationId = Notification::send($user, new OrderNotification($detailNotification));
+        Log::info('Queue Job ID for Notification:', ['job_id' => $notificationId]);
 
         break;
 
@@ -205,7 +215,6 @@ class SendNotificationHelpers
         break;
 
       default:
-        // Additional code if needed.
         break;
     }
   }

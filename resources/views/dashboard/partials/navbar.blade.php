@@ -39,13 +39,11 @@
         <i class="fa-duotone fa-magnifying-glass text-xl transition-all duration-200 text-red-500"></i>
       </button> --}}
 
-      <!-- Notifications -->
       <button type="button" data-dropdown-toggle="notification-dropdown"
         class="h-5 w-5 flex items-center justify-center ml-4 text-gray-500">
         <span class="sr-only">View notifications</span>
         <i class="fa-duotone fa-bell text-xl transition-all duration-200 text-red-500"></i>
       </button>
-      <!-- Dropdown menu -->
       <div
         class="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg"
         id="notification-dropdown">
@@ -53,28 +51,6 @@
           Notifications
         </div>
         <div>
-          {{-- @if ($notifications->count())
-            @foreach ($notifications as $notification)
-              <a href="{{ route('notifications.read', $notification->id) }}"
-                class="grid grid-cols-12 p-2 {{ $notification->read_at ? 'bg-white' : 'bg-gray-100' }}">
-                <div class="col-span-12">
-                  <p class="text-sm font-semibold text-gray-900">
-                    {{ $notification->data['subject'] }}</p>
-                  <p class="text-xs font-semibold text-gray-500 mb-2">{{ $notification->created_at->diffForHumans() }}
-                  </p>
-                  <p class="mt-0.5 text-sm font-normal text-gray-500">{{ $notification->data['message'] }}
-                  </p>
-                </div>
-              </a>
-            @endforeach
-          @else
-            <div class="grid grid-cols-12 p-4 bg-white">
-              <div class="col-span-12">
-                <p class="mt-0.5 text-sm text-center font-normal text-gray-500">No notifications yet</p>
-              </div>
-            </div>
-          @endif --}}
-
           @foreach ($notifications as $notification)
             @if ($notifications->count())
               @foreach ($notifications as $notification)
@@ -101,21 +77,8 @@
             @endif
           @endforeach
         </div>
-        {{-- <a href="#" class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100">
-          <div class="inline-flex items-center">
-            <svg aria-hidden="true" class="mr-2 w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-              <path fill-rule="evenodd"
-                d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                clip-rule="evenodd"></path>
-            </svg>
-            View all
-          </div>
-        </a> --}}
       </div>
 
-      <!-- User profile -->
       @if (Auth::user()->image)
         <button type="button" class="flex ml-5 text-sm rounded-full md:mr-0" id="user-menu-button"
           aria-expanded="false" data-dropdown-toggle="dropdown">
@@ -130,7 +93,6 @@
           <img class="w-8 h-8 rounded-full" src="{{ asset('images/default-profile.png') }}" alt="user photo" />
         </button>
       @endif
-      <!-- Dropdown menu -->
       <div class="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow"
         id="dropdown">
         <div class="py-3 px-4">
@@ -149,9 +111,6 @@
         </ul>
         <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
           <li>
-            {{-- <a href="#"
-              class="block py-2 px-4 text-sm hover:bg-gray-100">Sign
-              out</a> --}}
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();"

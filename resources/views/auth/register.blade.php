@@ -59,6 +59,32 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
+                <div class="relative w-full">
+                  <div class="absolute inset-y-0 end-2.5 flex items-center ps-3 pointer-events-none">
+                    <i class="fa-duotone fa-solid fa-calendar-days text-red-500"></i>
+                  </div>
+                  <input datepicker id="default-datepicker" type="text" name="birthday"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    placeholder="Select date" value="{{ old('birthday') }}" required>
+                </div>
+              </div>
+
+              <div>
+                <select id="gender" name="gender"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  required>
+                  @php
+                    $oldGender = old('gender');
+                  @endphp
+                  <option value="" disabled {{ !$oldGender ? 'selected' : '' }}>Select gender</option>
+                  <option value="male" {{ $oldGender === 'male' ? 'selected' : '' }}>Male</option>
+                  <option value="female" {{ $oldGender === 'female' ? 'selected' : '' }}>Female</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
                 <input type="password" id="password-register" name="password" autocomplete="new-password"
                   class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-400 focus:border-red-400 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-400 dark:focus:border-red-400 dark:shadow-sm-light"
                   placeholder="Password" required />

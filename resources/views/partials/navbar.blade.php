@@ -1,4 +1,3 @@
-{{-- @dd($notifications) --}}
 <nav x-data="{ isNavOpen: false, isScrolled: false, isMenOpen: false, isWomanOpen: false, isKidsOpen: false }" x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 0; })" x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 0; })"
   :class="[
       (isScrolled || isMenOpen || isWomanOpen || isKidsOpen || @if(
@@ -129,7 +128,6 @@
         </div>
       </div>
       <div class="-mr-2 flex md:hidden">
-        <!-- Mobile menu button -->
         <button type="button" data-dropdown-toggle="notification_dropdown_1"
           class="relative mx-3 flex justify-center items-center rounded-md">
           <span class="absolute -inset-1.5"></span>

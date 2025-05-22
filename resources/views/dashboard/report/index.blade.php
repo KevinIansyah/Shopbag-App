@@ -125,6 +125,8 @@
 
 @push('scripts')
   <script type="module">
+    
+    let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     let ordersData = @json($ordersData);
 
     let orderLabels = ordersData.map(function(item) {
@@ -222,8 +224,6 @@
         },
       });
     }
-
-    let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
     $('#product-table').DataTable({
       fixedHeader: true,

@@ -51,41 +51,6 @@
                 @endforeach
               </div>
             </form>
-
-            {{-- <ul class="space-y-2 mt-2">
-              <li>
-                <button type="button"
-                  class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-gray-300 flex items-center px-2 py-2.5 w-full text-sm font-normal rounded-lg focus:ring-4 focus:outline-none group transition-all duration-200"
-                  aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
-                  <div class="w-6 h-6 flex items-center justify-center">
-                    <i class="fa-light fa-circle-dollar"></i>
-                  </div>
-                  <span class="flex-1 ml-3 text-left whitespace-nowrap">Transaction</span>
-                  <i class="fa-sharp fa-solid fa-chevron-down text-xs"></i>
-                </button>
-                <ul id="dropdown-pages" class="hidden py-2 space-y-2">
-                  <li>
-                    <a href=""
-                      class="flex items-center px-2 py-2.5 pl-11 w-full text-sm font-normal rounded-lg transition duration-75 group">Waiting
-                      For Payment</a>
-                  </li>
-                  <li>
-                    <a href=""
-                      class="flex items-center px-2 py-2.5 pl-11 w-full text-sm font-normal rounded-lg transition duration-75 group">Transaction
-                      List</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href=""
-                  class="'text-gray-900 bg-white hover:bg-gray-100 focus:ring-gray-300 flex items-center p-2 text-sm font-normal rounded-lg focus:ring-4 focus:outline-none group transition-all duration-200">
-                  <div class="w-6 h-6 flex items-center justify-center">
-                    <i class="fa-light fa-lock"></i>
-                  </div>
-                  <span class="ml-3">Set Password</span>
-                </a>
-              </li>
-            </ul> --}}
           </div>
         </aside>
 
@@ -106,17 +71,6 @@
                 </button>
               </div>
             </div>
-
-            {{-- <div class="pb-6 lg:pb-0">
-              <div class="flex justify-end w-[100%]">
-                <button data-drawer-target="profile-sidebar" data-drawer-toggle="profile-sidebar"
-                  aria-controls="profile-sidebar" type="button"
-                  class="w-10 h-10 inline-flex items-center justify-center bg-red-500 hover:bg-red-600  text-white rounded-lg lg:hidden focus:outline-none focus:ring-2 focus:ring-red-300">
-                  <span class="sr-only">Open sidebar</span>
-                  <i class="fa-sharp fa-regular fa-filter text-base"></i>
-                </button>
-              </div>
-            </div> --}}
 
             @if ($products->isEmpty())
               <div class="flex flex-col items-center justify-center">
@@ -195,34 +149,3 @@
     </div>
   </main>
 @endsection
-
-
-{{-- <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout> --}}

@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Queue\SerializesModels;
 
 class OrderMail extends Mailable implements ShouldQueue
@@ -17,6 +18,8 @@ class OrderMail extends Mailable implements ShouldQueue
     public $order;
     public $user;
     public $message_mail;
+    public $subject;
+    public $pdf;
 
     /**
      * Create a new message instance.
@@ -27,6 +30,7 @@ class OrderMail extends Mailable implements ShouldQueue
         $this->user = $data['user'];
         $this->message_mail = $data['message'];
         $this->subject = $data['subject'];
+        $this->pdf = $data['pdf'] ?? null;
     }
 
     /**
@@ -65,6 +69,8 @@ class OrderMail extends Mailable implements ShouldQueue
      */
     public function attachments(): array
     {
-        return [];
+        return $this->pdf ? [
+            Attachment::fromPath($this->pdf)->as('Invoice_' . $this->order->midtrans_order_id . '.pdf')->withMime('application/pdf'),
+        ] : [];
     }
 }

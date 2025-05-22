@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8">
-  {{-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> --}}
   <title>Order Confirmation</title>
   <style>
     body {
@@ -108,7 +107,6 @@
 <body
   style="margin: 0; padding: 30px 0 0 0; font-family: 'Nunito', sans-serif; background-color: rgb(239, 68, 68); color: #333;">
   <div class="container">
-    <!-- Header -->
     <div class="header">
       <img src="https://i.postimg.cc/J4W4TNWj/shopbag-2.png" alt="Logo">
     </div>
@@ -118,7 +116,6 @@
       <h1>Haii, {{ $user->name }}</h1>
       <p>{{ $message_mail['open_message'] }}</p>
 
-      <!-- Order Details -->
       <div class="order-details">
         <table>
           <tr>
@@ -142,7 +139,6 @@
         </table>
       </div>
 
-      <!-- Product Details -->
       <div class="order-details">
         <table>
           <tr>
@@ -164,13 +160,11 @@
 
       <p>{{ $message_mail['close_message'] }}</p>
 
-      <!-- Button -->
       <div class="button-container">
         <a href="{{ $message_mail['link'] }}">YOUR ORDER</a>
       </div>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
       <p style="color: white">Surabaya, East Java, Indonesia</p>
       <p><a href="#" style="color: white;">Unsubscribe</a> | <a href="#" style="color: white;">Privacy

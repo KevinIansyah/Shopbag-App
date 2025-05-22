@@ -32,6 +32,7 @@
         <div class="">
           <div class="bg-white relative sm:rounded-lg overflow-hidden p-4">
             <div class="overflow-x-auto">
+              {{-- biarkan tabel body kosong, sesuaikan id tabel untuk digunakan di request ajax --}}
               <table id="sale-table" class="table-custom w-full text-sm text-left text-black">
                 <thead class="text-sm text-white text-bold bg-red-500 rounded">
                   <tr>
@@ -67,8 +68,7 @@
             Edit status
           </h3>
           <button type="button" @click="open = false"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto w-8 h-8 inline-flex items-center justify-center"
-            data-modal-toggle="addCategoryModal">
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto w-8 h-8 inline-flex items-center justify-center">
             <i class="fa-regular fa-xmark text-base"></i>
             <span class="sr-only">Close modal</span>
           </button>
@@ -99,21 +99,26 @@
   <script>
     let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
+    // Ajax untuk mengirim request datatable ke backend
+    // Kolom yang dipakai harus sama dengan di backend
     $('#sale-table').DataTable({
       fixedHeader: true,
-      pageLength: 25,
+      pageLength: 3,
       lengthChange: true,
       autoWidth: false,
       responsive: true,
       processing: true,
       serverSide: true,
       ajax: {
+        // Jangan lupa bikin route nya dulu di routes/web.php
         url: "/dashboard/sale/data",
         type: 'GET',
       },
       columns: [{
           data: 'DT_RowIndex',
-          name: 'DT_RowIndex',
+          name: '',
+          orderable: false,
+          searchable: false,
           className: 'text-center',
         },
         {

@@ -3,40 +3,33 @@
 @section('main')
   <main>
     <div id="controls-carousel" class="relative w-full h-[50vh] lg:h-screen" data-carousel="static">
-      <!-- Carousel wrapper -->
       <div class="relative h-full overflow-hidden">
-        <!-- Item 1 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
           <img src="{{ asset('images/hero/hero-1.jpg') }}"
             class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
             alt="...">
         </div>
-        <!-- Item 2 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
           <img src="{{ asset('images/hero/hero-2.jpg') }}"
             class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
             alt="...">
         </div>
-        <!-- Item 3 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
           <img src="{{ asset('images/hero/hero-3.jpg') }}"
             class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
             alt="...">
         </div>
-        <!-- Item 4 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
           <img src="{{ asset('images/hero/hero-4.jpg') }}"
             class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
             alt="...">
         </div>
-        <!-- Item 5 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
           <img src="{{ asset('images/hero/hero-5.jpg') }}"
             class="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
             alt="...">
         </div>
       </div>
-      <!-- Slider controls -->
       <button type="button"
         class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
         data-carousel-prev>

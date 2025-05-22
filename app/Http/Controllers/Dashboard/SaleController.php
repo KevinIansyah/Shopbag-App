@@ -2,6 +2,16 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+/**
+ * Controller untuk mengelola penjualan di dashboard
+ * 
+ * Controller ini menangani semua operasi terkait penjualan termasuk:
+ * - Menampilkan daftar pesanan/penjualan
+ * - Menampilkan detail pesanan
+ * - Mengubah status pesanan
+ * - Mengelola stok ketika pesanan dibatalkan
+ */
+
 use App\Helpers\SendNotificationHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
@@ -9,20 +19,31 @@ use App\Models\OrderItem;
 use App\Models\Stock;
 use App\Models\User;
 use Illuminate\Http\Request;
+// Install Yajra kalau belum, sesuaikan versinya dengan laravel yang digunakan
 use Yajra\DataTables\Facades\DataTables;
 
 class SaleController extends Controller
 {
+    /**
+     * Menampilkan halaman daftar penjualan
+     * 
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('dashboard.sale.index');
     }
 
+    /**
+     * Menyediakan data penjualan untuk DataTables
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function data()
     {
-        $orders = Order::with(['orderItems.product', 'orderItems.stock.size', 'user'])->orderBy('created_at', 'desc')->get();
+        $query = Order::with(['orderItems.product', 'orderItems.stock.size', 'user'])->orderBy('created_at', 'desc');
 
-        return DataTables::of($orders)
+        return DataTables::eloquent($query)
             ->addIndexColumn()
             ->addColumn('order_item', function ($row) {
                 $orderItemsHtml = '<span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded">' . $row->created_at . '</span>';
@@ -79,12 +100,23 @@ class SaleController extends Controller
 
                 return $action_button;
             })
-            ->rawColumns(['order_item', 'price', 'quantity', 'status', 'user', 'action'])
+            ->rawColumns(['order_item', 'price', 'quantity', 'status', 'user', 'action']) // Kolom yang menggunkan HTML tambahkan disini agar bisa dirender dengan benar
             ->make(true);
     }
 
+    /**
+     * Menampilkan detail penjualan
+     * 
+     * @return void
+     */
     public function show() {}
 
+    /**
+     * Mengambil data penjualan untuk diedit
+     * 
+     * @param int $id ID penjualan yang akan diedit
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function edit($id)
     {
         try {
@@ -104,6 +136,16 @@ class SaleController extends Controller
         }
     }
 
+    /**
+     * Memperbarui status penjualan
+     * 
+     * Jika status penjualan diubah menjadi 'canceled', maka akan mengembalikan
+     * stok produk yang sebelumnya telah dikurangi
+     * 
+     * @param Request $request Request yang berisi data status baru
+     * @param int $id ID penjualan yang akan diperbarui
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
         try {

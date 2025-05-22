@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+/**
+ * Controller untuk mengelola data admin di dashboard
+ * 
+ * Controller ini menangani operasi terkait admin termasuk:
+ * - Menampilkan daftar admin
+ * - Menyediakan data admin untuk DataTables
+ */
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
@@ -10,6 +18,13 @@ use Yajra\DataTables\DataTables;
 
 class AdminController extends Controller
 {
+    /**
+     * Menampilkan halaman daftar admin
+     *
+     * Mengambil semua data user dengan akses 'admin' dan menampilkannya di view
+     * 
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $admins = User::where('access', 'admin')->get();
@@ -17,6 +32,15 @@ class AdminController extends Controller
         return view('dashboard.user.admin.index', compact('admins'));
     }
 
+    /**
+     * Menyediakan data admin untuk DataTables
+     * 
+     * Mengambil semua user dengan akses 'admin' dan
+     * menyiapkan data untuk ditampilkan dalam tabel dengan
+     * format yang sesuai (nama, email, gender, tanggal lahir)
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function data()
     {
         $admins = User::where('access', 'admin')->get();
@@ -45,58 +69,3 @@ class AdminController extends Controller
             ->make(true);
     }
 }
-
-// ->addColumn('action', function ($row) {
-//     $visionResult = auth()->user()->can('lihat hasil') ? 'd-block' : 'd-none';
-//     $visionUser = auth()->user()->can('lihat peserta') ? 'd-block' : 'd-none';
-//     $visionQuestion = auth()->user()->can('lihat soal') ? 'd-block' : 'd-none';
-//     $visionEdit = auth()->user()->can('edit ujian') ? 'd-block' : 'd-none';
-//     $visionDelete = auth()->user()->can('hapus ujian') ? 'd-block' : 'd-none';
-
-//     $actionBtn = '
-//         <div class="d-flex">
-//             <a href="' . route('dashboard.exam.result', ['exam' => $row->id]) . '"
-//                class="' . $visionResult . ' btn btn-inverse-success p-2 mr-1"
-//                data-bs-tooltip="tooltip" 
-//                data-bs-placement="top" 
-//                data-bs-title="Lihat Hasil" 
-//                data-bs-custom-class="tooltip-dark">
-//                     <i class="ti-clipboard mx-1 my-2"></i>
-//             </a>
-//             <a href="' . route('dashboard.exam.user.add', ['exam' => $row->id]) . '"
-//                class="' . $visionUser . ' btn btn-inverse-primary p-2 mr-1"
-//                data-bs-tooltip="tooltip" 
-//                data-bs-placement="top" 
-//                data-bs-title="Tambah Peserta" 
-//                data-bs-custom-class="tooltip-dark">
-//                     <i class="ti-user mx-1 my-2"></i>
-//             </a>
-//             <a href="' . route('dashboard.exam.question', ['exam' => $row->id]) . '"
-//                class="' . $visionQuestion . ' btn btn-inverse-info p-2 mr-1"
-//                data-bs-tooltip="tooltip" 
-//                data-bs-placement="top" 
-//                data-bs-title="Tambah Soal" 
-//                data-bs-custom-class="tooltip-dark">
-//                     <i class="ti-agenda mx-1 my-2"></i>
-//             </a>
-//             <a href="' . route('dashboard.exam.edit', ['exam' => $row->id]) . '"
-//                class="' . $visionEdit . ' btn btn-inverse-warning p-2 mr-1"
-//                data-bs-tooltip="tooltip" 
-//                data-bs-placement="top" 
-//                data-bs-title="Edit Ujian" 
-//                data-bs-custom-class="tooltip-dark">
-//                 <i class="ti-pencil mx-1 my-2"></i>
-//             </a>
-//             <button onclick="destroyExam(' . $row->id . ')"
-//                 type="button" 
-//                 class="' . $visionDelete . ' btn btn-inverse-danger p-2"
-//                 data-bs-tooltip="tooltip" 
-//                 data-bs-placement="top" 
-//                 data-bs-title="Hapus Ujian" 
-//                 data-bs-custom-class="tooltip-dark">
-//                     <i class="ti-trash mx-1 my-2"></i>
-//             </button>
-//         </div>
-//     ';
-//     return $actionBtn;
-// })

@@ -2,6 +2,19 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+/**
+ * Controller untuk mengelola produk di dashboard
+ * 
+ * Controller ini menangani semua operasi terkait produk termasuk:
+ * - Menampilkan daftar produk
+ * - Menambah produk baru
+ * - Mengubah produk yang sudah ada
+ * - Menghapus produk
+ * - Mengelola stok produk
+ * - Mengelola gambar produk
+ * - Mengelola kategori produk
+ */
+
 use App\Http\Controllers\Controller;
 use App\Helpers\FilepondHelpers;
 use App\Models\Category;
@@ -20,6 +33,11 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
 {
+    /**
+     * Menampilkan halaman daftar produk
+     * 
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         FilepondHelpers::removeSessionMultiple();
@@ -27,6 +45,11 @@ class ProductController extends Controller
         return view('dashboard.product.index');
     }
 
+    /**
+     * Menyediakan data produk untuk DataTables
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function data()
     {
         $products = Product::with(['images', 'categories', 'stocks.size'])->get();
@@ -83,8 +106,18 @@ class ProductController extends Controller
             ->make(true);
     }
 
+    /**
+     * Menampilkan detail produk
+     * 
+     * @return void
+     */
     public function show() {}
 
+    /**
+     * Menampilkan form untuk membuat produk baru
+     * 
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         FilepondHelpers::removeSessionMultiple();
@@ -104,6 +137,12 @@ class ProductController extends Controller
         return view('dashboard.product.add', compact('categories', 'sizes'));
     }
 
+    /**
+     * Menyimpan produk baru ke database
+     * 
+     * @param Request $request Data produk yang akan disimpan
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         try {
@@ -139,6 +178,12 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Menampilkan form untuk mengedit produk
+     * 
+     * @param int $id ID produk yang akan diedit
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function edit($id)
     {
         try {
@@ -159,6 +204,13 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Menyimpan perubahan pada produk yang diedit
+     * 
+     * @param Request $request Data produk yang diperbarui
+     * @param int $id ID produk yang akan diperbarui
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         try {
@@ -193,9 +245,20 @@ class ProductController extends Controller
         }
     }
 
-
+    /**
+     * Menghapus produk
+     * 
+     * @param int $id ID produk yang akan dihapus
+     * @return void
+     */
     public function destroy($id) {}
 
+    /**
+     * Menghasilkan slug unik berdasarkan nama produk
+     * 
+     * @param string $name Nama produk
+     * @return string Slug yang unik
+     */
     private function generateUniqueSlug($name)
     {
         $slug = Str::slug($name);
@@ -209,6 +272,13 @@ class ProductController extends Controller
         return $slug;
     }
 
+    /**
+     * Menyimpan kategori produk
+     * 
+     * @param int $productId ID produk
+     * @param array $categories Array ID kategori
+     * @return void
+     */
     private function storeCategories($productId, $categories)
     {
         ProductCategory::where('product_id', $productId)->delete();
@@ -223,6 +293,13 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Menangani penyimpanan gambar dari temporary ke permanen
+     * 
+     * @param Collection $tmpFileMultiples Kumpulan file temporary
+     * @param int $productId ID produk
+     * @return void
+     */
     private function handleTemporaryImages($tmpFileMultiples, $productId)
     {
         foreach ($tmpFileMultiples as $tmpFileMultiple) {
@@ -241,6 +318,13 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Menyimpan stok produk baru
+     * 
+     * @param int $productId ID produk
+     * @param array $stocks Array stok berdasarkan ukuran
+     * @return void
+     */
     private function storeStock($productId, $stocks)
     {
         foreach ($stocks as $size_id => $stock) {
@@ -252,6 +336,13 @@ class ProductController extends Controller
         }
     }
 
+    /**
+     * Memperbarui stok produk yang sudah ada
+     * 
+     * @param int $productId ID produk
+     * @param array $stocks Array stok berdasarkan ukuran
+     * @return void
+     */
     private function updateStock($productId, $stocks)
     {
         foreach ($stocks as $size_id => $stock) {

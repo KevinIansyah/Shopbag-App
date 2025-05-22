@@ -2,6 +2,15 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+/**
+ * Controller untuk mengelola laporan di dashboard
+ * 
+ * Controller ini menangani semua operasi terkait laporan termasuk:
+ * - Menampilkan data statistik pesanan
+ * - Menyajikan data pesanan berdasarkan periode waktu (hari ini, bulanan, tahunan)
+ * - Menampilkan data produk yang terlaris
+ */
+
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -11,6 +20,15 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ReportController extends Controller
 {
+    /**
+     * Menampilkan halaman laporan dengan data statistik
+     *
+     * Menyajikan data pesanan berdasarkan tahun yang dipilih dengan
+     * berbagai metrik seperti pesanan aktif, dibatalkan, dan statistik lainnya
+     * 
+     * @param Request $request Request yang berisi parameter tahun
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request)
     {
         $year = $request->input('year', Carbon::now()->year);
@@ -126,6 +144,14 @@ class ReportController extends Controller
         ));
     }
 
+    /**
+     * Menyediakan data produk terlaris untuk DataTables
+     * 
+     * Mengurutkan produk berdasarkan jumlah terjual (sold) secara descending
+     * dan menyiapkan data untuk ditampilkan dalam tabel
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function data()
     {
         $products = Product::orderBy('sold', 'desc')->get();

@@ -2,6 +2,17 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+/**
+ * Controller untuk mengelola kategori produk di dashboard
+ * 
+ * Controller ini menangani semua operasi CRUD terkait kategori termasuk:
+ * - Menampilkan daftar kategori
+ * - Membuat kategori baru
+ * - Mengedit kategori yang sudah ada
+ * - Menghapus kategori
+ * - Menyediakan data kategori untuk DataTables
+ */
+
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -9,6 +20,13 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CategoryController extends Controller
 {
+    /**
+     * Menampilkan halaman daftar kategori
+     *
+     * Mengambil semua data kategori dan menampilkannya di view
+     * 
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $categories = Category::all();
@@ -16,6 +34,14 @@ class CategoryController extends Controller
         return view('dashboard.product.category.index', compact('categories'));
     }
 
+    /**
+     * Menyediakan data kategori untuk DataTables
+     * 
+     * Mengambil semua kategori diurutkan berdasarkan ID secara descending
+     * dan menyiapkan data untuk ditampilkan dalam tabel
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function data()
     {
         $categories = Category::orderBy('id', 'DESC')->get();
@@ -46,10 +72,24 @@ class CategoryController extends Controller
             ->make(true);
     }
 
+    /**
+     * Menampilkan detail kategori (tidak diimplementasikan)
+     */
     public function show() {}
 
+    /**
+     * Menampilkan form untuk membuat kategori baru (tidak diimplementasikan)
+     */
     public function create() {}
 
+    /**
+     * Menyimpan kategori baru ke database
+     *
+     * Memvalidasi input yang diterima dan membuat kategori baru
+     * 
+     * @param Request $request Request yang berisi data kategori
+     * @return \Illuminate\Http\JsonResponse Response berisi status dan data kategori
+     */
     public function store(Request $request)
     {
         try {
@@ -73,6 +113,14 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Mengambil data kategori untuk diedit
+     *
+     * Mencari kategori berdasarkan ID dan mengembalikan data dalam format JSON
+     * 
+     * @param int $id ID kategori yang akan diedit
+     * @return \Illuminate\Http\JsonResponse Response berisi status dan data kategori
+     */
     public function edit($id)
     {
         try {
@@ -92,6 +140,15 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Memperbarui data kategori yang sudah ada
+     *
+     * Memvalidasi input yang diterima dan memperbarui kategori yang ada
+     * 
+     * @param Request $request Request yang berisi data kategori yang diperbarui
+     * @param int $id ID kategori yang akan diperbarui
+     * @return \Illuminate\Http\JsonResponse Response berisi status dan data kategori yang diperbarui
+     */
     public function update(Request $request, $id)
     {
         try {
@@ -117,6 +174,14 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Menghapus kategori dari database
+     *
+     * Mencari kategori berdasarkan ID dan menghapusnya
+     * 
+     * @param int $id ID kategori yang akan dihapus
+     * @return \Illuminate\Http\JsonResponse Response berisi status operasi penghapusan
+     */
     public function destroy($id)
     {
         try {
@@ -137,16 +202,3 @@ class CategoryController extends Controller
         }
     }
 }
-
-
-// public function show() {}
-
-// public function create() {}
-
-// public function store() {}
-
-// public function edit($id) {}
-
-// public function update($id) {}
-
-// public function destroy($id) {}
